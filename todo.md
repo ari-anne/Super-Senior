@@ -1,10 +1,14 @@
-#Arianne
-- [x] main menu page
+# General
 - [ ] color scheme
-- [ ] look for art assets
+- [ ] pick fonts
+- [ ] look for 2D assets
 
-#Jonathan
+# Arianne
+- [x] main menu page
+- [ ] instructions page
+
+# Jonathan
 - [ ] settings page
 
-#Amin
+# Amin
 - [ ] high scores page
