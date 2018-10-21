@@ -3,6 +3,9 @@
         title: {
             file: graduate-title.fnt
         }
+        large: {
+            file: graduate-large.fnt
+        }
     }
     com.badlogic.gdx.graphics.Color: {
         black: {
@@ -25,33 +28,42 @@
         }
     }
     com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
-        default: {
+        header: {
+            font: large
+            fontColor: white
+            up: rectangle
+        }
+        title: {
             font: title
             fontColor: white
             up: rectangle
         }
-    },
+    }
     com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
         default: {
             up: circle
-            down: circle-pressed
-            disabled: circle-locked
+            down: circle-click
+            disabled: circle
         }
         play: {
-            up: play
-            down: play-pressed
+            up: right
+            down: right-click
         }
         settings: {
             up: settings
-            down: settings-pressed
+            down: settings-click
         }
-        high-scores: {
-            up: high-scores
-            down: high-scores-pressed
+        leaderboard: {
+            up: leaderboard
+            down: leaderboard-click
         }
-        back: {
-            up: back
-            down: back-pressed
+        arrow-left: {
+            up: arrow-left
+            down: arrow-left-click
+        }
+        pause: {
+            up: pause
+            down: pause-click
         }
     }
 }
