@@ -5,11 +5,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.cpsc.supersenior.SuperSenior;
 
 public class GameScreen implements Screen {
 
     public static final float SPEED = 120;
+    Stage stage = new Stage();
 
     Texture img;
     float x = 0, y = 0;
@@ -22,7 +25,10 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        img = new Texture("badlogic.jpg");
+        Gdx.input.setInputProcessor(stage);
+        img = new Texture("backgrounds/game_background_3/game_background_3.1.png");
+        Image background = new Image(img);
+        stage.addActor(background);
     }
 
     @Override
@@ -47,7 +53,8 @@ public class GameScreen implements Screen {
         }
 
         game.batch.begin();
-        game.batch.draw(img, x, y);
+        stage.act();
+        stage.draw();
         game.batch.end();
     }
 

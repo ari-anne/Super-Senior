@@ -1,444 +1,735 @@
 
-pack.png
+button.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-back-locked
+arrow-down
   rotate: false
-  xy: 220, 55
-  size: 217, 230
-  orig: 217, 230
+  xy: 442, 278
+  size: 216, 229
+  orig: 216, 229
   offset: 0, 0
   index: -1
-circle-locked
+arrow-down-locked
   rotate: false
-  xy: 397, 521
-  size: 220, 230
-  orig: 220, 230
-  offset: 0, 0
-  index: -1
-help-locked
-  rotate: false
-  xy: 439, 234
-  size: 217, 230
-  orig: 217, 230
-  offset: 0, 0
-  index: -1
-high-scores-locked
-  rotate: false
-  xy: 439, 2
-  size: 217, 230
-  orig: 217, 230
-  offset: 0, 0
-  index: -1
-home-locked
-  rotate: false
-  xy: 619, 466
-  size: 216, 232
-  orig: 216, 232
-  offset: 0, 0
-  index: -1
-music-off
-  rotate: false
-  xy: 2, 339
-  size: 217, 231
-  orig: 217, 231
-  offset: 0, 0
-  index: -1
-pause-locked
-  rotate: false
-  xy: 658, 234
-  size: 217, 230
-  orig: 217, 230
-  offset: 0, 0
-  index: -1
-play
-  rotate: false
-  xy: 221, 287
-  size: 216, 232
-  orig: 216, 232
-  offset: 0, 0
-  index: -1
-play-locked
-  rotate: false
-  xy: 804, 700
-  size: 217, 232
-  orig: 217, 232
-  offset: 0, 0
-  index: -1
-play-pressed
-  rotate: false
-  xy: 2, 105
-  size: 216, 232
-  orig: 216, 232
-  offset: 0, 0
-  index: -1
-rectangle
-  rotate: false
-  xy: 2, 753
-  size: 401, 179
-  orig: 401, 179
-  offset: 0, 0
-  index: -1
-rectangle-locked
-  rotate: false
-  xy: 405, 753
-  size: 397, 179
-  orig: 397, 179
-  offset: 0, 0
-  index: -1
-rectangle-pressed
-  rotate: false
-  xy: 2, 572
-  size: 393, 179
-  orig: 393, 179
-  offset: 0, 0
-  index: -1
-sound-off
-  rotate: false
-  xy: 658, 2
-  size: 217, 230
-  orig: 217, 230
-  offset: 0, 0
-  index: -1
-
-pack2.png
-size: 1024,1024
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-back
-  rotate: false
-  xy: 655, 704
-  size: 216, 230
-  orig: 216, 230
-  offset: 0, 0
-  index: -1
-back-pressed
-  rotate: false
-  xy: 655, 472
-  size: 216, 230
-  orig: 216, 230
-  offset: 0, 0
-  index: -1
-check-lock
-  rotate: false
-  xy: 219, 238
-  size: 216, 230
-  orig: 216, 230
-  offset: 0, 0
-  index: -1
-check-pressed
-  rotate: false
-  xy: 438, 6
-  size: 215, 230
-  orig: 215, 230
-  offset: 0, 0
-  index: -1
-circle
-  rotate: false
-  xy: 437, 238
-  size: 216, 230
-  orig: 216, 230
-  offset: 0, 0
-  index: -1
-circle-pressed
-  rotate: false
-  xy: 655, 240
-  size: 216, 230
-  orig: 216, 230
-  offset: 0, 0
-  index: -1
-forward-locked
-  rotate: false
-  xy: 219, 7
+  xy: 800, 693
   size: 217, 229
   orig: 217, 229
   offset: 0, 0
   index: -1
-help
+arrow-left
   rotate: false
-  xy: 655, 8
+  xy: 224, 330
   size: 216, 230
   orig: 216, 230
   offset: 0, 0
   index: -1
+arrow-left-locked
+  rotate: false
+  xy: 440, 46
+  size: 217, 230
+  orig: 217, 230
+  offset: 0, 0
+  index: -1
+arrow-right-locked
+  rotate: false
+  xy: 660, 229
+  size: 217, 229
+  orig: 217, 229
+  offset: 0, 0
+  index: -1
+arrow-up-locked
+  rotate: false
+  xy: 221, 97
+  size: 217, 231
+  orig: 217, 231
+  offset: 0, 0
+  index: -1
+circle-locked
+  rotate: false
+  xy: 2, 330
+  size: 220, 230
+  orig: 220, 230
+  offset: 0, 0
+  index: -1
+down-locked
+  rotate: false
+  xy: 659, 2
+  size: 217, 225
+  orig: 217, 225
+  offset: 0, 0
+  index: -1
+home-locked
+  rotate: false
+  xy: 442, 509
+  size: 216, 232
+  orig: 216, 232
+  offset: 0, 0
+  index: -1
+left-locked
+  rotate: false
+  xy: 660, 460
+  size: 217, 231
+  orig: 217, 231
+  offset: 0, 0
+  index: -1
+rectangle
+  rotate: false
+  xy: 2, 743
+  size: 401, 179
+  orig: 401, 179
+  offset: 0, 0
+  index: -1
+rectangle-click
+  rotate: false
+  xy: 405, 743
+  size: 393, 179
+  orig: 393, 179
+  offset: 0, 0
+  index: -1
+rectangle-locked
+  rotate: false
+  xy: 2, 562
+  size: 397, 179
+  orig: 397, 179
+  offset: 0, 0
+  index: -1
+right-locked
+  rotate: false
+  xy: 2, 96
+  size: 217, 232
+  orig: 217, 232
+  offset: 0, 0
+  index: -1
+
+button2.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+arrow-up
+  rotate: false
+  xy: 220, 705
+  size: 216, 231
+  orig: 216, 231
+  offset: 0, 0
+  index: -1
+arrow-up-click
+  rotate: false
+  xy: 220, 472
+  size: 216, 231
+  orig: 216, 231
+  offset: 0, 0
+  index: -1
+exit-locked
+  rotate: false
+  xy: 438, 706
+  size: 217, 230
+  orig: 217, 230
+  offset: 0, 0
+  index: -1
+help-locked
+  rotate: false
+  xy: 657, 706
+  size: 217, 230
+  orig: 217, 230
+  offset: 0, 0
+  index: -1
 home
   rotate: false
-  xy: 2, 702
+  xy: 2, 236
   size: 215, 232
   orig: 215, 232
   offset: 0, 0
   index: -1
-home-pressed
+home-click
   rotate: false
-  xy: 2, 468
+  xy: 2, 2
   size: 215, 232
   orig: 215, 232
   offset: 0, 0
   index: -1
 info-locked
   rotate: false
-  xy: 219, 703
+  xy: 438, 241
   size: 216, 231
   orig: 216, 231
   offset: 0, 0
   index: -1
-info-pressed
+leaderboard-locked
   rotate: false
-  xy: 2, 235
-  size: 215, 231
-  orig: 215, 231
+  xy: 438, 474
+  size: 217, 230
+  orig: 217, 230
+  offset: 0, 0
+  index: -1
+left
+  rotate: false
+  xy: 438, 8
+  size: 216, 231
+  orig: 216, 231
+  offset: 0, 0
+  index: -1
+left-click
+  rotate: false
+  xy: 656, 9
+  size: 216, 231
+  orig: 216, 231
+  offset: 0, 0
+  index: -1
+music-locked
+  rotate: false
+  xy: 219, 237
+  size: 217, 231
+  orig: 217, 231
+  offset: 0, 0
+  index: -1
+pause-locked
+  rotate: false
+  xy: 657, 474
+  size: 217, 230
+  orig: 217, 230
+  offset: 0, 0
+  index: -1
+right
+  rotate: false
+  xy: 2, 704
+  size: 216, 232
+  orig: 216, 232
+  offset: 0, 0
+  index: -1
+right-click
+  rotate: false
+  xy: 2, 470
+  size: 216, 232
+  orig: 216, 232
+  offset: 0, 0
+  index: -1
+save-locked
+  rotate: false
+  xy: 656, 242
+  size: 217, 230
+  orig: 217, 230
+  offset: 0, 0
+  index: -1
+trophy-locked
+  rotate: false
+  xy: 219, 4
+  size: 217, 231
+  orig: 217, 231
+  offset: 0, 0
+  index: -1
+
+button3.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+arrow-left-click
+  rotate: false
+  xy: 438, 470
+  size: 216, 230
+  orig: 216, 230
+  offset: 0, 0
+  index: -1
+check-locked
+  rotate: false
+  xy: 657, 702
+  size: 216, 230
+  orig: 216, 230
+  offset: 0, 0
+  index: -1
+circle
+  rotate: false
+  xy: 220, 236
+  size: 216, 230
+  orig: 216, 230
+  offset: 0, 0
+  index: -1
+circle-click
+  rotate: false
+  xy: 438, 238
+  size: 216, 230
+  orig: 216, 230
+  offset: 0, 0
+  index: -1
+exit
+  rotate: false
+  xy: 656, 470
+  size: 216, 230
+  orig: 216, 230
+  offset: 0, 0
+  index: -1
+exit-click
+  rotate: false
+  xy: 220, 4
+  size: 216, 230
+  orig: 216, 230
+  offset: 0, 0
+  index: -1
+grid-locked
+  rotate: false
+  xy: 438, 6
+  size: 216, 230
+  orig: 216, 230
+  offset: 0, 0
+  index: -1
+help
+  rotate: false
+  xy: 656, 238
+  size: 216, 230
+  orig: 216, 230
+  offset: 0, 0
+  index: -1
+help-click
+  rotate: false
+  xy: 656, 6
+  size: 216, 230
+  orig: 216, 230
   offset: 0, 0
   index: -1
 music
   rotate: false
-  xy: 219, 470
+  xy: 2, 701
   size: 216, 231
   orig: 216, 231
   offset: 0, 0
   index: -1
-music-on
+music-click
   rotate: false
-  xy: 437, 703
+  xy: 2, 468
+  size: 216, 231
+  orig: 216, 231
+  offset: 0, 0
+  index: -1
+refresh-locked
+  rotate: false
+  xy: 220, 701
   size: 216, 231
   orig: 216, 231
   offset: 0, 0
   index: -1
 shop-locked
   rotate: false
-  xy: 437, 470
+  xy: 2, 235
   size: 216, 231
   orig: 216, 231
   offset: 0, 0
   index: -1
-shop-pressed
+sound-locked
+  rotate: false
+  xy: 438, 702
+  size: 217, 230
+  orig: 217, 230
+  offset: 0, 0
+  index: -1
+trophy
+  rotate: false
+  xy: 220, 468
+  size: 216, 231
+  orig: 216, 231
+  offset: 0, 0
+  index: -1
+trophy-click
   rotate: false
   xy: 2, 2
-  size: 215, 231
-  orig: 215, 231
+  size: 216, 231
+  orig: 216, 231
   offset: 0, 0
   index: -1
 
-pack3.png
+button4.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-forward
+arrow-down-click
   rotate: false
-  xy: 221, 698
+  xy: 655, 7
   size: 216, 229
   orig: 216, 229
   offset: 0, 0
   index: -1
-forward-pressed
-  rotate: false
-  xy: 439, 698
-  size: 216, 229
-  orig: 216, 229
-  offset: 0, 0
-  index: -1
-help-pressed
-  rotate: false
-  xy: 2, 466
-  size: 216, 230
-  orig: 216, 230
-  offset: 0, 0
-  index: -1
-high-scores
-  rotate: false
-  xy: 2, 234
-  size: 216, 230
-  orig: 216, 230
-  offset: 0, 0
-  index: -1
-high-scores-pressed
+check-click
   rotate: false
   xy: 2, 2
+  size: 215, 230
+  orig: 215, 230
+  offset: 0, 0
+  index: -1
+info-click
+  rotate: false
+  xy: 2, 700
+  size: 215, 231
+  orig: 215, 231
+  offset: 0, 0
+  index: -1
+leaderboard
+  rotate: false
+  xy: 219, 701
   size: 216, 230
   orig: 216, 230
   offset: 0, 0
   index: -1
-main-menu
+leaderboard-click
   rotate: false
-  xy: 657, 698
-  size: 216, 229
-  orig: 216, 229
+  xy: 437, 701
+  size: 216, 230
+  orig: 216, 230
   offset: 0, 0
   index: -1
-main-menu-locked
+menu-locked
   rotate: false
-  xy: 2, 698
+  xy: 655, 702
   size: 217, 229
   orig: 217, 229
   offset: 0, 0
   index: -1
-main-menu-pressed
-  rotate: false
-  xy: 438, 3
-  size: 216, 229
-  orig: 216, 229
-  offset: 0, 0
-  index: -1
 minus-locked
   rotate: false
-  xy: 220, 466
+  xy: 219, 469
   size: 216, 230
   orig: 216, 230
   offset: 0, 0
   index: -1
 pause
   rotate: false
-  xy: 220, 234
+  xy: 437, 469
   size: 216, 230
   orig: 216, 230
   offset: 0, 0
   index: -1
-pause-pressed
+pause-click
   rotate: false
-  xy: 220, 2
+  xy: 655, 470
   size: 216, 230
   orig: 216, 230
   offset: 0, 0
   index: -1
-plus-locked
+refresh-click
   rotate: false
-  xy: 656, 235
-  size: 216, 229
-  orig: 216, 229
+  xy: 2, 467
+  size: 215, 231
+  orig: 215, 231
   offset: 0, 0
   index: -1
 restart-locked
   rotate: false
-  xy: 438, 466
+  xy: 219, 237
   size: 216, 230
   orig: 216, 230
   offset: 0, 0
   index: -1
-settings-locked
+save
   rotate: false
-  xy: 656, 4
-  size: 216, 229
-  orig: 216, 229
+  xy: 437, 237
+  size: 216, 230
+  orig: 216, 230
+  offset: 0, 0
+  index: -1
+save-click
+  rotate: false
+  xy: 655, 238
+  size: 216, 230
+  orig: 216, 230
+  offset: 0, 0
+  index: -1
+shop-click
+  rotate: false
+  xy: 2, 234
+  size: 215, 231
+  orig: 215, 231
   offset: 0, 0
   index: -1
 sound
   rotate: false
-  xy: 656, 466
+  xy: 219, 5
   size: 216, 230
   orig: 216, 230
   offset: 0, 0
   index: -1
-sound-on
+sound-click
   rotate: false
-  xy: 438, 234
+  xy: 437, 5
   size: 216, 230
   orig: 216, 230
   offset: 0, 0
   index: -1
 
-pack4.png
+button5.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+arrow-right
+  rotate: false
+  xy: 2, 698
+  size: 216, 229
+  orig: 216, 229
+  offset: 0, 0
+  index: -1
+arrow-right-click
+  rotate: false
+  xy: 2, 467
+  size: 216, 229
+  orig: 216, 229
+  offset: 0, 0
+  index: -1
+grid-click
+  rotate: false
+  xy: 220, 235
+  size: 215, 230
+  orig: 215, 230
+  offset: 0, 0
+  index: -1
+info
+  rotate: false
+  xy: 437, 2
+  size: 214, 231
+  orig: 214, 231
+  offset: 0, 0
+  index: -1
+medal-click
+  rotate: false
+  xy: 656, 468
+  size: 215, 228
+  orig: 215, 228
+  offset: 0, 0
+  index: -1
+medal-locked
+  rotate: false
+  xy: 438, 468
+  size: 216, 228
+  orig: 216, 228
+  offset: 0, 0
+  index: -1
+menu
+  rotate: false
+  xy: 2, 236
+  size: 216, 229
+  orig: 216, 229
+  offset: 0, 0
+  index: -1
+menu-click
+  rotate: false
+  xy: 2, 5
+  size: 216, 229
+  orig: 216, 229
+  offset: 0, 0
+  index: -1
+minus-click
+  rotate: false
+  xy: 220, 3
+  size: 215, 230
+  orig: 215, 230
+  offset: 0, 0
+  index: -1
+plus-locked
+  rotate: false
+  xy: 220, 698
+  size: 216, 229
+  orig: 216, 229
+  offset: 0, 0
+  index: -1
+refresh
+  rotate: false
+  xy: 653, 2
+  size: 214, 231
+  orig: 214, 231
+  offset: 0, 0
+  index: -1
+restart-click
+  rotate: false
+  xy: 437, 235
+  size: 215, 230
+  orig: 215, 230
+  offset: 0, 0
+  index: -1
+settings-locked
+  rotate: false
+  xy: 438, 698
+  size: 216, 229
+  orig: 216, 229
+  offset: 0, 0
+  index: -1
+shop
+  rotate: false
+  xy: 654, 235
+  size: 214, 231
+  orig: 214, 231
+  offset: 0, 0
+  index: -1
+trash-locked
+  rotate: false
+  xy: 656, 698
+  size: 216, 229
+  orig: 216, 229
+  offset: 0, 0
+  index: -1
+x-locked
+  rotate: false
+  xy: 220, 467
+  size: 216, 229
+  orig: 216, 229
+  offset: 0, 0
+  index: -1
+
+button6.png
 size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 check
   rotate: false
-  xy: 652, 700
+  xy: 219, 696
   size: 214, 230
   orig: 214, 230
   offset: 0, 0
   index: -1
-info
+down
   rotate: false
-  xy: 2, 699
-  size: 214, 231
-  orig: 214, 231
+  xy: 651, 11
+  size: 216, 225
+  orig: 216, 225
+  offset: 0, 0
+  index: -1
+down-click
+  rotate: false
+  xy: 654, 238
+  size: 216, 225
+  orig: 216, 225
+  offset: 0, 0
+  index: -1
+grid
+  rotate: false
+  xy: 435, 696
+  size: 214, 230
+  orig: 214, 230
+  offset: 0, 0
+  index: -1
+medal
+  rotate: false
+  xy: 435, 8
+  size: 214, 228
+  orig: 214, 228
   offset: 0, 0
   index: -1
 minus
   rotate: false
-  xy: 2, 234
+  xy: 651, 696
   size: 214, 230
   orig: 214, 230
   offset: 0, 0
   index: -1
-minus-pressed
-  rotate: false
-  xy: 218, 700
-  size: 215, 230
-  orig: 215, 230
-  offset: 0, 0
-  index: -1
 plus
   rotate: false
-  xy: 435, 238
+  xy: 219, 233
   size: 214, 229
   orig: 214, 229
   offset: 0, 0
   index: -1
-plus-pressed
+plus-click
   rotate: false
-  xy: 218, 238
+  xy: 2, 697
   size: 215, 229
   orig: 215, 229
   offset: 0, 0
   index: -1
 restart
   rotate: false
-  xy: 2, 2
+  xy: 219, 464
   size: 214, 230
   orig: 214, 230
   offset: 0, 0
   index: -1
-restart-pressed
-  rotate: false
-  xy: 435, 700
-  size: 215, 230
-  orig: 215, 230
-  offset: 0, 0
-  index: -1
 settings
   rotate: false
-  xy: 435, 7
+  xy: 219, 2
   size: 214, 229
   orig: 214, 229
   offset: 0, 0
   index: -1
-settings-pressed
+settings-click
   rotate: false
-  xy: 436, 469
+  xy: 2, 466
   size: 215, 229
   orig: 215, 229
   offset: 0, 0
   index: -1
-shop
+trash
   rotate: false
-  xy: 2, 466
-  size: 214, 231
-  orig: 214, 231
+  xy: 435, 465
+  size: 214, 229
+  orig: 214, 229
+  offset: 0, 0
+  index: -1
+trash-click
+  rotate: false
+  xy: 2, 235
+  size: 215, 229
+  orig: 215, 229
+  offset: 0, 0
+  index: -1
+up-locked
+  rotate: false
+  xy: 435, 238
+  size: 217, 225
+  orig: 217, 225
   offset: 0, 0
   index: -1
 x
   rotate: false
-  xy: 653, 469
+  xy: 651, 465
   size: 214, 229
   orig: 214, 229
   offset: 0, 0
   index: -1
-x-locked
+x-click
   rotate: false
-  xy: 218, 469
-  size: 216, 229
-  orig: 216, 229
-  offset: 0, 0
-  index: -1
-x-pressed
-  rotate: false
-  xy: 218, 7
+  xy: 2, 4
   size: 215, 229
   orig: 215, 229
+  offset: 0, 0
+  index: -1
+
+button7.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+up
+  rotate: false
+  xy: 2, 229
+  size: 216, 225
+  orig: 216, 225
+  offset: 0, 0
+  index: -1
+up-click
+  rotate: false
+  xy: 2, 2
+  size: 216, 225
+  orig: 216, 225
+  offset: 0, 0
+  index: -1
+user
+  rotate: false
+  xy: 438, 229
+  size: 214, 225
+  orig: 214, 225
+  offset: 0, 0
+  index: -1
+user-click
+  rotate: false
+  xy: 220, 2
+  size: 215, 225
+  orig: 215, 225
+  offset: 0, 0
+  index: -1
+user-locked
+  rotate: false
+  xy: 220, 229
+  size: 216, 225
+  orig: 216, 225
   offset: 0, 0
   index: -1

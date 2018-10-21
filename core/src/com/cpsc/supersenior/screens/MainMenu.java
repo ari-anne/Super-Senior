@@ -31,18 +31,17 @@ public class MainMenu implements Screen{
         Skin skin = new Skin(Gdx.files.internal("buttons/button.json"));
         Table table = new Table();
 
-        Texture texture = new Texture(Gdx.files.internal("backgrounds/game_background_1/game_background_1.png"));
+        Texture texture = new Texture(Gdx.files.internal("backgrounds/game_background_3/game_background_3.1.png"));
         Image background = new Image(texture);
-        TextButton title = new TextButton("  Super Senior  ", skin);
+        TextButton title = new TextButton("  Super Senior  ", skin, "title");
         Button play = new Button(skin, "play");
-        Button high_scores = new Button(skin, "high-scores");
+        Button high_scores = new Button(skin, "leaderboard");
         Button settings = new Button(skin, "settings");
 
         int padding = 100;
 
         background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         background.setPosition(0, Gdx.graphics.getHeight()-background.getHeight());
-
         play.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
