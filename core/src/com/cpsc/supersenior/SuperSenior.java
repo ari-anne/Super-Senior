@@ -9,8 +9,8 @@ import com.cpsc.supersenior.screens.MainMenu;
 public class SuperSenior extends Game {
 
     public SpriteBatch batch;
-    public static final int WIDTH = 1920;
-    public static final int HEIGHT = 1080;
+    public static final int WIDTH = 800;
+    public static final int HEIGHT = 600;
 
 	private OrthographicCamera cam;
 	private StretchViewport viewport;

@@ -1,0 +1,57 @@
+{
+    com.badlogic.gdx.graphics.g2d.BitmapFont: {
+        title: {
+            file: graduate-title.fnt
+        }
+    }
+    com.badlogic.gdx.graphics.Color: {
+        black: {
+            r: 0
+            g: 0
+            b: 0
+            a: 1
+        }
+        white: {
+            r: 1
+            g: 1
+            b: 1
+            a: 1
+        }
+    }
+    com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
+        default: {
+            font: title
+            fontColor: white
+        }
+    }
+    com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
+        default: {
+            font: title
+            fontColor: white
+            up: rectangle
+        }
+    },
+    com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+        default: {
+            up: circle
+            down: circle-pressed
+            disabled: circle-locked
+        }
+        play: {
+            up: play
+            down: play-pressed
+        }
+        settings: {
+            up: settings
+            down: settings-pressed
+        }
+        high-scores: {
+            up: high-scores
+            down: high-scores-pressed
+        }
+        back: {
+            up: back
+            down: back-pressed
+        }
+    }
+}
