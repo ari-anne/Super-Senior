@@ -15,11 +15,17 @@ public class Settings implements Screen {
     final SuperSenior game;
 
     Stage stage;
-    Skin skin;
     Table table;
+    Skin skin;
     Button back;
+    Button music;
+    Button sound;
+    Label musicTxt;
+    Label soundTxt;
     TextButton settings;
-    TextButton empty;
+
+    float btnWidth, btnHeight;
+    int padding;
 
     public Settings (SuperSenior game){
         this.game = game;
@@ -30,11 +36,20 @@ public class Settings implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin(Gdx.files.internal("buttons/button.json"));
         table = new Table();
+        skin = new Skin(Gdx.files.internal("buttons/button.json"));
         back = new Button(skin, "arrow-left");
+        music = new Button(skin, "music");
+        sound = new Button(skin, "sound");
+//        musicTxt = new TextButton(" Music: On ",skin, "med");
+//        soundTxt = new TextButton(" Sound: On ", skin, "med");
+        musicTxt = new Label ("Music: ON",skin);
+        soundTxt = new Label ("Sound: ON", skin);
         settings = new TextButton("  Settings  ", skin, "header");
-        empty = new TextButton(" ", skin, "header");
+
+        btnWidth = 150;
+        btnHeight = 150;
+        padding = 50;
 
         back.addListener(new ChangeListener() {
             @Override
@@ -42,17 +57,50 @@ public class Settings implements Screen {
                 game.setScreen(new MainMenu(game));
             }
         });
+        music.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                // turn music on/off
+                if (music.isChecked()) {
+                    musicTxt.setText(" Music: OFF ");
+                }
+                else {
+                    musicTxt.setText(" Music: ON ");
+                }
+            }
+        });
+        sound.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                // turn sounds on/off
+
+                if (sound.isChecked()) {
+                    soundTxt.setText(" Sound: OFF ");
+                }
+                else {
+                    soundTxt.setText(" Sound: ON");
+                }
+            }
+        });
 
         stage.addActor(table);
         stage.addActor(back);
+        stage.addActor(music);
+        stage.addActor(sound);
+        stage.addActor(musicTxt);
+        stage.addActor(soundTxt);
         stage.addActor(settings);
 
-        table.setDebug(true);
+        // table.setDebug(true);
         table.setFillParent(true);
-        table.add(back).width(200).height(200).padTop(50).padLeft(50);
-        table.add(settings).expandX().padTop(50).padRight(50);
-        table.row();
-        table.add(empty).colspan(2).expand().pad(50);
+        table.add(back).width(btnWidth).height(btnHeight).padLeft(padding).padTop(padding);
+        table.add(settings).colspan(3).height(200).expandX().padRight(padding).padTop(padding);
+        table.row().pad(padding).padTop(150);
+        table.add(musicTxt).colspan(3).right();
+        table.add(music).left().width(btnWidth).height(btnHeight);
+        table.row().pad(padding).padBottom(150);
+        table.add(soundTxt).colspan(3).right();
+        table.add(sound).left().width(btnWidth).height(btnHeight);
     }
 
     @Override
@@ -61,7 +109,8 @@ public class Settings implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.scrollingBackground.render(delta, game.batch);
+        game.scrollingBackground.update(delta);
+        game.scrollingBackground.render(game.batch);
         game.batch.end();
 
         stage.act();

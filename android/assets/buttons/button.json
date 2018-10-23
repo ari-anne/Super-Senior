@@ -6,6 +6,9 @@
         large: {
             file: graduate-large.fnt
         }
+        medium: {
+            file: graduate-medium.fnt
+        }
     }
     com.badlogic.gdx.graphics.Color: {
         black: {
@@ -23,7 +26,7 @@
     }
     com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
         default: {
-            font: title
+            font: large
             fontColor: white
         }
     }
@@ -35,6 +38,11 @@
         }
         title: {
             font: title
+            fontColor: white
+            up: rectangle
+        }
+        med: {
+            font: medium,
             fontColor: white
             up: rectangle
         }
@@ -72,6 +80,14 @@
         restart: {
             up: restart
             down: restart-click
+        }
+        music: {
+            up: music-click
+            checked: music-locked
+        }
+        sound: {
+            up: sound-click
+            checked: sound-locked
         }
     }
 }

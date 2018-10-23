@@ -20,8 +20,8 @@ public class MainMenu implements Screen{
     final SuperSenior game;
 
     Stage stage;
-    Skin skin;
     Table table;
+    Skin skin;
     TextButton title;
     Button play;
     Button high_scores;
@@ -40,14 +40,14 @@ public class MainMenu implements Screen{
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin(Gdx.files.internal("buttons/button.json"));
         table = new Table();
+        skin = new Skin(Gdx.files.internal("buttons/button.json"));
         title = new TextButton("  Super Senior  ", skin, "title");
         play = new Button(skin, "play");
         high_scores = new Button(skin, "leaderboard");
         settings = new Button(skin, "settings");
 
-        game.scrollingBackground.setSpeedFixed(true);
+        game.scrollingBackground.setFixedSpeed(true);
         game.scrollingBackground.setSpeed(ScrollingBackground.DEFAULT_SPEED);
 
         play.addListener(new ChangeListener() {
@@ -91,7 +91,8 @@ public class MainMenu implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.scrollingBackground.render(delta, game.batch);
+        game.scrollingBackground.update(delta);
+        game.scrollingBackground.render(game.batch);
         game.batch.end();
 
         stage.act();

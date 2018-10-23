@@ -15,8 +15,8 @@ public class HighScores implements Screen {
     final SuperSenior game;
 
     Stage stage;
-    Skin skin;
     Table table;
+    Skin skin;
     Button back;
     TextButton high_scores;
     TextButton empty;
@@ -30,8 +30,8 @@ public class HighScores implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        skin = new Skin(Gdx.files.internal("buttons/button.json"));
         table = new Table();
+        skin = new Skin(Gdx.files.internal("buttons/button.json"));
         back = new Button(skin, "arrow-left");
         high_scores = new TextButton("  High Scores  ", skin, "header");
         empty = new TextButton(" ", skin, "header");
@@ -61,7 +61,8 @@ public class HighScores implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.scrollingBackground.render(delta, game.batch);
+        game.scrollingBackground.update(delta);
+        game.scrollingBackground.render(game.batch);
         game.batch.end();
 
         stage.act();
