@@ -65,5 +65,13 @@
             up: pause
             down: pause-click
         }
+        home: {
+            up: home
+            down: home-click
+        }
+        restart: {
+            up: restart
+            down: restart-click
+        }
     }
 }

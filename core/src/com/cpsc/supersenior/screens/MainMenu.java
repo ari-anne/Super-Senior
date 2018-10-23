@@ -3,21 +3,31 @@ package com.cpsc.supersenior.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.cpsc.supersenior.SuperSenior;
+import com.cpsc.supersenior.tools.ScrollingBackground;
 
 public class MainMenu implements Screen{
 
-    private SuperSenior game;
-    private Stage stage = new Stage();
     // Labels       https://libgdx.info/basic-label/
     // Skins        https://github.com/libgdx/libgdx/wiki/Skin#skin-json
     // Tables       https://github.com/EsotericSoftware/tablelayout
     // ButtonSkin   https://stackoverflow.com/questions/21488311/how-to-create-a-button-in-libgdx
+
+    final SuperSenior game;
+
+    Stage stage;
+    Skin skin;
+    Table table;
+    TextButton title;
+    Button play;
+    Button high_scores;
+    Button settings;
+
+    int padding = 100;
 
 
     public MainMenu (SuperSenior game){
@@ -27,21 +37,19 @@ public class MainMenu implements Screen{
 
     @Override
     public void show() {
+        stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        Skin skin = new Skin(Gdx.files.internal("buttons/button.json"));
-        Table table = new Table();
 
-        Texture texture = new Texture(Gdx.files.internal("backgrounds/game_background_3/game_background_3.1.png"));
-        Image background = new Image(texture);
-        TextButton title = new TextButton("  Super Senior  ", skin, "title");
-        Button play = new Button(skin, "play");
-        Button high_scores = new Button(skin, "leaderboard");
-        Button settings = new Button(skin, "settings");
+        skin = new Skin(Gdx.files.internal("buttons/button.json"));
+        table = new Table();
+        title = new TextButton("  Super Senior  ", skin, "title");
+        play = new Button(skin, "play");
+        high_scores = new Button(skin, "leaderboard");
+        settings = new Button(skin, "settings");
 
-        int padding = 100;
+        game.scrollingBackground.setSpeedFixed(true);
+        game.scrollingBackground.setSpeed(ScrollingBackground.DEFAULT_SPEED);
 
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        background.setPosition(0, Gdx.graphics.getHeight()-background.getHeight());
         play.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -61,7 +69,6 @@ public class MainMenu implements Screen{
             }
         });
 
-        stage.addActor(background);
         stage.addActor(table);
         stage.addActor(title);
         stage.addActor(play);
@@ -84,9 +91,11 @@ public class MainMenu implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
+        game.scrollingBackground.render(delta, game.batch);
+        game.batch.end();
+
         stage.act();
         stage.draw();
-        game.batch.end();
     }
 
 
