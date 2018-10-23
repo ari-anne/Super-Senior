@@ -1,33 +1,35 @@
 package com.cpsc.supersenior.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.cpsc.supersenior.SuperSenior;
+import com.cpsc.supersenior.tools.ScrollingBackground;
 
 public class GameScreen implements Screen {
 
     // Pausing      https://stackoverflow.com/questions/21576181/pause-resume-a-simple-libgdx-game-for-android
 
-    SuperSenior game;
+    final SuperSenior game;
 
-    Stage stage = new Stage();
+    Stage stage;
     Skin skin;
+    Table table;
     Texture img;
+    Label score;
+    TextButton pauseTxt;
     Button pause;
     Button resume;
     Button main_menu;
     Button restart;
+
+    float middleX, middleY;
+    float btnWidth, btnHeight;
 
     public enum GameState{
         Running,
@@ -46,12 +48,23 @@ public class GameScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
+        table = new Table();
         skin = new Skin(Gdx.files.internal("buttons/button.json"));
+        score = new Label("00000", skin);
+        pauseTxt = new TextButton("Paused", skin, "header");
         pause = new Button(skin, "pause");
         resume = new Button(skin, "play");
         main_menu = new Button(skin, "home");
         restart = new Button(skin, "restart");
         state = GameState.Running;
+
+        middleX = Gdx.graphics.getWidth()/2;
+        middleY = Gdx.graphics.getHeight()/2;
+        btnWidth = 150;
+        btnHeight = 150;
+
+        game.scrollingBackground.setFixedSpeed(false);
+        game.scrollingBackground.setSpeed(ScrollingBackground.DEFAULT_SPEED);
 
         pause.addListener(new ChangeListener() {
             @Override
@@ -79,11 +92,14 @@ public class GameScreen implements Screen {
             }
         });
 
-        pause.setBounds(0,0,217, 230);
-        resume.setBounds(0,0,217, 230);
-        main_menu.setBounds(300,0,217, 230);
-        restart.setBounds(600,0,217, 230);
+        score.setBounds(middleX - score.getWidth()/2, Gdx.graphics.getHeight() - score.getHeight() - 50, score.getWidth(), score.getHeight());
+        pauseTxt.setBounds(middleX - pauseTxt.getWidth()/2, middleY - pauseTxt.getHeight()/2, pauseTxt.getWidth(), pauseTxt.getHeight());
+        pause.setBounds(Gdx.graphics.getWidth() - btnWidth - 50, 50, btnWidth, btnHeight);
+        resume.setBounds(middleX - btnWidth * 3,middleY - pauseTxt.getHeight()/2 - btnHeight * 2, btnWidth, btnHeight);
+        main_menu.setBounds(middleX - btnWidth/2, middleY - pauseTxt.getHeight()/2 - btnHeight * 2, btnWidth, btnHeight);
+        restart.setBounds(middleX + btnWidth * 2,middleY - pauseTxt.getHeight()/2 - btnHeight * 2, btnWidth, btnHeight);
 
+        stage.addActor(score);
         stage.addActor(pause);
     }
 
@@ -95,7 +111,7 @@ public class GameScreen implements Screen {
 
         switch(state){
             case Running:
-                game.scrollingBackground.render(delta, game.batch);
+                running(delta);
                 break;
             case Pause:
                 pause();
@@ -116,10 +132,16 @@ public class GameScreen implements Screen {
 
     }
 
+    public void running(float delta) {
+        game.scrollingBackground.update(delta);
+        game.scrollingBackground.render(game.batch);
+    }
+
     @Override
     public void pause() {
-        game.scrollingBackground.paused(game.batch);
+        game.scrollingBackground.render(game.batch);
         pause.remove();
+        stage.addActor(pauseTxt);
         stage.addActor(resume);
         stage.addActor(main_menu);
         stage.addActor(restart);
@@ -127,6 +149,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resume() {
+        pauseTxt.remove();
         resume.remove();
         main_menu.remove();
         restart.remove();

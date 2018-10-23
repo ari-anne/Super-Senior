@@ -1,7 +1,11 @@
 # TODO
 ---
 ### Arianne
-- [ ] main menu screen
+- [ ] background scrolling
+- [ ] camera/viewport
+- [x] pause state
+- [x] settings screen
+- [x] main menu screen
 - [x] background art assets
 - [x] environment art assets
 
@@ -11,8 +15,8 @@
 - [x] buttons
 
 ### Jonathan
-- [ ] settings screen
 - [ ] music
+- [ ] sounds
 
 
 # Unassigned
@@ -21,11 +25,8 @@
 - [ ] create user ID screen
 - [ ] instructions screen
 - [ ] end game screen
-- [ ] pause screen
 - [ ] game screen
 ### Tools
 - [ ] collision
 - [ ] gestures
-- [ ] camera/viewport
-- [ ] background scrolling
 - [ ] timer
