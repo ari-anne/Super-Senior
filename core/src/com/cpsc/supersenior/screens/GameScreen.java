@@ -5,19 +5,37 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.cpsc.supersenior.SuperSenior;
 
 public class GameScreen implements Screen {
 
-    public static final float SPEED = 120;
-    Stage stage = new Stage();
-
-    Texture img;
-    float x = 0, y = 0;
+    // Pausing      https://stackoverflow.com/questions/21576181/pause-resume-a-simple-libgdx-game-for-android
 
     SuperSenior game;
+
+    Stage stage = new Stage();
+    Skin skin;
+    Texture img;
+    Button pause;
+    Button resume;
+    Button main_menu;
+    Button restart;
+
+    public enum GameState{
+        Running,
+        Pause,
+        Resume
+    }
+
+    GameState state;
 
     public GameScreen(SuperSenior game){
         this.game = game;
@@ -25,37 +43,72 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
+        stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        img = new Texture("backgrounds/game_background_3/game_background_3.1.png");
-        Image background = new Image(img);
-        stage.addActor(background);
+
+        skin = new Skin(Gdx.files.internal("buttons/button.json"));
+        pause = new Button(skin, "pause");
+        resume = new Button(skin, "play");
+        main_menu = new Button(skin, "home");
+        restart = new Button(skin, "restart");
+        state = GameState.Running;
+
+        pause.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                state = GameState.Pause;
+            }
+        });
+        resume.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                state = GameState.Resume;
+            }
+        });
+        main_menu.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new MainMenu(game));
+            }
+        });
+        restart.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.scrollingBackground.reset();
+                game.setScreen(new GameScreen(game));
+            }
+        });
+
+        pause.setBounds(0,0,217, 230);
+        resume.setBounds(0,0,217, 230);
+        main_menu.setBounds(300,0,217, 230);
+        restart.setBounds(600,0,217, 230);
+
+        stage.addActor(pause);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        float time = Gdx.graphics.getDeltaTime();	// time between previous and current render() call
-        // allows us to move objects in distance per second instead of frames per second
-
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)){
-            y += SPEED * time;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            y -= SPEED * time;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            x += SPEED * time;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            x -= SPEED * time;
-        }
-
         game.batch.begin();
+
+        switch(state){
+            case Running:
+                game.scrollingBackground.render(delta, game.batch);
+                break;
+            case Pause:
+                pause();
+                break;
+            case Resume:
+                resume();
+                break;
+        }
+
+        game.batch.end();
+
         stage.act();
         stage.draw();
-        game.batch.end();
     }
 
     @Override
@@ -64,10 +117,22 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void pause() { }
+    public void pause() {
+        game.scrollingBackground.paused(game.batch);
+        pause.remove();
+        stage.addActor(resume);
+        stage.addActor(main_menu);
+        stage.addActor(restart);
+    }
 
     @Override
-    public void resume() { }
+    public void resume() {
+        resume.remove();
+        main_menu.remove();
+        restart.remove();
+        stage.addActor(pause);
+        state = GameState.Running;
+    }
 
     @Override
     public void hide() { }

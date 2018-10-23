@@ -25,7 +25,7 @@ public class Settings implements Screen {
         Skin skin = new Skin(Gdx.files.internal("buttons/button.json"));
         Table table = new Table();
 
-        Texture texture = new Texture(Gdx.files.internal("backgrounds/game_background_3/game_background_3.1.png"));
+        Texture texture = new Texture(Gdx.files.internal("backgrounds/game_background_1/game_background_1.png"));
         Image background = new Image(texture);
         Button back = new Button(skin, "arrow-left");
         TextButton settings = new TextButton("  Settings  ", skin, "header");
