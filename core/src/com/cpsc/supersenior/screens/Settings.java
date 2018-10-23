@@ -12,8 +12,14 @@ import com.cpsc.supersenior.SuperSenior;
 
 public class Settings implements Screen {
 
-    private SuperSenior game;
-    private Stage stage = new Stage();
+    final SuperSenior game;
+
+    Stage stage;
+    Skin skin;
+    Table table;
+    Button back;
+    TextButton settings;
+    TextButton empty;
 
     public Settings (SuperSenior game){
         this.game = game;
@@ -21,18 +27,15 @@ public class Settings implements Screen {
 
     @Override
     public void show() {
+        stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        Skin skin = new Skin(Gdx.files.internal("buttons/button.json"));
-        Table table = new Table();
 
-        Texture texture = new Texture(Gdx.files.internal("backgrounds/game_background_1/game_background_1.png"));
-        Image background = new Image(texture);
-        Button back = new Button(skin, "arrow-left");
-        TextButton settings = new TextButton("  Settings  ", skin, "header");
-        TextButton empty = new TextButton(" ", skin, "header");
+        skin = new Skin(Gdx.files.internal("buttons/button.json"));
+        table = new Table();
+        back = new Button(skin, "arrow-left");
+        settings = new TextButton("  Settings  ", skin, "header");
+        empty = new TextButton(" ", skin, "header");
 
-        background.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        background.setPosition(0, Gdx.graphics.getHeight()-background.getHeight());
         back.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -40,7 +43,6 @@ public class Settings implements Screen {
             }
         });
 
-        stage.addActor(background);
         stage.addActor(table);
         stage.addActor(back);
         stage.addActor(settings);
@@ -57,10 +59,13 @@ public class Settings implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
         game.batch.begin();
+        game.scrollingBackground.render(delta, game.batch);
+        game.batch.end();
+
         stage.act();
         stage.draw();
-        game.batch.end();
     }
 
     @Override
