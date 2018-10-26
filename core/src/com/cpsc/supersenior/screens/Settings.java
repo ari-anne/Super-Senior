@@ -3,7 +3,6 @@ package com.cpsc.supersenior.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -41,10 +40,8 @@ public class Settings implements Screen {
         back = new Button(skin, "arrow-left");
         music = new Button(skin, "music");
         sound = new Button(skin, "sound");
-//        musicTxt = new TextButton(" Music: On ",skin, "med");
-//        soundTxt = new TextButton(" Sound: On ", skin, "med");
-        musicTxt = new Label ("Music: ON",skin);
-        soundTxt = new Label ("Sound: ON", skin);
+        musicTxt = new Label ("Music: ON ",skin);
+        soundTxt = new Label ("Sound: ON ", skin);
         settings = new TextButton("  Settings  ", skin, "header");
 
         btnWidth = 150;
@@ -60,25 +57,24 @@ public class Settings implements Screen {
         music.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                // turn music on/off
+                // toggle music
                 if (music.isChecked()) {
-                    musicTxt.setText(" Music: OFF ");
+                    musicTxt.setText("Music: OFF");
                 }
                 else {
-                    musicTxt.setText(" Music: ON ");
+                    musicTxt.setText("Music: ON ");
                 }
             }
         });
         sound.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                // turn sounds on/off
-
+                // toggle sound
                 if (sound.isChecked()) {
-                    soundTxt.setText(" Sound: OFF ");
+                    soundTxt.setText("Sound: OFF");
                 }
                 else {
-                    soundTxt.setText(" Sound: ON");
+                    soundTxt.setText("Sound: ON ");
                 }
             }
         });
@@ -130,5 +126,7 @@ public class Settings implements Screen {
     public void hide() { }
 
     @Override
-    public void dispose() { }
+    public void dispose() {
+        Gdx.input.setInputProcessor(null);
+    }
 }

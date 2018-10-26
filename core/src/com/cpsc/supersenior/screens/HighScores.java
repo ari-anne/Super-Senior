@@ -49,7 +49,7 @@ public class HighScores implements Screen {
 
         table.setDebug(true);
         table.setFillParent(true);
-        table.add(back).width(200).height(200).padTop(50).padLeft(50);
+        table.add(back).width(150).height(150).padTop(50).padLeft(50);
         table.add(high_scores).expandX().padTop(50).padRight(50);
         table.row();
         table.add(empty).colspan(2).expand().pad(50);
@@ -82,5 +82,7 @@ public class HighScores implements Screen {
     public void hide() { }
 
     @Override
-    public void dispose() { }
+    public void dispose() {
+        Gdx.input.setInputProcessor(null);
+    }
 }
