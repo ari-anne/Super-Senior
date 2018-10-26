@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.cpsc.supersenior.SuperSenior;
-import com.cpsc.supersenior.tools.ScrollingBackground;
 
 public class GameScreen implements Screen {
 
@@ -20,16 +19,17 @@ public class GameScreen implements Screen {
     Stage stage;
     Skin skin;
     Table table;
-    Texture img;
     Label score;
     TextButton pauseTxt;
     Button pause;
     Button resume;
     Button main_menu;
     Button restart;
+    Texture overlay;
 
-    float middleX, middleY;
-    float btnWidth, btnHeight;
+    float middleX, middleY;     // middle of screen
+    float btnWidth, btnHeight;  // button dimensions
+    int padding;
 
     public enum GameState{
         Running,
@@ -56,15 +56,16 @@ public class GameScreen implements Screen {
         resume = new Button(skin, "play");
         main_menu = new Button(skin, "home");
         restart = new Button(skin, "restart");
+        overlay = new Texture("overlay.png");
         state = GameState.Running;
 
         middleX = Gdx.graphics.getWidth()/2;
         middleY = Gdx.graphics.getHeight()/2;
         btnWidth = 150;
         btnHeight = 150;
+        padding = 50;
 
         game.scrollingBackground.setFixedSpeed(false);
-        game.scrollingBackground.setSpeed(ScrollingBackground.DEFAULT_SPEED);
 
         pause.addListener(new ChangeListener() {
             @Override
@@ -81,6 +82,7 @@ public class GameScreen implements Screen {
         main_menu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                game.scrollingBackground.resetSpeed();
                 game.setScreen(new MainMenu(game));
             }
         });
@@ -92,9 +94,9 @@ public class GameScreen implements Screen {
             }
         });
 
-        score.setBounds(middleX - score.getWidth()/2, Gdx.graphics.getHeight() - score.getHeight() - 50, score.getWidth(), score.getHeight());
+        score.setBounds(middleX - score.getWidth()/2, Gdx.graphics.getHeight() - score.getHeight() - padding, score.getWidth(), score.getHeight());
         pauseTxt.setBounds(middleX - pauseTxt.getWidth()/2, middleY - pauseTxt.getHeight()/2, pauseTxt.getWidth(), pauseTxt.getHeight());
-        pause.setBounds(Gdx.graphics.getWidth() - btnWidth - 50, 50, btnWidth, btnHeight);
+        pause.setBounds(Gdx.graphics.getWidth() - btnWidth - padding, padding, btnWidth, btnHeight);
         resume.setBounds(middleX - btnWidth * 3,middleY - pauseTxt.getHeight()/2 - btnHeight * 2, btnWidth, btnHeight);
         main_menu.setBounds(middleX - btnWidth/2, middleY - pauseTxt.getHeight()/2 - btnHeight * 2, btnWidth, btnHeight);
         restart.setBounds(middleX + btnWidth * 2,middleY - pauseTxt.getHeight()/2 - btnHeight * 2, btnWidth, btnHeight);
@@ -140,7 +142,10 @@ public class GameScreen implements Screen {
     @Override
     public void pause() {
         game.scrollingBackground.render(game.batch);
+        game.batch.draw(overlay, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
         pause.remove();
+
         stage.addActor(pauseTxt);
         stage.addActor(resume);
         stage.addActor(main_menu);
@@ -153,7 +158,9 @@ public class GameScreen implements Screen {
         resume.remove();
         main_menu.remove();
         restart.remove();
+
         stage.addActor(pause);
+
         state = GameState.Running;
     }
 
@@ -163,6 +170,6 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
         game.batch.dispose();
-        img.dispose();
+        Gdx.input.setInputProcessor(null);
     }
 }

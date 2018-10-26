@@ -1,32 +1,33 @@
-# TODO
----
 ### Arianne
-- [ ] background scrolling
 - [ ] camera/viewport
+- [ ] instructions screen
+- [ ] game screen
+- [x] background scrolling
 - [x] pause state
 - [x] settings screen
 - [x] main menu screen
+- [x] skin json
 - [x] background art assets
 - [x] environment art assets
 
 ### Amin
+- [ ] end game screen
 - [ ] high scores screen
 - [ ] high scores database
+- [ ] coins
+- [x] game character
 - [x] buttons
 
 ### Jonathan
 - [ ] music
 - [ ] sounds
 
-
-# Unassigned
 ---
+# Unassigned
 ### Screens
 - [ ] create user ID screen
-- [ ] instructions screen
-- [ ] end game screen
-- [ ] game screen
+- [ ] game over screen
 ### Tools
-- [ ] collision
 - [ ] gestures
 - [ ] timer
+- [ ] collision

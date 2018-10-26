@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.cpsc.supersenior.SuperSenior;
-import com.cpsc.supersenior.tools.ScrollingBackground;
 
 public class MainMenu implements Screen{
 
@@ -48,7 +47,6 @@ public class MainMenu implements Screen{
         settings = new Button(skin, "settings");
 
         game.scrollingBackground.setFixedSpeed(true);
-        game.scrollingBackground.setSpeed(ScrollingBackground.DEFAULT_SPEED);
 
         play.addListener(new ChangeListener() {
             @Override
@@ -116,5 +114,6 @@ public class MainMenu implements Screen{
     @Override
     public void dispose() {
         game.batch.dispose();
+        Gdx.input.setInputProcessor(null);
     }
 }
