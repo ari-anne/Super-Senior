@@ -19,7 +19,7 @@ public class GameScreen implements Screen {
     Stage stage;
     Skin skin;
     Table table;
-    Label score;
+    Label scoreTxt;
     TextButton pauseTxt;
     Button pause;
     Button resume;
@@ -30,6 +30,7 @@ public class GameScreen implements Screen {
     float middleX, middleY;     // middle of screen
     float btnWidth, btnHeight;  // button dimensions
     int padding;
+    int score;
 
     public enum GameState{
         Running,
@@ -50,7 +51,7 @@ public class GameScreen implements Screen {
 
         table = new Table();
         skin = new Skin(Gdx.files.internal("buttons/button.json"));
-        score = new Label("00000", skin);
+        scoreTxt = new Label("0", skin);
         pauseTxt = new TextButton("Paused", skin, "header");
         pause = new Button(skin, "pause");
         resume = new Button(skin, "play");
@@ -64,6 +65,7 @@ public class GameScreen implements Screen {
         btnWidth = 150;
         btnHeight = 150;
         padding = 50;
+        score = 0;
 
         game.scrollingBackground.setFixedSpeed(false);
 
@@ -94,14 +96,14 @@ public class GameScreen implements Screen {
             }
         });
 
-        score.setBounds(middleX - score.getWidth()/2, Gdx.graphics.getHeight() - score.getHeight() - padding, score.getWidth(), score.getHeight());
+        scoreTxt.setBounds(middleX - scoreTxt.getWidth()/2, Gdx.graphics.getHeight() - scoreTxt.getHeight() - padding, scoreTxt.getWidth(), scoreTxt.getHeight());
         pauseTxt.setBounds(middleX - pauseTxt.getWidth()/2, middleY - pauseTxt.getHeight()/2, pauseTxt.getWidth(), pauseTxt.getHeight());
         pause.setBounds(Gdx.graphics.getWidth() - btnWidth - padding, padding, btnWidth, btnHeight);
         resume.setBounds(middleX - btnWidth * 3,middleY - pauseTxt.getHeight()/2 - btnHeight * 2, btnWidth, btnHeight);
         main_menu.setBounds(middleX - btnWidth/2, middleY - pauseTxt.getHeight()/2 - btnHeight * 2, btnWidth, btnHeight);
         restart.setBounds(middleX + btnWidth * 2,middleY - pauseTxt.getHeight()/2 - btnHeight * 2, btnWidth, btnHeight);
 
-        stage.addActor(score);
+        stage.addActor(scoreTxt);
         stage.addActor(pause);
     }
 
@@ -137,6 +139,13 @@ public class GameScreen implements Screen {
     public void running(float delta) {
         game.scrollingBackground.update(delta);
         game.scrollingBackground.render(game.batch);
+
+        // update score
+        // if (collide with coin)
+            // score++;
+            // scoreTxt.setText(Integer.toString(score));
+
+
     }
 
     @Override
