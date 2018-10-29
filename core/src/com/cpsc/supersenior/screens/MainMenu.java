@@ -2,40 +2,86 @@ package com.cpsc.supersenior.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.cpsc.supersenior.SuperSenior;
 
-public class MainMenu implements Screen {
+public class MainMenu implements Screen{
 
-    SuperSenior game;
-    BitmapFont font;
-    FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Graduate-Regular.ttf"));
-    FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-    private static GlyphLayout glyphLayout = new GlyphLayout();
-    private static final String TITLE = "Super Senior";
-    private static final String PLAY = "Play";
-    private static final String HIGH_SCORES = "High Scores";
-    private static final String SETTINGS = "Settings";
+    // Labels       https://libgdx.info/basic-label/
+    // Skins        https://github.com/libgdx/libgdx/wiki/Skin#skin-json
+    // Tables       https://github.com/EsotericSoftware/tablelayout
+    // ButtonSkin   https://stackoverflow.com/questions/21488311/how-to-create-a-button-in-libgdx
 
-    /*
-    *   GlyphLayout: https://gamedev.stackexchange.com/questions/101242/bitmapfont-where-is-getbounds-method-in-new-1-6-libgdx
-    * */
+    final SuperSenior game;
+
+    Stage stage;
+    Table table;
+    Skin skin;
+    TextButton title;
+    Button play;
+    Button high_scores;
+    Button settings;
+
+    int padding = 100;
+
 
     public MainMenu (SuperSenior game){
         this.game = game;
-        parameter.size = 50;
-        parameter.borderWidth = 1;
-        parameter.color = Color.BLACK;
-        font = generator.generateFont(parameter);
-        generator.dispose();
     }
 
+
     @Override
-    public void show() { }
+    public void show() {
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+
+        table = new Table();
+        skin = new Skin(Gdx.files.internal("buttons/button.json"));
+        title = new TextButton("  Super Senior  ", skin, "title");
+        play = new Button(skin, "play");
+        high_scores = new Button(skin, "leaderboard");
+        settings = new Button(skin, "settings");
+
+        game.scrollingBackground.setFixedSpeed(true);
+
+        play.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new GameScreen(game));
+            }
+        });
+        high_scores.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new HighScores(game));
+            }
+        });
+        settings.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new Settings(game));
+            }
+        });
+
+        stage.addActor(table);
+        stage.addActor(title);
+        stage.addActor(play);
+        stage.addActor(high_scores);
+        stage.addActor(settings);
+
+        table.setFillParent(true);
+        table.row().height(500);
+        table.add(title).colspan(3).padTop(padding);
+        table.row();
+        table.add(play).pad(padding);
+        table.add(high_scores).pad(padding);
+        table.add(settings).pad(padding);
+    }
+
 
     @Override
     public void render(float delta) {
@@ -43,47 +89,14 @@ public class MainMenu implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-
-        // TITLE
-        glyphLayout.setText(font, TITLE);
-        font.draw(game.batch, glyphLayout, SuperSenior.WIDTH/2 - glyphLayout.width/2, SuperSenior.HEIGHT - SuperSenior.HEIGHT/3);
-
-        // PLAY BUTTON
-        glyphLayout.setText(font, PLAY);
-        font.draw(game.batch, glyphLayout, SuperSenior.WIDTH/2 - glyphLayout.width/2, SuperSenior.HEIGHT/2);
-        if( Gdx.input.getX() > SuperSenior.WIDTH/2 - glyphLayout.width/2 &&
-                Gdx.input.getX() < SuperSenior.WIDTH/2 - glyphLayout.width/2 + glyphLayout.width &&
-                SuperSenior.HEIGHT - Gdx.input.getY() < SuperSenior.HEIGHT/2 + glyphLayout.height &&
-                SuperSenior.HEIGHT - Gdx.input.getY() > SuperSenior.HEIGHT/2){
-            game.setScreen(new GameScreen(game));   // red screen
-        }
-
-        // HIGH SCORES BUTTON
-        glyphLayout.setText(font, HIGH_SCORES);
-        font.draw(game.batch, glyphLayout, SuperSenior.WIDTH/2 - glyphLayout.width/2, SuperSenior.HEIGHT/3);
-        if( Gdx.input.getX() > SuperSenior.WIDTH/2 - glyphLayout.width/2 &&
-                Gdx.input.getX() < SuperSenior.WIDTH/2 - glyphLayout.width/2 + glyphLayout.width &&
-                SuperSenior.HEIGHT - Gdx.input.getY() < SuperSenior.HEIGHT/3 + glyphLayout.height &&
-                SuperSenior.HEIGHT - Gdx.input.getY() > SuperSenior.HEIGHT/3){
-            if(Gdx.input.isTouched()){
-                game.setScreen(new HighScores(game));   // green screen
-            }
-        }
-
-        // SETTINGS BUTTON
-        glyphLayout.setText(font, SETTINGS);
-        font.draw(game.batch, glyphLayout, SuperSenior.WIDTH/2 - glyphLayout.width/2, SuperSenior.HEIGHT/6);
-        if( Gdx.input.getX() > SuperSenior.WIDTH/2 - glyphLayout.width/2 &&
-                Gdx.input.getX() < SuperSenior.WIDTH/2 - glyphLayout.width/2 + glyphLayout.width &&
-                SuperSenior.HEIGHT - Gdx.input.getY() < SuperSenior.HEIGHT/6 + glyphLayout.height &&
-                SuperSenior.HEIGHT - Gdx.input.getY() > SuperSenior.HEIGHT/6){
-            if(Gdx.input.isTouched()){
-                game.setScreen(new Settings(game)); // blue screen
-            }
-        }
-
+        game.scrollingBackground.update(delta);
+        game.scrollingBackground.render(game.batch);
         game.batch.end();
+
+        stage.act();
+        stage.draw();
     }
+
 
     @Override
     public void resize(int width, int height) { }
@@ -97,9 +110,10 @@ public class MainMenu implements Screen {
     @Override
     public void hide() { }
 
+
     @Override
     public void dispose() {
         game.batch.dispose();
-        font.dispose();
+        Gdx.input.setInputProcessor(null);
     }
 }
