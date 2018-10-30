@@ -19,10 +19,10 @@ public class ScrollingBackground {
     boolean fixedSpeed;
 
     public ScrollingBackground () {
-        image = new Texture(Gdx.files.internal("backgrounds/game_background_1/game_background_1.png"));
+        image = new Texture("game_background_1.png");
 
         x1 = 0;
-        x2 = Gdx.graphics.getWidth();
+        x2 = SuperSenior.WIDTH;
 
         speed = DEFAULT_SPEED;
         acceleration = 50;
@@ -53,13 +53,13 @@ public class ScrollingBackground {
     }
 
     public void render(SpriteBatch batch){
-        batch.draw(image, x1, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(image, x2, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.draw(image, x1, 0, SuperSenior.WIDTH, SuperSenior.HEIGHT);
+        batch.draw(image, x2, 0, SuperSenior.WIDTH, SuperSenior.HEIGHT);
     }
 
     public void reset(){
         x1 = 0;
-        x2 = Gdx.graphics.getWidth();
+        x2 = SuperSenior.WIDTH;
         speed = DEFAULT_SPEED;
     }
 
