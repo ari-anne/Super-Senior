@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion ;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -15,7 +18,6 @@ public class GameScreen implements Screen {
     // Pausing      https://stackoverflow.com/questions/21576181/pause-resume-a-simple-libgdx-game-for-android
 
     final SuperSenior game;
-
     Stage stage;
     Skin skin;
     Table table;
@@ -26,6 +28,11 @@ public class GameScreen implements Screen {
     Button main_menu;
     Button restart;
     Texture overlay;
+    TextureAtlas character;
+    TextureAtlas coin;
+    Animation<TextureRegion> characterAnimation;
+    Animation<TextureRegion> coinAnimation;
+    float elapseTime = 0f;
 
     float middleX, middleY;     // middle of screen
     float btnWidth, btnHeight;  // button dimensions
@@ -58,6 +65,10 @@ public class GameScreen implements Screen {
         main_menu = new Button(skin, "home");
         restart = new Button(skin, "restart");
         overlay = new Texture("overlay.png");
+        character = new TextureAtlas("character/run/run.atlas");
+        coin = new TextureAtlas("coin/1/coin.atlas");
+        characterAnimation = new Animation<TextureRegion>(1f/10f, character.getRegions());
+        coinAnimation = new Animation<TextureRegion>(1f/10f, coin.getRegions());
         state = GameState.Running;
 
         middleX = Gdx.graphics.getWidth()/2;
@@ -109,6 +120,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        elapseTime += delta;
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.batch.begin();
@@ -116,6 +128,10 @@ public class GameScreen implements Screen {
         switch(state){
             case Running:
                 running(delta);
+                TextureRegion characterFrame = characterAnimation.getKeyFrame(elapseTime, true);
+                TextureRegion coinFrame = coinAnimation.getKeyFrame(elapseTime, true);
+                game.batch.draw(characterFrame,50,50, 256, 256);
+                game.batch.draw(coinFrame,100,50);
                 break;
             case Pause:
                 pause();
@@ -180,5 +196,6 @@ public class GameScreen implements Screen {
     public void dispose() {
         game.batch.dispose();
         Gdx.input.setInputProcessor(null);
+        character.dispose();
     }
 }
