@@ -29,7 +29,9 @@ public class GameScreen implements Screen {
     Button restart;
     Texture overlay;
     TextureAtlas character;
-    Animation<TextureRegion> animation;
+    TextureAtlas coin;
+    Animation<TextureRegion> characterAnimation;
+    Animation<TextureRegion> coinAnimation;
     float elapseTime = 0f;
 
     float middleX, middleY;     // middle of screen
@@ -64,7 +66,9 @@ public class GameScreen implements Screen {
         restart = new Button(skin, "restart");
         overlay = new Texture("overlay.png");
         character = new TextureAtlas("character/run/run.atlas");
-        animation = new Animation<TextureRegion>(1f/5f, character.getRegions());
+        coin = new TextureAtlas("coin/1/coin.atlas");
+        characterAnimation = new Animation<TextureRegion>(1f/10f, character.getRegions());
+        coinAnimation = new Animation<TextureRegion>(1f/10f, coin.getRegions());
         state = GameState.Running;
 
         middleX = Gdx.graphics.getWidth()/2;
@@ -124,8 +128,10 @@ public class GameScreen implements Screen {
         switch(state){
             case Running:
                 running(delta);
-                TextureRegion currentFrame = animation.getKeyFrame(elapseTime, true);
-                game.batch.draw(currentFrame,50,50, 512, 512);
+                TextureRegion characterFrame = characterAnimation.getKeyFrame(elapseTime, true);
+                TextureRegion coinFrame = coinAnimation.getKeyFrame(elapseTime, true);
+                game.batch.draw(characterFrame,50,50, 256, 256);
+                game.batch.draw(coinFrame,100,50);
                 break;
             case Pause:
                 pause();
