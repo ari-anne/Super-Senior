@@ -9,6 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.cpsc.supersenior.SuperSenior;
+import com.cpsc.supersenior.tools.DataBaseApi;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.Locale;
+
 
 public class HighScores implements Screen {
 
@@ -19,10 +26,15 @@ public class HighScores implements Screen {
     Skin skin;
     Button back;
     TextButton high_scores;
-    TextButton empty;
+    TextButton[] top = new TextButton[3];
+    TextButton user;
+    TextButton okay;
+    JSONArray user_scores;
 
     public HighScores (SuperSenior game){
         this.game = game;
+        DataBaseApi DBApi = new DataBaseApi();
+        user_scores = DBApi.get_highscore();
     }
 
     @Override
@@ -34,7 +46,17 @@ public class HighScores implements Screen {
         skin = new Skin(Gdx.files.internal("buttons/button.json"));
         back = new Button(skin, "arrow-left");
         high_scores = new TextButton("  High Scores  ", skin, "header");
-        empty = new TextButton(" ", skin, "header");
+        try {
+            for(int i=0; i < user_scores.length(); i++){
+                System.out.println(">>>>>>>"+i+"<<<<<<<<<");
+                String text = String.format ("%d. %-5s      %4d",i+1, user_scores.getJSONObject(i).getString("username"), Integer.parseInt((user_scores.getJSONObject(i).getString("score"))));
+                System.out.println(text);
+                top[i] = new TextButton(text, skin, "header");
+            }
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
         back.addListener(new ChangeListener() {
             @Override
@@ -47,12 +69,15 @@ public class HighScores implements Screen {
         stage.addActor(back);
         stage.addActor(high_scores);
 
-        table.setDebug(true);
         table.setFillParent(true);
         table.add(back).width(150).height(150).padTop(50).padLeft(50);
         table.add(high_scores).expandX().padTop(50).padRight(50);
         table.row();
-        table.add(empty).colspan(2).expand().pad(50);
+        table.add(top[0]).width(1000).colspan(2).expand().padTop(50).padLeft(200);
+        table.row();
+        table.add(top[1]).width(1000).colspan(2).expand().padTop(50).padLeft(200);
+        table.row();
+        table.add(top[2]).width(1000).colspan(2).expand().padTop(50).padLeft(200);
     }
 
     @Override

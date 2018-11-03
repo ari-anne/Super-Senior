@@ -12,10 +12,10 @@
 
 ### Amin
 - [ ] end game screen
-- [ ] high scores screen
-- [ ] high scores database
+- [x] high scores screen
+- [x] high scores database
 - [ ] coins
-- [x] game character
+- [ ] game character
 - [x] buttons
 
 ### Jonathan
