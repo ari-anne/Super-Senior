@@ -131,7 +131,7 @@ public class GameScreen implements Screen {
                 TextureRegion characterFrame = characterAnimation.getKeyFrame(elapseTime, true);
                 TextureRegion coinFrame = coinAnimation.getKeyFrame(elapseTime, true);
                 game.batch.draw(characterFrame,50,50, 256, 256);
-                game.batch.draw(coinFrame,100,50);
+                game.batch.draw(coinFrame,500,50, 141,141);
                 break;
             case Pause:
                 pause();
