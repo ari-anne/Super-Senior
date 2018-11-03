@@ -1,0 +1,76 @@
+
+coin.png
+size: 4096,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+0
+  rotate: false
+  xy: 2, 2
+  size: 563, 564
+  orig: 563, 564
+  offset: 0, 0
+  index: -1
+1
+  rotate: false
+  xy: 567, 2
+  size: 563, 564
+  orig: 563, 564
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 1132, 2
+  size: 563, 564
+  orig: 563, 564
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 1697, 2
+  size: 563, 565
+  orig: 563, 565
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 2262, 2
+  size: 563, 564
+  orig: 563, 564
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 2827, 2
+  size: 563, 564
+  orig: 563, 564
+  offset: 0, 0
+  index: -1
+6
+  rotate: false
+  xy: 3392, 2
+  size: 563, 564
+  orig: 563, 564
+  offset: 0, 0
+  index: -1
+7
+  rotate: false
+  xy: 2, 569
+  size: 563, 565
+  orig: 563, 565
+  offset: 0, 0
+  index: -1
+8
+  rotate: false
+  xy: 567, 569
+  size: 563, 564
+  orig: 563, 564
+  offset: 0, 0
+  index: -1
+9
+  rotate: false
+  xy: 1132, 569
+  size: 563, 564
+  orig: 563, 564
+  offset: 0, 0
+  index: -1
