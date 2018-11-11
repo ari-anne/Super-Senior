@@ -38,8 +38,8 @@ public class GameStage extends Stage implements ContactListener {
 
     public GameStage() {
         world = new World(GRAVITY, true);
-        ground = new Ground(Ground.createGround(world));
-        runner = new Runner(Runner.createRunner(world));
+        ground = new Ground(world);
+        runner = new Runner(world);
         renderer = new Box2DDebugRenderer();
 
         world.setContactListener(this);
@@ -94,8 +94,8 @@ public class GameStage extends Stage implements ContactListener {
         Body a = contact.getFixtureA().getBody();
         Body b = contact.getFixtureB().getBody();
 
-        if ((UserDataType) a.getUserData() == UserDataType.GROUND && (UserDataType)b.getUserData() == UserDataType.RUNNER ||
-                (UserDataType) a.getUserData() == UserDataType.RUNNER && (UserDataType)b.getUserData() == UserDataType.GROUND ) {
+        if (a.getUserData() == UserDataType.GROUND && b.getUserData() == UserDataType.RUNNER ||
+                a.getUserData() == UserDataType.RUNNER && b.getUserData() == UserDataType.GROUND ) {
             runner.landed();
         }
     }

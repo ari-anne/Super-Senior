@@ -15,28 +15,23 @@ public class Ground extends Actor {
     public static final float HEIGHT = 5f;
     public static final float DENSITY = 0f;
 
+    public static final GameStage.UserDataType TYPE = GameStage.UserDataType.GROUND;;
+
     Body body;
 
-    GameStage.UserDataType type;
+    public Ground(World world) {
 
-    public Ground(Body body) {
-        this.body = body;
-        type = GameStage.UserDataType.GROUND;
-    }
-
-    public static Body createGround(World world) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(0, 0);
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(WIDTH/2, HEIGHT/2);
 
-        Body body = world.createBody(bodyDef);
+        body = world.createBody(bodyDef);
         body.createFixture(shape, DENSITY);
+        body.setUserData(TYPE);
 
         shape.dispose();
-
-        return body;
     }
 
 }

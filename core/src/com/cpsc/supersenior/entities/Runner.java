@@ -15,22 +15,20 @@ public class Runner extends Actor {
     public static final float WIDTH = 2f;
     public static final float HEIGHT = 3f;
     public static final float DENSITY = 0.5f;
+    public static final float GRAVITY_SCALE = 2f;
+    public static final float CROUCH_X = 2f;
+    public static final float CROUCH_Y = 1.5f;
 
-    public static final Vector2 JUMPING_LINEAR_IMPULSE = new Vector2(0, 13f);
+    public static final Vector2 JUMPING_LINEAR_IMPULSE = new Vector2(0, 40f);
+    public static final GameStage.UserDataType TYPE = GameStage.UserDataType.RUNNER;
 
     Body body;
     Vector2 jumpingLinearImpulse;
     boolean jumping;
 
-    GameStage.UserDataType type;
-
-    public Runner(Body body) {
-        this.body = body;
-        type = GameStage.UserDataType.RUNNER;
+    public Runner(World world) {
         jumpingLinearImpulse = JUMPING_LINEAR_IMPULSE;
-    }
 
-    public static Body createRunner(World world) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(X, Y);
@@ -38,13 +36,13 @@ public class Runner extends Actor {
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(WIDTH/2, HEIGHT/2);
 
-        Body body = world.createBody(bodyDef);
+        body = world.createBody(bodyDef);
         body.createFixture(shape, DENSITY);
+        body.setGravityScale(GRAVITY_SCALE);
+        body.setUserData(TYPE);
 
         body.resetMassData();
         shape.dispose();
-
-        return body;
     }
 
     public void jump() {
@@ -58,11 +56,7 @@ public class Runner extends Actor {
         jumping = false;
     }
 
-    public GameStage.UserDataType getUserDataType() {
-        return type;
-    }
-
-    public Vector2 getJumpingLinearImpulse() {
-        return jumpingLinearImpulse;
+    public void setJumpingLinearImpulse(Vector2 jumpingLinearImpulse) {
+        this.jumpingLinearImpulse = jumpingLinearImpulse;
     }
 }
