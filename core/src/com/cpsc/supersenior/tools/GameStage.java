@@ -4,10 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.cpsc.supersenior.entities.Background;
 import com.cpsc.supersenior.entities.Ground;
 import com.cpsc.supersenior.entities.Obstacle;
 import com.cpsc.supersenior.entities.Runner;
@@ -33,7 +33,6 @@ public class GameStage extends Stage implements ContactListener {
 
     Rectangle rightSide;
     Rectangle leftSide;
-    Vector3 touchPoint;
 
     public enum UserDataType {
         GROUND,
@@ -45,6 +44,7 @@ public class GameStage extends Stage implements ContactListener {
         world = new World(GRAVITY, true);
         ground = new Ground(world);
         runner = new Runner(world);
+        obstacle = new Obstacle(world);
         renderer = new Box2DDebugRenderer();
 
         world.setContactListener(this);
@@ -53,20 +53,20 @@ public class GameStage extends Stage implements ContactListener {
         camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0f);
         camera.update();
 
+        addActor(new Background());
         addActor(ground);
         addActor(runner);
+        addActor(obstacle);
 
-        createObstacle();
-
-        // TODO: implement touch input
+        // TODO: implement swipe input
         // temporary controls to test gravity
-        touchPoint = new Vector3();
+        // divide screen in half, tapping right side jumps, tapping left side crouches
         rightSide = new Rectangle(getCamera().viewportWidth/2,0,getCamera().viewportWidth/2, getCamera().viewportHeight);
         leftSide = new Rectangle(0, 0, getCamera().viewportWidth/2, getCamera().viewportHeight);
         Gdx.input.setInputProcessor(this);
     }
 
-    public void createObstacle() {
+    public void makeObstacle() {
         obstacle = new Obstacle(world);
         addActor(obstacle);
     }
@@ -81,7 +81,7 @@ public class GameStage extends Stage implements ContactListener {
         for (Body body : bodies) {
             if (!bodyInBounds(body)) {
                 if(body.getUserData() == UserDataType.OBSTACLE && !runner.isHit()) {
-                    createObstacle();
+                    makeObstacle();
                 }
                 world.destroyBody(body);
             }
@@ -105,8 +105,8 @@ public class GameStage extends Stage implements ContactListener {
     // temporary controls to test gravity
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
-        getCamera().unproject(touchPoint.set(x, y, 0));
-
+        // if right side of screen is touched, jump
+        // else if left side of screen is touched, crouch
         if(rightSide.contains(x,y)) {
             runner.jump();
         }
@@ -160,10 +160,12 @@ public class GameStage extends Stage implements ContactListener {
 
     // TODO: accommodate randomized obstacles
     public static boolean bodyInBounds(Body body) {
-        if(body.getUserData() == UserDataType.RUNNER)
+        if(body.getUserData() == UserDataType.RUNNER) {
             return body.getPosition().x + Runner.WIDTH > 0;
-        else if (body.getUserData() == UserDataType.OBSTACLE)
+        }
+        else if (body.getUserData() == UserDataType.OBSTACLE) {
             return body.getPosition().x + Obstacle.ObstacleType.GROUND_LONG.getWidth() > 0;
+        }
         return true;
     }
 }

@@ -78,7 +78,7 @@ public class Runner extends Actor {
     }
 
     public float getDodgeAngle() {
-        return (float) (-90f * (Math.PI / 180f));   // radians
+        return (float) (-90f * (Math.PI / 180f));   // in radians
     }
 
     public boolean isDodging() {

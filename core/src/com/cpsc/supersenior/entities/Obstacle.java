@@ -12,9 +12,6 @@ public class Obstacle extends Actor {
 
     public static final float X = 25f;
     public static final float DENSITY = Runner.DENSITY;
-//    public static final float RUNNING_SHORT_Y = 1.5f;
-//    public static final float RUNNING_LONG_Y = 2f;
-//    public static final float FLYING_Y = 3f;
 
     public static final Vector2 LINEAR_VELOCITY = new Vector2(-10f, 0);
     public static final GameStage.UserDataType TYPE = GameStage.UserDataType.OBSTACLE;
@@ -86,10 +83,6 @@ public class Obstacle extends Actor {
 
     public void setLinearVelocity(Vector2 linearVelocity) {
         this.linearVelocity = linearVelocity;
-    }
-
-    public Vector2 getLinearVelocity() {
-        return linearVelocity;
     }
 
     @Override
