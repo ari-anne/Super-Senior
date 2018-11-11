@@ -11,8 +11,8 @@ public class Ground extends Actor {
 
     public static final float X = 0;
     public static final float Y = 0;
-    public static final float WIDTH = 45f;
-    public static final float HEIGHT = 5f;
+    public static final float WIDTH = 20f;
+    public static final float HEIGHT = 3f;
     public static final float DENSITY = 0f;
 
     public static final GameStage.UserDataType TYPE = GameStage.UserDataType.GROUND;;
@@ -25,7 +25,7 @@ public class Ground extends Actor {
         bodyDef.position.set(0, 0);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(WIDTH/2, HEIGHT/2);
+        shape.setAsBox(WIDTH, HEIGHT);
 
         body = world.createBody(bodyDef);
         body.createFixture(shape, DENSITY);

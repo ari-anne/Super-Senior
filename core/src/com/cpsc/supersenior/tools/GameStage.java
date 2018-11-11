@@ -29,6 +29,7 @@ public class GameStage extends Stage implements ContactListener {
     OrthographicCamera camera;
 
     Rectangle rightSide;
+    Rectangle leftSide;
     Vector3 touchPoint;
 
     public enum UserDataType {
@@ -55,6 +56,7 @@ public class GameStage extends Stage implements ContactListener {
         // temporary controls to test gravity
         touchPoint = new Vector3();
         rightSide = new Rectangle(getCamera().viewportWidth/2,0,getCamera().viewportWidth/2, getCamera().viewportHeight);
+        leftSide = new Rectangle(0, 0, getCamera().viewportWidth/2, getCamera().viewportHeight);
         Gdx.input.setInputProcessor(this);
     }
 
@@ -85,8 +87,20 @@ public class GameStage extends Stage implements ContactListener {
         if(rightSide.contains(x,y)) {
             runner.jump();
         }
+        else if (leftSide.contains(x,y)) {
+            runner.crouch();
+        }
 
         return super.touchDown(x, y, pointer, button);
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if (runner.isDodging()) {
+            runner.stand();
+        }
+
+        return super.touchUp(screenX, screenY, pointer, button);
     }
 
     @Override

@@ -10,21 +10,22 @@ import com.cpsc.supersenior.tools.GameStage;
 
 public class Runner extends Actor {
 
-    public static final float X = 2;
+    public static final float X = 2f;
     public static final float Y = Ground.Y + Ground.HEIGHT;
-    public static final float WIDTH = 2f;
-    public static final float HEIGHT = 3f;
+    public static final float WIDTH = 0.5f;
+    public static final float HEIGHT = 1f;
     public static final float DENSITY = 0.5f;
     public static final float GRAVITY_SCALE = 2f;
-    public static final float CROUCH_X = 2f;
-    public static final float CROUCH_Y = 1.5f;
+    public static final float CROUCH_X = X;
+    public static final float CROUCH_Y = Ground.HEIGHT + WIDTH;
 
-    public static final Vector2 JUMPING_LINEAR_IMPULSE = new Vector2(0, 40f);
+    public static final Vector2 JUMPING_LINEAR_IMPULSE = new Vector2(0, 10f);
     public static final GameStage.UserDataType TYPE = GameStage.UserDataType.RUNNER;
 
     Body body;
     Vector2 jumpingLinearImpulse;
     boolean jumping;
+    boolean dodging;
 
     public Runner(World world) {
         jumpingLinearImpulse = JUMPING_LINEAR_IMPULSE;
@@ -34,7 +35,7 @@ public class Runner extends Actor {
         bodyDef.position.set(X, Y);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(WIDTH/2, HEIGHT/2);
+        shape.setAsBox(WIDTH, HEIGHT);
 
         body = world.createBody(bodyDef);
         body.createFixture(shape, DENSITY);
@@ -46,7 +47,7 @@ public class Runner extends Actor {
     }
 
     public void jump() {
-        if (!jumping) {
+        if (!jumping && !dodging) {
             body.applyLinearImpulse(jumpingLinearImpulse, body.getWorldCenter(), true);
             jumping = true;
         }
@@ -56,7 +57,28 @@ public class Runner extends Actor {
         jumping = false;
     }
 
+    public void crouch() {
+        if (!jumping) {
+           body.setTransform(new Vector2(CROUCH_X, CROUCH_Y), getDodgeAngle());
+           dodging = true;
+        }
+    }
+
+    public void stand() {
+        dodging = false;
+        body.setTransform(new Vector2(X, Y+HEIGHT), 0f);
+    }
+
+    public float getDodgeAngle() {
+        return (float) (-90f * (Math.PI / 180f));   // radians
+    }
+
     public void setJumpingLinearImpulse(Vector2 jumpingLinearImpulse) {
         this.jumpingLinearImpulse = jumpingLinearImpulse;
     }
+
+    public boolean isDodging() {
+        return dodging;
+    }
+
 }
