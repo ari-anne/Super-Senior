@@ -7,7 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Array;
 import com.cpsc.supersenior.entities.Ground;
+import com.cpsc.supersenior.entities.Obstacle;
 import com.cpsc.supersenior.entities.Runner;
 
 public class GameStage extends Stage implements ContactListener {
@@ -24,6 +26,7 @@ public class GameStage extends Stage implements ContactListener {
     World world;
     Ground ground;
     Runner runner;
+    Obstacle obstacle;
 
     Box2DDebugRenderer renderer;
     OrthographicCamera camera;
@@ -34,7 +37,8 @@ public class GameStage extends Stage implements ContactListener {
 
     public enum UserDataType {
         GROUND,
-        RUNNER
+        RUNNER,
+        OBSTACLE
     }
 
     public GameStage() {
@@ -52,6 +56,8 @@ public class GameStage extends Stage implements ContactListener {
         addActor(ground);
         addActor(runner);
 
+        createObstacle();
+
         // TODO: implement touch input
         // temporary controls to test gravity
         touchPoint = new Vector3();
@@ -60,9 +66,26 @@ public class GameStage extends Stage implements ContactListener {
         Gdx.input.setInputProcessor(this);
     }
 
+    public void createObstacle() {
+        obstacle = new Obstacle(world);
+        addActor(obstacle);
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
+
+        Array<Body> bodies = new Array<Body>(world.getBodyCount());
+        world.getBodies(bodies);
+
+        for (Body body : bodies) {
+            if (!bodyInBounds(body)) {
+                if(body.getUserData() == UserDataType.OBSTACLE && !runner.isHit()) {
+                    createObstacle();
+                }
+                world.destroyBody(body);
+            }
+        }
 
         elapsedTime += delta;
 
@@ -78,7 +101,7 @@ public class GameStage extends Stage implements ContactListener {
         renderer.render(world, camera.combined);
     }
 
-    // TODO: implement touch input
+    // TODO: implement swipe input
     // temporary controls to test gravity
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
@@ -107,10 +130,16 @@ public class GameStage extends Stage implements ContactListener {
     public void beginContact(Contact contact) {
         Body a = contact.getFixtureA().getBody();
         Body b = contact.getFixtureB().getBody();
+        UserDataType typeA = (UserDataType) a.getUserData();
+        UserDataType typeB = (UserDataType) b.getUserData();
 
-        if (a.getUserData() == UserDataType.GROUND && b.getUserData() == UserDataType.RUNNER ||
-                a.getUserData() == UserDataType.RUNNER && b.getUserData() == UserDataType.GROUND ) {
+        if ((typeA == UserDataType.GROUND && typeB == UserDataType.RUNNER) ||
+                (typeA == UserDataType.RUNNER && typeB == UserDataType.GROUND)) {
             runner.landed();
+        }
+        else if ((typeA == UserDataType.RUNNER && typeB == UserDataType.OBSTACLE) ||
+                (typeA == UserDataType.OBSTACLE && typeB == UserDataType.RUNNER)) {
+            runner.hit();
         }
     }
 
@@ -127,5 +156,14 @@ public class GameStage extends Stage implements ContactListener {
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
+    }
+
+    // TODO: accommodate randomized obstacles
+    public static boolean bodyInBounds(Body body) {
+        if(body.getUserData() == UserDataType.RUNNER)
+            return body.getPosition().x + Runner.WIDTH > 0;
+        else if (body.getUserData() == UserDataType.OBSTACLE)
+            return body.getPosition().x + Obstacle.ObstacleType.GROUND_LONG.getWidth() > 0;
+        return true;
     }
 }

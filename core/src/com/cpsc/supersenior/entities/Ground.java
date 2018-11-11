@@ -22,7 +22,7 @@ public class Ground extends Actor {
     public Ground(World world) {
 
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(0, 0);
+        bodyDef.position.set(X, Y);
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(WIDTH, HEIGHT);

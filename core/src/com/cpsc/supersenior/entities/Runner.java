@@ -21,11 +21,13 @@ public class Runner extends Actor {
 
     public static final Vector2 JUMPING_LINEAR_IMPULSE = new Vector2(0, 10f);
     public static final GameStage.UserDataType TYPE = GameStage.UserDataType.RUNNER;
+    public static final float HIT_ANGULAR_IMPULSE = 10f;
 
     Body body;
     Vector2 jumpingLinearImpulse;
     boolean jumping;
     boolean dodging;
+    boolean hit;
 
     public Runner(World world) {
         jumpingLinearImpulse = JUMPING_LINEAR_IMPULSE;
@@ -46,8 +48,12 @@ public class Runner extends Actor {
         shape.dispose();
     }
 
+    public void setJumpingLinearImpulse(Vector2 jumpingLinearImpulse) {
+        this.jumpingLinearImpulse = jumpingLinearImpulse;
+    }
+
     public void jump() {
-        if (!jumping && !dodging) {
+        if (!jumping && !dodging && !hit) {
             body.applyLinearImpulse(jumpingLinearImpulse, body.getWorldCenter(), true);
             jumping = true;
         }
@@ -58,7 +64,7 @@ public class Runner extends Actor {
     }
 
     public void crouch() {
-        if (!jumping) {
+        if (!jumping && !hit) {
            body.setTransform(new Vector2(CROUCH_X, CROUCH_Y), getDodgeAngle());
            dodging = true;
         }
@@ -66,7 +72,9 @@ public class Runner extends Actor {
 
     public void stand() {
         dodging = false;
-        body.setTransform(new Vector2(X, Y+HEIGHT), 0f);
+        if (!hit) {
+            body.setTransform(new Vector2(X, Y + HEIGHT), 0f);
+        }
     }
 
     public float getDodgeAngle() {
@@ -77,4 +85,12 @@ public class Runner extends Actor {
         return dodging;
     }
 
+    public void hit() {
+        body.applyAngularImpulse(HIT_ANGULAR_IMPULSE, true);
+        hit = true;
+    }
+
+    public boolean isHit() {
+        return hit;
+    }
 }
