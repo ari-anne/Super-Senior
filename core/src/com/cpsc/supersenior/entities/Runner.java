@@ -73,10 +73,6 @@ public class Runner extends Actor {
         return (float) (-90f * (Math.PI / 180f));   // radians
     }
 
-    public void setJumpingLinearImpulse(Vector2 jumpingLinearImpulse) {
-        this.jumpingLinearImpulse = jumpingLinearImpulse;
-    }
-
     public boolean isDodging() {
         return dodging;
     }
