@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
@@ -31,10 +32,11 @@ public class GameStage extends Stage implements ContactListener {
 
     float linearVelocityX;
 
+    Vector3 touchPoint;
     Rectangle rightSide;
     Rectangle leftSide;
 
-    public enum UserDataType {
+    public enum ActorType {
         GROUND,
         RUNNER,
         OBSTACLE,
@@ -50,17 +52,18 @@ public class GameStage extends Stage implements ContactListener {
         camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0f);
         camera.update();
 
-        linearVelocityX = 3f;
+        linearVelocityX = 4f;
 
 //        addActor(new Background());
         makeGround();
         makeRunner();
-//        makeObstacle();
+        makeObstacle();
         makeCoin();
 
         // TODO: implement swipe input
         // temporary controls to test gravity
         // divide screen in half, tapping right side jumps, tapping left side crouches
+        touchPoint = new Vector3();
         rightSide = new Rectangle(getCamera().viewportWidth/2,0,getCamera().viewportWidth/2, getCamera().viewportHeight);
         leftSide = new Rectangle(0, 0, getCamera().viewportWidth/2, getCamera().viewportHeight);
         Gdx.input.setInputProcessor(this);
@@ -68,13 +71,13 @@ public class GameStage extends Stage implements ContactListener {
 
     public void makeGround() {
         ground = new Ground(world);
-        ground.setLinearVelocity(new Vector2(-linearVelocityX, 0));
+//        ground.setLinearVelocity(new Vector2(-linearVelocityX, 0));
         addActor(ground);
     }
 
     public void makeRunner() {
         runner = new Runner(world);
-        runner.setLinearVelocity(new Vector2(linearVelocityX, 0));
+//        runner.setLinearVelocity(new Vector2(0, 0));
         addActor(runner);
     }
 
@@ -99,7 +102,7 @@ public class GameStage extends Stage implements ContactListener {
 
         for (Body body : bodies) {
             if (!bodyInBounds(body)) {
-                if(body.getUserData() == UserDataType.OBSTACLE && !runner.isHit()) {
+                if(body.getUserData() == ActorType.OBSTACLE && !runner.isHit()) {
                     makeObstacle();
                 }
                 world.destroyBody(body);
@@ -124,12 +127,14 @@ public class GameStage extends Stage implements ContactListener {
     // temporary controls to test gravity
     @Override
     public boolean touchDown(int x, int y, int pointer, int button) {
+        getCamera().unproject(touchPoint.set(x, y, 0));
+
         // if right side of screen is touched, jump
         // else if left side of screen is touched, crouch
-        if(rightSide.contains(x,y)) {
+        if(rightSide.contains(touchPoint.x, touchPoint.y)) {
             runner.jump();
         }
-        else if (leftSide.contains(x,y)) {
+        else if (leftSide.contains(touchPoint.x, touchPoint.y)) {
             runner.crouch();
         }
 
@@ -138,7 +143,7 @@ public class GameStage extends Stage implements ContactListener {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (runner.isDodging()) {
+        if (runner.isCrouching()) {
             runner.stand();
         }
 
@@ -149,16 +154,22 @@ public class GameStage extends Stage implements ContactListener {
     public void beginContact(Contact contact) {
         Body a = contact.getFixtureA().getBody();
         Body b = contact.getFixtureB().getBody();
-        UserDataType typeA = (UserDataType) a.getUserData();
-        UserDataType typeB = (UserDataType) b.getUserData();
+        ActorType typeA = (ActorType) a.getUserData();
+        ActorType typeB = (ActorType) b.getUserData();
 
-        if ((typeA == UserDataType.GROUND && typeB == UserDataType.RUNNER) ||
-                (typeA == UserDataType.RUNNER && typeB == UserDataType.GROUND)) {
+        if ((typeA == ActorType.GROUND && typeB == ActorType.RUNNER) ||
+                (typeA == ActorType.RUNNER && typeB == ActorType.GROUND)) {
             runner.landed();
         }
-        else if ((typeA == UserDataType.RUNNER && typeB == UserDataType.OBSTACLE) ||
-                (typeA == UserDataType.OBSTACLE && typeB == UserDataType.RUNNER)) {
+        else if ((typeA == ActorType.RUNNER && typeB == ActorType.OBSTACLE) ||
+                (typeA == ActorType.OBSTACLE && typeB == ActorType.RUNNER)) {
             runner.hit();
+        }
+        else if (typeA == ActorType.COIN && typeB == ActorType.RUNNER) {
+            world.destroyBody(a);
+        }
+        else if (typeA == ActorType.RUNNER && typeB == ActorType.COIN) {
+            world.destroyBody(b);
         }
     }
 
@@ -179,11 +190,11 @@ public class GameStage extends Stage implements ContactListener {
 
     // TODO: accommodate randomized obstacles
     public static boolean bodyInBounds(Body body) {
-        if(body.getUserData() == UserDataType.RUNNER) {
+        if(body.getUserData() == ActorType.RUNNER) {
             return body.getPosition().x + Runner.WIDTH > 0;
         }
-        else if (body.getUserData() == UserDataType.OBSTACLE) {
-            return body.getPosition().x + Obstacle.ObstacleType.GROUND_LONG.getWidth() > 0;
+        else if (body.getUserData() == ActorType.OBSTACLE) {
+            return body.getPosition().x + Obstacle.ObstacleType.SAW.getWidth() > 0;
         }
         return true;
     }

@@ -11,9 +11,12 @@ import com.cpsc.supersenior.tools.GameStage;
 public class Obstacle extends Actor {
 
     public static final float X = 25f;
+    public static final float Y = Ground.Y + Ground.HEIGHT + 2f;
+    public static final float WIDTH = 0.5f;
+    public static final float HEIGHT = 0.5f;
     public static final float DENSITY = Runner.DENSITY;
 
-    public static final GameStage.UserDataType TYPE = GameStage.UserDataType.OBSTACLE;
+    public static final GameStage.ActorType TYPE = GameStage.ActorType.OBSTACLE;
 
     Body body;
     Vector2 linearVelocity;
@@ -21,8 +24,7 @@ public class Obstacle extends Actor {
     // TODO: find art assets for obstacle types
     // obstacle types are temporary and can be changed later
     public enum ObstacleType {
-        GROUND_SMALL(X, 0, 1f, Ground.HEIGHT, 0),
-        GROUND_LONG(X, 0, 2f, Ground.HEIGHT, 0);
+        SAW (X, Y, WIDTH, HEIGHT, DENSITY);
 
         float x;
         float y;
@@ -60,8 +62,9 @@ public class Obstacle extends Actor {
     }
 
     public Obstacle(World world) {
+
         // TODO: randomize obstacle type
-        ObstacleType obstacleType = ObstacleType.GROUND_LONG;
+        ObstacleType obstacleType = ObstacleType.SAW;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(obstacleType.x, obstacleType.y);

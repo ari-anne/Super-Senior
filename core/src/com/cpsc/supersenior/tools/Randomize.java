@@ -1,6 +1,6 @@
 package com.cpsc.supersenior.tools;
 
-public class RandomNumber {
+public class Randomize {
 
     // TODO: random obstacle enum
 
