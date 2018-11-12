@@ -13,7 +13,6 @@ public class Obstacle extends Actor {
     public static final float X = 25f;
     public static final float DENSITY = Runner.DENSITY;
 
-    public static final Vector2 LINEAR_VELOCITY = new Vector2(-10f, 0);
     public static final GameStage.UserDataType TYPE = GameStage.UserDataType.OBSTACLE;
 
     Body body;
@@ -60,10 +59,7 @@ public class Obstacle extends Actor {
         }
     }
 
-
     public Obstacle(World world) {
-        linearVelocity = LINEAR_VELOCITY;
-
         // TODO: randomize obstacle type
         ObstacleType obstacleType = ObstacleType.GROUND_LONG;
         BodyDef bodyDef = new BodyDef();

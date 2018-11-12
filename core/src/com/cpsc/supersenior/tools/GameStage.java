@@ -7,10 +7,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
-import com.cpsc.supersenior.entities.Background;
-import com.cpsc.supersenior.entities.Ground;
-import com.cpsc.supersenior.entities.Obstacle;
-import com.cpsc.supersenior.entities.Runner;
+import com.cpsc.supersenior.entities.*;
 
 public class GameStage extends Stage implements ContactListener {
 
@@ -27,9 +24,12 @@ public class GameStage extends Stage implements ContactListener {
     Ground ground;
     Runner runner;
     Obstacle obstacle;
+    Coin coin;
 
     Box2DDebugRenderer renderer;
     OrthographicCamera camera;
+
+    float linearVelocityX;
 
     Rectangle rightSide;
     Rectangle leftSide;
@@ -43,21 +43,20 @@ public class GameStage extends Stage implements ContactListener {
 
     public GameStage() {
         world = new World(GRAVITY, true);
-        ground = new Ground(world);
-        runner = new Runner(world);
-        obstacle = new Obstacle(world);
         renderer = new Box2DDebugRenderer();
-
         world.setContactListener(this);
 
         camera = new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0f);
         camera.update();
 
-        addActor(new Background());
-        addActor(ground);
-        addActor(runner);
-        addActor(obstacle);
+        linearVelocityX = 3f;
+
+//        addActor(new Background());
+        makeGround();
+        makeRunner();
+//        makeObstacle();
+        makeCoin();
 
         // TODO: implement swipe input
         // temporary controls to test gravity
@@ -67,9 +66,28 @@ public class GameStage extends Stage implements ContactListener {
         Gdx.input.setInputProcessor(this);
     }
 
+    public void makeGround() {
+        ground = new Ground(world);
+        ground.setLinearVelocity(new Vector2(-linearVelocityX, 0));
+        addActor(ground);
+    }
+
+    public void makeRunner() {
+        runner = new Runner(world);
+        runner.setLinearVelocity(new Vector2(linearVelocityX, 0));
+        addActor(runner);
+    }
+
     public void makeObstacle() {
         obstacle = new Obstacle(world);
+        obstacle.setLinearVelocity(new Vector2(-linearVelocityX, 0));
         addActor(obstacle);
+    }
+
+    public void makeCoin() {
+        coin = new Coin(world);
+        coin.setLinearVelocity(new Vector2(-linearVelocityX, 0));
+        addActor(coin);
     }
 
     @Override
