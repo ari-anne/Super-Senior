@@ -37,7 +37,8 @@ public class GameStage extends Stage implements ContactListener {
     public enum UserDataType {
         GROUND,
         RUNNER,
-        OBSTACLE
+        OBSTACLE,
+        COIN
     }
 
     public GameStage() {

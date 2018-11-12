@@ -4,11 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.cpsc.supersenior.screens.GameScreen;
+import com.cpsc.supersenior.entities.Background;
 import com.cpsc.supersenior.screens.GameScreenTest;
-import com.cpsc.supersenior.screens.HighScores;
-import com.cpsc.supersenior.screens.MainMenu;
-import com.cpsc.supersenior.tools.ScrollingBackground;
 
 public class SuperSenior extends Game {
 
@@ -16,7 +13,7 @@ public class SuperSenior extends Game {
     public static final int HEIGHT = 600;
 
 	public SpriteBatch batch;
-	public ScrollingBackground scrollingBackground;
+	public static Background background;
 
 	public static OrthographicCamera cam;
 	private StretchViewport viewport;
@@ -31,7 +28,7 @@ public class SuperSenior extends Game {
 		cam.position.set(WIDTH/2, HEIGHT/2, 0);
 		cam.update();
 
-		this.scrollingBackground = new ScrollingBackground();
+		background = new Background();
 		this.setScreen(new GameScreenTest(this));
 	}
 

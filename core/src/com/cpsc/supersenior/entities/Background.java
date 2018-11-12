@@ -4,10 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.cpsc.supersenior.SuperSenior;
 
 public class Background extends Actor {
 
-    // TODO: replace use of ScrollingBackground in screens
     // Scrolling Background https://www.youtube.com/watch?v=UyNm3n1WNAA&list=PLrnO5Pu2zAHKAIjRtTLAXtZKMSA6JWnmf&index=15
 
     private static final float DEFAULT_SPEED = 80;
@@ -68,5 +68,4 @@ public class Background extends Actor {
         batch.draw(image, x1, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         batch.draw(image, x2, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
-
 }

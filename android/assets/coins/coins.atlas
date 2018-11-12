@@ -1,0 +1,41 @@
+
+coins.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+coin_asset
+  rotate: false
+  xy: 650, 327
+  size: 136, 126
+  orig: 136, 126
+  offset: 0, 0
+  index: -1
+gem
+  rotate: false
+  xy: 2, 197
+  size: 193, 256
+  orig: 193, 256
+  offset: 0, 0
+  index: 3
+gem
+  rotate: false
+  xy: 197, 197
+  size: 193, 256
+  orig: 193, 256
+  offset: 0, 0
+  index: 6
+gem
+  rotate: false
+  xy: 2, 2
+  size: 256, 193
+  orig: 256, 193
+  offset: 0, 0
+  index: 9
+gem
+  rotate: false
+  xy: 392, 260
+  size: 256, 193
+  orig: 256, 193
+  offset: 0, 0
+  index: 12

@@ -1,0 +1,33 @@
+
+obstacles.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Saw
+  rotate: false
+  xy: 2, 2
+  size: 960, 920
+  orig: 960, 920
+  offset: 0, 0
+  index: -1
+
+obstacles2.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Spike_Small
+  rotate: false
+  xy: 2, 2
+  size: 380, 500
+  orig: 380, 500
+  offset: 0, 0
+  index: -1
+Spike_Tall
+  rotate: false
+  xy: 384, 2
+  size: 380, 500
+  orig: 380, 500
+  offset: 0, 0
+  index: -1

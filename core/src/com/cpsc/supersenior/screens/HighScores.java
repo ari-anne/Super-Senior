@@ -65,6 +65,7 @@ public class HighScores implements Screen {
             }
         });
 
+        stage.addActor(SuperSenior.background);
         stage.addActor(table);
         stage.addActor(back);
         stage.addActor(high_scores);
@@ -86,8 +87,6 @@ public class HighScores implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.scrollingBackground.update(delta);
-        game.scrollingBackground.render(game.batch);
         game.batch.end();
 
         stage.act();

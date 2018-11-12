@@ -38,9 +38,9 @@ public class GameScreen implements Screen {
     int score;
 
     public enum GameState{
-        Running,
-        Pause,
-        Resume
+        RUNNING,
+        PAUSE,
+        RESUME
     }
 
     GameState state;
@@ -63,9 +63,11 @@ public class GameScreen implements Screen {
         main_menu = new Button(skin, "home");
         restart = new Button(skin, "restart");
         overlay = new Texture("overlay.png");
-        character = new TextureAtlas("character/run/run.atlas");
+        character = new TextureAtlas("runner/run/run.atlas");
         animation = new Animation<TextureRegion>(1f/5f, character.getRegions());
-        state = GameState.Running;
+        state = GameState.RUNNING;
+
+        SuperSenior.background.setFixedSpeed(false);
 
         middleX = Gdx.graphics.getWidth()/2;
         middleY = Gdx.graphics.getHeight()/2;
@@ -74,31 +76,30 @@ public class GameScreen implements Screen {
         padding = 50;
         score = 0;
 
-        game.scrollingBackground.setFixedSpeed(false);
-
         pause.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                state = GameState.Pause;
+                state = GameState.PAUSE;
             }
         });
         resume.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                state = GameState.Resume;
+                state = GameState.RESUME;
             }
         });
         main_menu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.scrollingBackground.resetSpeed();
+                SuperSenior.background.resetSpeed();
+                SuperSenior.background.setFixedSpeed(true);
                 game.setScreen(new MainMenu(game));
             }
         });
         restart.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.scrollingBackground.reset();
+                SuperSenior.background.reset();
                 game.setScreen(new GameScreen(game));
             }
         });
@@ -110,6 +111,7 @@ public class GameScreen implements Screen {
         main_menu.setBounds(middleX - btnWidth/2, middleY - pauseTxt.getHeight()/2 - btnHeight * 2, btnWidth, btnHeight);
         restart.setBounds(middleX + btnWidth * 2,middleY - pauseTxt.getHeight()/2 - btnHeight * 2, btnWidth, btnHeight);
 
+        stage.addActor(SuperSenior.background);
         stage.addActor(scoreTxt);
         stage.addActor(pause);
     }
@@ -122,22 +124,21 @@ public class GameScreen implements Screen {
         game.batch.begin();
 
         switch(state){
-            case Running:
+            case RUNNING:
                 running(delta);
                 TextureRegion currentFrame = animation.getKeyFrame(elapseTime, true);
                 game.batch.draw(currentFrame,50,50, 512, 512);
                 break;
-            case Pause:
+            case PAUSE:
                 pause();
                 break;
-            case Resume:
+            case RESUME:
                 resume();
                 break;
         }
 
         game.batch.end();
 
-        stage.act();
         stage.draw();
     }
 
@@ -147,20 +148,17 @@ public class GameScreen implements Screen {
     }
 
     public void running(float delta) {
-        game.scrollingBackground.update(delta);
-        game.scrollingBackground.render(game.batch);
+        stage.act(delta);
 
         // update score
         // if (collide with coin)
             // score++;
             // scoreTxt.setText(Integer.toString(score));
 
-
     }
 
     @Override
     public void pause() {
-        game.scrollingBackground.render(game.batch);
         game.batch.draw(overlay, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         pause.remove();
@@ -180,7 +178,7 @@ public class GameScreen implements Screen {
 
         stage.addActor(pause);
 
-        state = GameState.Running;
+        state = GameState.RUNNING;
     }
 
     @Override

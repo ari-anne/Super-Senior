@@ -46,8 +46,6 @@ public class MainMenu implements Screen{
         high_scores = new Button(skin, "leaderboard");
         settings = new Button(skin, "settings");
 
-        game.scrollingBackground.setFixedSpeed(true);
-
         play.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -67,6 +65,7 @@ public class MainMenu implements Screen{
             }
         });
 
+        stage.addActor(SuperSenior.background);
         stage.addActor(table);
         stage.addActor(title);
         stage.addActor(play);
@@ -89,11 +88,9 @@ public class MainMenu implements Screen{
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.batch.begin();
-        game.scrollingBackground.update(delta);
-        game.scrollingBackground.render(game.batch);
         game.batch.end();
 
-        stage.act();
+        stage.act(delta);
         stage.draw();
     }
 
