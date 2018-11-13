@@ -6,20 +6,21 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.cpsc.supersenior.entitydata.ActorSubtype;
+import com.cpsc.supersenior.entitydata.RunnerUserData;
 import com.cpsc.supersenior.tools.GameStage;
 
 public class Runner extends Actor {
 
     public static final float X = 2f;
-    public static final float Y = Ground.Y + Ground.HEIGHT;
+    public static final float Y = ActorSubtype.ABOVE_GROUND;
     public static final float WIDTH = 0.5f;
     public static final float HEIGHT = 1f;
     public static final float DENSITY = 0.5f;
     public static final float GRAVITY_SCALE = 2f;
     public static final float CROUCH_X = X;
-    public static final float CROUCH_Y = Ground.HEIGHT + WIDTH;
+    public static final float CROUCH_Y = ActorSubtype.GROUND_HEIGHT + WIDTH;
 
-    public static final GameStage.ActorType TYPE = GameStage.ActorType.RUNNER;
     public static final Vector2 JUMPING_LINEAR_IMPULSE = new Vector2(0, 10f);
     public static final float HIT_ANGULAR_IMPULSE = 3f;
 
@@ -38,7 +39,7 @@ public class Runner extends Actor {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         bodyDef.position.set(X, Y);
         body = world.createBody(bodyDef);
-        body.setUserData(TYPE);
+        body.setUserData(new RunnerUserData(WIDTH, HEIGHT));
 
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(WIDTH, HEIGHT);

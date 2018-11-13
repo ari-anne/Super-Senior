@@ -6,75 +6,29 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.cpsc.supersenior.tools.GameStage;
+import com.cpsc.supersenior.entitydata.ActorSubtype;
+import com.cpsc.supersenior.tools.Randomize;
+import com.cpsc.supersenior.entitydata.ObstacleUserData;
 
 public class Obstacle extends Actor {
 
-    public static final float X = 25f;
-    public static final float Y = Ground.Y + Ground.HEIGHT + 2f;
-    public static final float WIDTH = 0.5f;
-    public static final float HEIGHT = 0.5f;
-    public static final float DENSITY = Runner.DENSITY;
-
-    public static final GameStage.ActorType TYPE = GameStage.ActorType.OBSTACLE;
+    public static final ActorSubtype.ObstacleType OBSTACLE_TYPE = Randomize.obstacleType();
 
     Body body;
     Vector2 linearVelocity;
 
-    // TODO: find art assets for obstacle types
-    // obstacle types are temporary and can be changed later
-    public enum ObstacleType {
-        SAW (X, Y, WIDTH, HEIGHT, DENSITY);
-
-        float x;
-        float y;
-        float width;
-        float height;
-        float density;
-
-        ObstacleType (float x, float y, float width, float height, float density) {
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
-            this.density = density;
-        }
-
-        public float getX() {
-            return x;
-        }
-
-        public float getY() {
-            return y;
-        }
-
-        public float getWidth() {
-            return width;
-        }
-
-        public float getHeight() {
-            return height;
-        }
-
-        public float getDensity() {
-            return density;
-        }
-    }
-
     public Obstacle(World world) {
 
-        // TODO: randomize obstacle type
-        ObstacleType obstacleType = ObstacleType.SAW;
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(obstacleType.x, obstacleType.y);
+        bodyDef.position.set(OBSTACLE_TYPE.x, OBSTACLE_TYPE.y);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(obstacleType.getWidth(), obstacleType.height);
+        shape.setAsBox(OBSTACLE_TYPE.width, OBSTACLE_TYPE.height);
 
         body = world.createBody(bodyDef);
-        body.createFixture(shape, obstacleType.density);
-        body.setUserData(TYPE);
+        body.createFixture(shape, OBSTACLE_TYPE.density);
+        body.setUserData(new ObstacleUserData(OBSTACLE_TYPE, OBSTACLE_TYPE.width, OBSTACLE_TYPE.height));
 
         body.resetMassData();
         shape.dispose();

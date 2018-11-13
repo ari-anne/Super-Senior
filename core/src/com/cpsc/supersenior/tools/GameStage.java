@@ -9,10 +9,11 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.cpsc.supersenior.entities.*;
+import com.cpsc.supersenior.entitydata.UserData;
 
 public class GameStage extends Stage implements ContactListener {
 
-    // following this tutorial: http://williammora.com/a-running-game-with-libgdx-part-1
+    // following a tutorial http://williammora.com/a-running-game-with-libgdx-part-1
 
     private static final int VIEWPORT_WIDTH = 20;
     private static final int VIEWPORT_HEIGHT = 13;
@@ -31,6 +32,7 @@ public class GameStage extends Stage implements ContactListener {
     OrthographicCamera camera;
 
     float linearVelocityX;
+    boolean initialRun;     // for creating initial grass ground
 
     Vector3 touchPoint;
     Rectangle rightSide;
@@ -69,6 +71,12 @@ public class GameStage extends Stage implements ContactListener {
         Gdx.input.setInputProcessor(this);
     }
 
+    public void makeGround(boolean initialRun) {
+        ground = new Ground(world);
+//        ground.setLinearVelocity(new Vector2(-linearVelocityX, 0));
+        addActor(ground);
+    }
+
     public void makeGround() {
         ground = new Ground(world);
 //        ground.setLinearVelocity(new Vector2(-linearVelocityX, 0));
@@ -77,7 +85,6 @@ public class GameStage extends Stage implements ContactListener {
 
     public void makeRunner() {
         runner = new Runner(world);
-//        runner.setLinearVelocity(new Vector2(0, 0));
         addActor(runner);
     }
 
@@ -96,13 +103,15 @@ public class GameStage extends Stage implements ContactListener {
     @Override
     public void act(float delta) {
         super.act(delta);
+        UserData userData;
 
         Array<Body> bodies = new Array<Body>(world.getBodyCount());
         world.getBodies(bodies);
 
         for (Body body : bodies) {
             if (!bodyInBounds(body)) {
-                if(body.getUserData() == ActorType.OBSTACLE && !runner.isHit()) {
+                userData = (UserData) body.getUserData();
+                if(userData.getActorType() == ActorType.OBSTACLE && !runner.isHit()) {
                     makeObstacle();
                 }
                 world.destroyBody(body);
@@ -154,21 +163,21 @@ public class GameStage extends Stage implements ContactListener {
     public void beginContact(Contact contact) {
         Body a = contact.getFixtureA().getBody();
         Body b = contact.getFixtureB().getBody();
-        ActorType typeA = (ActorType) a.getUserData();
-        ActorType typeB = (ActorType) b.getUserData();
+        UserData userDataA = (UserData) a.getUserData();
+        UserData userDataB = (UserData) b.getUserData();
 
-        if ((typeA == ActorType.GROUND && typeB == ActorType.RUNNER) ||
-                (typeA == ActorType.RUNNER && typeB == ActorType.GROUND)) {
+        if ((userDataA.getActorType() == ActorType.GROUND && userDataB.getActorType() == ActorType.RUNNER) ||
+                (userDataA.getActorType() == ActorType.RUNNER && userDataB.getActorType() == ActorType.GROUND)) {
             runner.landed();
         }
-        else if ((typeA == ActorType.RUNNER && typeB == ActorType.OBSTACLE) ||
-                (typeA == ActorType.OBSTACLE && typeB == ActorType.RUNNER)) {
+        else if ((userDataA.getActorType() == ActorType.RUNNER && userDataB.getActorType() == ActorType.OBSTACLE) ||
+                (userDataA.getActorType() == ActorType.OBSTACLE && userDataB.getActorType() == ActorType.RUNNER)) {
             runner.hit();
         }
-        else if (typeA == ActorType.COIN && typeB == ActorType.RUNNER) {
+        else if (userDataA.getActorType() == ActorType.COIN && userDataB.getActorType() == ActorType.RUNNER) {
             world.destroyBody(a);
         }
-        else if (typeA == ActorType.RUNNER && typeB == ActorType.COIN) {
+        else if (userDataA.getActorType() == ActorType.RUNNER && userDataB.getActorType() == ActorType.COIN) {
             world.destroyBody(b);
         }
     }
@@ -188,14 +197,13 @@ public class GameStage extends Stage implements ContactListener {
 
     }
 
-    // TODO: accommodate randomized obstacles
     public static boolean bodyInBounds(Body body) {
-        if(body.getUserData() == ActorType.RUNNER) {
-            return body.getPosition().x + Runner.WIDTH > 0;
+        UserData userData = (UserData) body.getUserData();
+
+        if (userData.getActorType() == ActorType.RUNNER || userData.getActorType() == ActorType.OBSTACLE) {
+            return body.getPosition().x + userData.getWidth() > 0;
         }
-        else if (body.getUserData() == ActorType.OBSTACLE) {
-            return body.getPosition().x + Obstacle.ObstacleType.SAW.getWidth() > 0;
-        }
+
         return true;
     }
 }

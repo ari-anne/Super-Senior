@@ -3,17 +3,15 @@ package com.cpsc.supersenior.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.cpsc.supersenior.tools.GameStage;
+import com.cpsc.supersenior.tools.Randomize;
+import com.cpsc.supersenior.entitydata.ActorSubtype;
+import com.cpsc.supersenior.entitydata.CoinUserData;
 
 public class Coin extends Actor {
 
-    public static final float X = 25f;
-    public static final float Y = Ground.Y + Ground.HEIGHT + 1f;
-    public static final float WIDTH = 0.3f;
-    public static final float HEIGHT = 0.3f;
-    public static final float DENSITY = 0f;
+    // fixtures http://box2d.org/manual.pdf
 
-    public static final GameStage.ActorType TYPE = GameStage.ActorType.COIN;
+    public static final ActorSubtype.CoinType COIN_TYPE = Randomize.coinType();
 
     Body body;
     Vector2 linearVelocity;
@@ -22,17 +20,17 @@ public class Coin extends Actor {
         // create body
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(X, Y);
+        bodyDef.position.set(COIN_TYPE.x, COIN_TYPE.y);
         body = world.createBody(bodyDef);
-        body.setUserData(TYPE);
+        body.setUserData(new CoinUserData(COIN_TYPE, COIN_TYPE.width, COIN_TYPE.height));
 
         // define shape
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(WIDTH, HEIGHT);
+        shape.setAsBox(COIN_TYPE.width, COIN_TYPE.height);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = DENSITY;
+        fixtureDef.density = COIN_TYPE.density;
         fixtureDef.isSensor = true;     // detects collision, but has no response
         body.createFixture(fixtureDef);
 
