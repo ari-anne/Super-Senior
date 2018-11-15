@@ -8,8 +8,10 @@ import java.util.Random;
 public class Randomize {
 
     private static Random random = new Random();    // random number generator
-    private static int max;
-    private static int min;
+    private static float maxFloat;
+    private static float minFloat;
+    private static int maxInt;
+    private static int minInt;
 
     public static ActorSubtype.ObstacleType obstacleType() {
         ActorSubtype.ObstacleType[] type = ActorSubtype.ObstacleType.values();
@@ -26,25 +28,32 @@ public class Randomize {
         return type[random.nextInt(type.length)];
     }
 
+    public static float obstacleSpawnTime() {
+        // range: 1 - 3 seconds
+        maxFloat = 3f;
+        minFloat = 1f;
+        return random.nextFloat() * (maxFloat - minFloat) + minFloat;
+    }
+
     public static float groundWidth() {
         // range: 20 - 150
-        max = 150;
-        min = 20;
-        return random.nextInt((max - min) + 1) + min;
+        maxFloat = 150f;
+        minFloat = 20f;
+        return random.nextFloat() * (maxFloat - minFloat) + minFloat;
     }
 
     public int numberOfSpikes() {
         // range: 1 - 4
-        max = 4;
-        min = 1;
-        return random.nextInt((max - min) + 1) + min;
+        maxInt = 4;
+        minInt = 1;
+        return random.nextInt((maxInt - minInt) + 1) + minInt;
     }
 
     public int numberOFCoins() {
         // range: 3 - 5
-        max = 5;
-        min = 3;
-        return random.nextInt((max - min) + 1) + min;
+        maxInt = 5;
+        minInt = 3;
+        return random.nextInt((maxInt - minInt) + 1) + minInt;
     }
 
 }

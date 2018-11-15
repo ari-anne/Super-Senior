@@ -12,23 +12,23 @@ import com.cpsc.supersenior.entitydata.ObstacleUserData;
 
 public class Obstacle extends Actor {
 
-    public static final ActorSubtype.ObstacleType OBSTACLE_TYPE = Randomize.obstacleType();
-
+    ActorSubtype.ObstacleType obstacleType;
     Body body;
     Vector2 linearVelocity;
 
     public Obstacle(World world) {
+        obstacleType = Randomize.obstacleType();
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(OBSTACLE_TYPE.x, OBSTACLE_TYPE.y);
+        bodyDef.position.set(obstacleType.x, obstacleType.y);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(OBSTACLE_TYPE.width, OBSTACLE_TYPE.height);
+        shape.setAsBox(obstacleType.width, obstacleType.height);
 
         body = world.createBody(bodyDef);
-        body.createFixture(shape, OBSTACLE_TYPE.density);
-        body.setUserData(new ObstacleUserData(OBSTACLE_TYPE, OBSTACLE_TYPE.width, OBSTACLE_TYPE.height));
+        body.createFixture(shape, obstacleType.density);
+        body.setUserData(new ObstacleUserData(obstacleType, obstacleType.width, obstacleType.height));
 
         body.resetMassData();
         shape.dispose();

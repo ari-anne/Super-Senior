@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.cpsc.supersenior.SuperSenior;
 
 public class Background extends Actor {
 
@@ -16,10 +15,10 @@ public class Background extends Actor {
     private static final float SCREEN_WIDTH = Gdx.graphics.getWidth( );
     private static final float SCREEN_HEIGHT = Gdx.graphics.getHeight();
 
-    Texture image;
-    float x1, x2;
-    float speed;
-    boolean fixedSpeed;
+    private Texture image;
+    private float x1, x2;
+    private float speed;
+    private boolean fixedSpeed;
 
     public Background() {
         image = new Texture("game_background_1.png");

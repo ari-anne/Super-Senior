@@ -11,26 +11,27 @@ public class Coin extends Actor {
 
     // fixtures http://box2d.org/manual.pdf
 
-    public static final ActorSubtype.CoinType COIN_TYPE = Randomize.coinType();
-
+    ActorSubtype.CoinType coinType;
     Body body;
     Vector2 linearVelocity;
 
     public Coin(World world) {
+        coinType = Randomize.coinType();
+
         // create body
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(COIN_TYPE.x, COIN_TYPE.y);
+        bodyDef.position.set(coinType.x, coinType.y);
         body = world.createBody(bodyDef);
-        body.setUserData(new CoinUserData(COIN_TYPE, COIN_TYPE.width, COIN_TYPE.height));
+        body.setUserData(new CoinUserData(coinType, coinType.width, coinType.height));
 
         // define shape
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(COIN_TYPE.width, COIN_TYPE.height);
+        shape.setAsBox(coinType.width, coinType.height);
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
-        fixtureDef.density = COIN_TYPE.density;
+        fixtureDef.density = coinType.density;
         fixtureDef.isSensor = true;     // detects collision, but has no response
         body.createFixture(fixtureDef);
 

@@ -18,6 +18,7 @@ public class GameStage extends Stage implements ContactListener {
     private static final int VIEWPORT_WIDTH = 20;
     private static final int VIEWPORT_HEIGHT = 13;
     public static final Vector2 GRAVITY = new Vector2(0,-10);
+    public static final float VELOCITY_TIMER = 20f;
 
     private float elapsedTime = 0f;
     private final float TIME_STEP = 1/300f;
@@ -32,7 +33,8 @@ public class GameStage extends Stage implements ContactListener {
     OrthographicCamera camera;
 
     float linearVelocityX;
-    boolean initialRun;     // for creating initial grass ground
+    float velocityTimer;
+    float obstacleTimer;
 
     Vector3 touchPoint;
     Rectangle rightSide;
@@ -55,8 +57,10 @@ public class GameStage extends Stage implements ContactListener {
         camera.update();
 
         linearVelocityX = 4f;
+        velocityTimer = VELOCITY_TIMER;
+        obstacleTimer = Randomize.obstacleSpawnTime();
 
-//        addActor(new Background());
+        addActor(new Background());
         makeGround();
         makeRunner();
         makeObstacle();
@@ -69,12 +73,6 @@ public class GameStage extends Stage implements ContactListener {
         rightSide = new Rectangle(getCamera().viewportWidth/2,0,getCamera().viewportWidth/2, getCamera().viewportHeight);
         leftSide = new Rectangle(0, 0, getCamera().viewportWidth/2, getCamera().viewportHeight);
         Gdx.input.setInputProcessor(this);
-    }
-
-    public void makeGround(boolean initialRun) {
-        ground = new Ground(world);
-//        ground.setLinearVelocity(new Vector2(-linearVelocityX, 0));
-        addActor(ground);
     }
 
     public void makeGround() {
@@ -103,21 +101,28 @@ public class GameStage extends Stage implements ContactListener {
     @Override
     public void act(float delta) {
         super.act(delta);
-        UserData userData;
 
         Array<Body> bodies = new Array<Body>(world.getBodyCount());
         world.getBodies(bodies);
 
         for (Body body : bodies) {
-            if (!bodyInBounds(body)) {
-                userData = (UserData) body.getUserData();
-                if(userData.getActorType() == ActorType.OBSTACLE && !runner.isHit()) {
-                    makeObstacle();
-                }
+            if (!onScreen(body)) {
                 world.destroyBody(body);
             }
         }
 
+        if (obstacleTimer <= 0) {
+            obstacleTimer = Randomize.obstacleSpawnTime();
+            makeObstacle();
+        }
+
+        if (velocityTimer <= 0) {
+            linearVelocityX += 0.5f;
+            velocityTimer = VELOCITY_TIMER;
+        }
+
+        velocityTimer -= delta;
+        obstacleTimer -= delta;
         elapsedTime += delta;
 
         while (elapsedTime >= delta) {
@@ -163,21 +168,21 @@ public class GameStage extends Stage implements ContactListener {
     public void beginContact(Contact contact) {
         Body a = contact.getFixtureA().getBody();
         Body b = contact.getFixtureB().getBody();
-        UserData userDataA = (UserData) a.getUserData();
-        UserData userDataB = (UserData) b.getUserData();
 
-        if ((userDataA.getActorType() == ActorType.GROUND && userDataB.getActorType() == ActorType.RUNNER) ||
-                (userDataA.getActorType() == ActorType.RUNNER && userDataB.getActorType() == ActorType.GROUND)) {
+        if ((CheckBodyType.isGround(a) && CheckBodyType.isRunner(b)) ||
+                (CheckBodyType.isRunner(a) && CheckBodyType.isGround(b))) {
             runner.landed();
         }
-        else if ((userDataA.getActorType() == ActorType.RUNNER && userDataB.getActorType() == ActorType.OBSTACLE) ||
-                (userDataA.getActorType() == ActorType.OBSTACLE && userDataB.getActorType() == ActorType.RUNNER)) {
+        else if ((CheckBodyType.isObstacle(a) && CheckBodyType.isRunner(b)) ||
+                (CheckBodyType.isRunner(a) && CheckBodyType.isObstacle(b))) {
             runner.hit();
         }
-        else if (userDataA.getActorType() == ActorType.COIN && userDataB.getActorType() == ActorType.RUNNER) {
+        else if (CheckBodyType.isCoin(a)&& CheckBodyType.isRunner(b)) {
+            Score.addScore(a);
             world.destroyBody(a);
         }
-        else if (userDataA.getActorType() == ActorType.RUNNER && userDataB.getActorType() == ActorType.COIN) {
+        else if (CheckBodyType.isRunner(a) && CheckBodyType.isCoin(b)) {
+            Score.addScore(b);
             world.destroyBody(b);
         }
     }
@@ -197,13 +202,13 @@ public class GameStage extends Stage implements ContactListener {
 
     }
 
-    public static boolean bodyInBounds(Body body) {
+    public static boolean onScreen(Body body) {
         UserData userData = (UserData) body.getUserData();
 
-        if (userData.getActorType() == ActorType.RUNNER || userData.getActorType() == ActorType.OBSTACLE) {
-            return body.getPosition().x + userData.getWidth() > 0;
+        if(CheckBodyType.isRunner(body) && (body.getPosition().y + userData.getHeight() < 0)){
+            return false;
         }
 
-        return true;
+        return body.getPosition().x + userData.getWidth() > 0;
     }
 }

@@ -10,22 +10,23 @@ public class Ground extends Actor {
 
     // TODO: change into kinematic body
 
-    public static final ActorSubtype.GroundType GROUND_TYPE = Randomize.groundType();
-
+    ActorSubtype.GroundType groundType;
     Body body;
 //    Vector2 linearVelocity;
 
     public Ground(World world) {
+        groundType = Randomize.groundType();
+
         BodyDef bodyDef = new BodyDef();
 //        bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(GROUND_TYPE.x, GROUND_TYPE.y);
+        bodyDef.position.set(groundType.x, groundType.y);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(GROUND_TYPE.width, GROUND_TYPE.height);
+        shape.setAsBox(groundType.width, groundType.height);
 
         body = world.createBody(bodyDef);
-        body.createFixture(shape, GROUND_TYPE.density);
-        body.setUserData(new GroundUserData(GROUND_TYPE, GROUND_TYPE.width, GROUND_TYPE.height));
+        body.createFixture(shape, groundType.density);
+        body.setUserData(new GroundUserData(groundType, groundType.width, groundType.height));
 
         body.resetMassData();
         shape.dispose();

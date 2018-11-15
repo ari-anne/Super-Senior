@@ -1,6 +1,7 @@
 package com.cpsc.supersenior.tools;
 
-import com.cpsc.supersenior.entitydata.ActorSubtype;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.cpsc.supersenior.entitydata.CoinUserData;
 
 public class Score {
 
@@ -10,9 +11,10 @@ public class Score {
         score = 0;
     }
 
-    public static void addScore(ActorSubtype.CoinType coinType) {
+    public static void addScore(Body body) {
+        CoinUserData coinData = (CoinUserData) body.getUserData();
 
-        switch(coinType) {
+        switch(coinData.getCoinType()) {
             case COIN:
                 score += 1;
                 break;
@@ -27,12 +29,11 @@ public class Score {
 //                break;
 //            case RED_DIAMOND:
 //                score += 500;
-//                break;
         }
 
     }
 
-    public int getScore() {
+    public static int getScore() {
         return score;
     }
 }

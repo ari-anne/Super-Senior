@@ -33,16 +33,6 @@ public class ActorSubtype {
 
     public static final float offset = 5f;  // moves obstacles and coins above platform
 
-    boolean isOnPlatform;
-
-    public void setIsOnPlatform(boolean isOnPlatform) {
-        this.isOnPlatform = isOnPlatform;
-    }
-
-    public boolean getIsOnPlatform() {
-        return isOnPlatform;
-    }
-
     public enum CoinType {
         COIN (SPAWN_X, COIN_Y, COIN_WIDTH, COIN_HEIGHT, COIN_DENSITY);
 //        GREEN_GEM,
