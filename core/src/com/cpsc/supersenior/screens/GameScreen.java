@@ -12,38 +12,43 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.cpsc.supersenior.SuperSenior;
+import com.cpsc.supersenior.tools.GameStage;
+import com.cpsc.supersenior.tools.Score;
 
 public class GameScreen implements Screen {
 
     // Pausing      https://stackoverflow.com/questions/21576181/pause-resume-a-simple-libgdx-game-for-android
 
-    final SuperSenior game;
-    Stage stage;
-    Skin skin;
-    Table table;
-    Label scoreTxt;
-    TextButton pauseTxt;
-    Button pause;
-    Button resume;
-    Button main_menu;
-    Button restart;
-    Texture overlay;
-    TextureAtlas character;
-    Animation<TextureRegion> animation;
-    float elapseTime = 0f;
+    private static final int MIDDLE_X = Gdx.graphics.getWidth()/2;
+    private static final int MIDDLE_Y = Gdx.graphics.getHeight()/2;
+    private static final int BUTTON_WIDTH = 150;
+    private static final int BUTTON_HEIGHT = 150;
+    private static final int PADDING = 50;
 
-    float middleX, middleY;     // middle of screen
-    float btnWidth, btnHeight;  // button dimensions
-    int padding;
-    int score;
+    private final SuperSenior game;
+    private GameStage stage;
+    private Skin skin;
+    private Table table;
+
+    public static GameState state;
+    private Label scoreTxt;
+    private TextButton pauseTxt;
+    private Button pause;
+    private Button resume;
+    private Button main_menu;
+    private Button restart;
+    private Texture overlay;
+    private TextureAtlas character;
+    private Animation<TextureRegion> animation;
+
+    public static float elapsedTime = 0f;
 
     public enum GameState{
         RUNNING,
         PAUSE,
-        RESUME
+        RESUME,
+        GAME_OVER
     }
-
-    GameState state;
 
     public GameScreen(SuperSenior game){
         this.game = game;
@@ -51,7 +56,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        stage = new Stage();
+        stage = new GameStage();
         Gdx.input.setInputProcessor(stage);
 
         table = new Table();
@@ -68,13 +73,6 @@ public class GameScreen implements Screen {
         state = GameState.RUNNING;
 
         SuperSenior.background.setFixedSpeed(false);
-
-        middleX = Gdx.graphics.getWidth()/2;
-        middleY = Gdx.graphics.getHeight()/2;
-        btnWidth = 150;
-        btnHeight = 150;
-        padding = 50;
-        score = 0;
 
         pause.addListener(new ChangeListener() {
             @Override
@@ -104,30 +102,28 @@ public class GameScreen implements Screen {
             }
         });
 
-        scoreTxt.setBounds(middleX - scoreTxt.getWidth()/2, Gdx.graphics.getHeight() - scoreTxt.getHeight() - padding, scoreTxt.getWidth(), scoreTxt.getHeight());
-        pauseTxt.setBounds(middleX - pauseTxt.getWidth()/2, middleY - pauseTxt.getHeight()/2, pauseTxt.getWidth(), pauseTxt.getHeight());
-        pause.setBounds(Gdx.graphics.getWidth() - btnWidth - padding, padding, btnWidth, btnHeight);
-        resume.setBounds(middleX - btnWidth * 3,middleY - pauseTxt.getHeight()/2 - btnHeight * 2, btnWidth, btnHeight);
-        main_menu.setBounds(middleX - btnWidth/2, middleY - pauseTxt.getHeight()/2 - btnHeight * 2, btnWidth, btnHeight);
-        restart.setBounds(middleX + btnWidth * 2,middleY - pauseTxt.getHeight()/2 - btnHeight * 2, btnWidth, btnHeight);
+        scoreTxt.setBounds(MIDDLE_X - scoreTxt.getWidth()/2, Gdx.graphics.getHeight() - scoreTxt.getHeight() - PADDING, scoreTxt.getWidth(), scoreTxt.getHeight());
+        pauseTxt.setBounds(MIDDLE_X - pauseTxt.getWidth()/2, MIDDLE_Y - pauseTxt.getHeight()/2, pauseTxt.getWidth(), pauseTxt.getHeight());
+        pause.setBounds(Gdx.graphics.getWidth() - BUTTON_WIDTH - PADDING, PADDING, BUTTON_WIDTH, BUTTON_HEIGHT);
+        resume.setBounds(MIDDLE_X - BUTTON_WIDTH * 3, MIDDLE_Y - pauseTxt.getHeight()/2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
+        main_menu.setBounds(MIDDLE_X - BUTTON_WIDTH/2, MIDDLE_Y - pauseTxt.getHeight()/2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
+        restart.setBounds(MIDDLE_X + BUTTON_WIDTH * 2, MIDDLE_Y - pauseTxt.getHeight()/2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
 
-        stage.addActor(SuperSenior.background);
         stage.addActor(scoreTxt);
         stage.addActor(pause);
     }
 
     @Override
     public void render(float delta) {
-        elapseTime += delta;
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        elapsedTime += delta;
         game.batch.begin();
 
         switch(state){
             case RUNNING:
                 running(delta);
-                TextureRegion currentFrame = animation.getKeyFrame(elapseTime, true);
-                game.batch.draw(currentFrame,50,50, 512, 512);
                 break;
             case PAUSE:
                 pause();
@@ -135,10 +131,11 @@ public class GameScreen implements Screen {
             case RESUME:
                 resume();
                 break;
+            case GAME_OVER:
+                gameOver();
         }
 
         game.batch.end();
-
         stage.draw();
     }
 
@@ -147,14 +144,12 @@ public class GameScreen implements Screen {
 
     }
 
-    public void running(float delta) {
+    private void running(float delta) {
         stage.act(delta);
+        scoreTxt.setText(Integer.toString(Score.getScore()));
 
-        // update score
-        // if (collide with coin)
-            // score++;
-            // scoreTxt.setText(Integer.toString(score));
-
+        TextureRegion currentFrame = animation.getKeyFrame(elapsedTime, true);
+        game.batch.draw(currentFrame,50,50, 512, 512);
     }
 
     @Override
@@ -179,6 +174,12 @@ public class GameScreen implements Screen {
         stage.addActor(pause);
 
         state = GameState.RUNNING;
+    }
+
+    private void gameOver() {
+        pause.remove();
+
+
     }
 
     @Override

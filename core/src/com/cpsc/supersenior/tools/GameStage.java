@@ -8,9 +8,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
+import com.cpsc.supersenior.SuperSenior;
 import com.cpsc.supersenior.entities.*;
 import com.cpsc.supersenior.entitydata.UserData;
-import com.cpsc.supersenior.screens.GameScreenTest;
+import com.cpsc.supersenior.screens.GameScreen;
 
 public class GameStage extends Stage implements ContactListener {
 
@@ -24,7 +25,6 @@ public class GameStage extends Stage implements ContactListener {
     private static final float GAME_OVER_TIMER = 1f;
     private static final float COIN_TIMER = 0.5f;
 
-    private float elapsedTime = 0f;
     private final float TIME_STEP = 1/300f;
 
     private World world;
@@ -68,7 +68,7 @@ public class GameStage extends Stage implements ContactListener {
         gameOverTimer = GAME_OVER_TIMER;
         coinTimer = COIN_TIMER;
 
-//        addActor(new Background());
+        addActor(SuperSenior.background);
         makeGround();
         makeRunner();
         makeObstacle();
@@ -128,7 +128,7 @@ public class GameStage extends Stage implements ContactListener {
         if (runner.isHit()) {
             gameOverTimer -= delta;
             if (gameOverTimer <= 0) {
-                GameScreenTest.state = GameScreenTest.GameState.GAME_OVER;
+                GameScreen.state = GameScreen.GameState.GAME_OVER;
             }
         }
 
@@ -167,11 +167,10 @@ public class GameStage extends Stage implements ContactListener {
         }
 
         coinTimer -= delta;
-        elapsedTime += delta;
 
-        while (elapsedTime >= delta) {
+        while (GameScreen.elapsedTime >= delta) {
             world.step(TIME_STEP, 6, 2);
-            elapsedTime -= TIME_STEP;
+            GameScreen.elapsedTime -= TIME_STEP;
         }
     }
 
@@ -247,9 +246,6 @@ public class GameStage extends Stage implements ContactListener {
 
     private static boolean onScreen(Body body) {
         UserData userData = (UserData) body.getUserData();
-        if(CheckBodyType.isRunner(body) && (body.getPosition().y + userData.getHeight() < 0)){
-            return false;
-        }
         return body.getPosition().x + userData.getWidth() > 0;
     }
 }

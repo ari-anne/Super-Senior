@@ -26,9 +26,9 @@ public class Randomize {
     }
 
     public static float obstacleSpawnTime() {
-        // range: 1 - 3 seconds
-        max = 3f;
-        min = 1f;
+        // range: 2 - 4 seconds
+        max = 4f;
+        min = 2f;
         return random.nextFloat() * (max - min) + min;
     }
 

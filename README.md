@@ -2,11 +2,11 @@
 - [ ] acceleration & deceleration
 - [ ] randomize environment
 - [ ] game over screen
-- [ ] generate obstacles
-- [ ] generate coins
+- [x] generate obstacles
+- [x] generate coins
 - [ ] generate ground/platforms
-- [ ] score
-- [ ] game screen
+- [x] score
+- [x] game screen
 - [x] background scrolling
 - [x] pause state
 - [x] settings screen
@@ -19,6 +19,7 @@
 
 ### Amin
 - [x] runner animation
+- [ ] add textures to bodies
 - [ ] swipe controls
 - [ ] end game screen
 - [x] high scores screen

@@ -9,6 +9,8 @@ public class Background extends Actor {
 
     // Scrolling Background https://www.youtube.com/watch?v=UyNm3n1WNAA&list=PLrnO5Pu2zAHKAIjRtTLAXtZKMSA6JWnmf&index=15
 
+    // TODO: sync background speed with obstacle velocity
+
     private static final float DEFAULT_SPEED = 80;
     private static final float ACCELERATION = 50;
     private static final float MAX_SPEED = 150;
