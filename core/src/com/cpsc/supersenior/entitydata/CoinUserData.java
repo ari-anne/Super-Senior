@@ -16,4 +16,5 @@ public class CoinUserData extends UserData {
     public ActorSubtype.CoinType getCoinType() {
         return coinType;
     }
+
 }

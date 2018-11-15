@@ -5,7 +5,7 @@ import com.cpsc.supersenior.entitydata.CoinUserData;
 
 public class Score {
 
-    static int score;
+    private static int score;
 
     public Score() {
         score = 0;

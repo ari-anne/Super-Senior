@@ -13,7 +13,4 @@ public class ObstacleUserData extends UserData {
         this.height = height;
     }
 
-    public ActorSubtype.ObstacleType getObstacleType(){
-        return obstacleType;
-    }
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.cpsc.supersenior.entities.*;
 import com.cpsc.supersenior.entitydata.UserData;
+import com.cpsc.supersenior.screens.GameScreenTest;
 
 public class GameStage extends Stage implements ContactListener {
 
@@ -17,24 +18,29 @@ public class GameStage extends Stage implements ContactListener {
 
     private static final int VIEWPORT_WIDTH = 20;
     private static final int VIEWPORT_HEIGHT = 13;
-    public static final Vector2 GRAVITY = new Vector2(0,-10);
-    public static final float VELOCITY_TIMER = 20f;
+    private static final Vector2 GRAVITY = new Vector2(0,-10);
+    private static final float VELOCITY_TIMER = 20f;
+    private static final float MAX_VELOCITY = 10f;
+    private static final float GAME_OVER_TIMER = 1f;
+    private static final float COIN_TIMER = 0.5f;
 
     private float elapsedTime = 0f;
     private final float TIME_STEP = 1/300f;
 
-    World world;
-    Ground ground;
-    Runner runner;
-    Obstacle obstacle;
-    Coin coin;
+    private World world;
+    private Ground ground;
+    private Runner runner;
+    private Obstacle obstacle;
+    private Coin coin;
 
-    Box2DDebugRenderer renderer;
-    OrthographicCamera camera;
+    private Box2DDebugRenderer renderer;
+    private OrthographicCamera camera;
 
-    float linearVelocityX;
-    float velocityTimer;
-    float obstacleTimer;
+    private float linearVelocityX;
+    private float velocityTimer;
+    private float obstacleTimer;
+    private float gameOverTimer;
+    private float coinTimer;
 
     Vector3 touchPoint;
     Rectangle rightSide;
@@ -59,12 +65,14 @@ public class GameStage extends Stage implements ContactListener {
         linearVelocityX = 4f;
         velocityTimer = VELOCITY_TIMER;
         obstacleTimer = Randomize.obstacleSpawnTime();
+        gameOverTimer = GAME_OVER_TIMER;
+        coinTimer = COIN_TIMER;
 
-        addActor(new Background());
+//        addActor(new Background());
         makeGround();
         makeRunner();
         makeObstacle();
-        makeCoin();
+        makeCoin(true);
 
         // TODO: implement swipe input
         // temporary controls to test gravity
@@ -75,25 +83,29 @@ public class GameStage extends Stage implements ContactListener {
         Gdx.input.setInputProcessor(this);
     }
 
-    public void makeGround() {
+    private void makeGround() {
         ground = new Ground(world);
-//        ground.setLinearVelocity(new Vector2(-linearVelocityX, 0));
         addActor(ground);
     }
 
-    public void makeRunner() {
+    private void makeRunner() {
         runner = new Runner(world);
         addActor(runner);
     }
 
-    public void makeObstacle() {
+    private void makeObstacle() {
         obstacle = new Obstacle(world);
         obstacle.setLinearVelocity(new Vector2(-linearVelocityX, 0));
         addActor(obstacle);
     }
 
-    public void makeCoin() {
-        coin = new Coin(world);
+    private void makeCoin(boolean withObstacle) {
+        if (!withObstacle) {
+            coin = new Coin(world);
+        }
+        else {
+            coin = new Coin(world, obstacle.getObstacleType());
+        }
         coin.setLinearVelocity(new Vector2(-linearVelocityX, 0));
         addActor(coin);
     }
@@ -101,6 +113,7 @@ public class GameStage extends Stage implements ContactListener {
     @Override
     public void act(float delta) {
         super.act(delta);
+        boolean withObstacle;
 
         Array<Body> bodies = new Array<Body>(world.getBodyCount());
         world.getBodies(bodies);
@@ -111,18 +124,49 @@ public class GameStage extends Stage implements ContactListener {
             }
         }
 
-        if (obstacleTimer <= 0) {
+        // wait before stopping game
+        if (runner.isHit()) {
+            gameOverTimer -= delta;
+            if (gameOverTimer <= 0) {
+                GameScreenTest.state = GameScreenTest.GameState.GAME_OVER;
+            }
+        }
+
+        // if coin spawns with obstacle, move coin to accommodate obstacle
+        if (obstacleTimer <= 0 && coinTimer <= 0 ) {
+            coinTimer = COIN_TIMER;
+            obstacleTimer = Randomize.obstacleSpawnTime();
+            withObstacle = true;
+            makeObstacle();
+            makeCoin(withObstacle);
+        }
+        // spawn coin
+        else if (obstacleTimer > 0 && coinTimer <= 0) {
+            coinTimer = COIN_TIMER;
+            withObstacle = false;
+            makeCoin(withObstacle);
+        }
+        // spawn obstacle
+        else if (obstacleTimer <= 0 && coinTimer > 0) {
             obstacleTimer = Randomize.obstacleSpawnTime();
             makeObstacle();
         }
 
-        if (velocityTimer <= 0) {
-            linearVelocityX += 0.5f;
-            velocityTimer = VELOCITY_TIMER;
+        // wait for screen to clear of obstacles before increasing velocity
+        if (velocityTimer > 0) {
+            obstacleTimer -= delta;
         }
 
-        velocityTimer -= delta;
-        obstacleTimer -= delta;
+        // increase velocity if it hasn't reached max
+        if (linearVelocityX < MAX_VELOCITY) {
+            if (bodies.size == 2 && velocityTimer <= 0) {
+                linearVelocityX += 0.5f;
+                velocityTimer = VELOCITY_TIMER;
+            }
+            velocityTimer -= delta;
+        }
+
+        coinTimer -= delta;
         elapsedTime += delta;
 
         while (elapsedTime >= delta) {
@@ -160,7 +204,6 @@ public class GameStage extends Stage implements ContactListener {
         if (runner.isCrouching()) {
             runner.stand();
         }
-
         return super.touchUp(screenX, screenY, pointer, button);
     }
 
@@ -202,13 +245,11 @@ public class GameStage extends Stage implements ContactListener {
 
     }
 
-    public static boolean onScreen(Body body) {
+    private static boolean onScreen(Body body) {
         UserData userData = (UserData) body.getUserData();
-
         if(CheckBodyType.isRunner(body) && (body.getPosition().y + userData.getHeight() < 0)){
             return false;
         }
-
         return body.getPosition().x + userData.getWidth() > 0;
     }
 }

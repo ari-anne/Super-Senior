@@ -12,9 +12,9 @@ import com.cpsc.supersenior.entitydata.ObstacleUserData;
 
 public class Obstacle extends Actor {
 
-    ActorSubtype.ObstacleType obstacleType;
-    Body body;
-    Vector2 linearVelocity;
+    private ActorSubtype.ObstacleType obstacleType;
+    private Body body;
+    private Vector2 linearVelocity;
 
     public Obstacle(World world) {
         obstacleType = Randomize.obstacleType();
@@ -36,6 +36,10 @@ public class Obstacle extends Actor {
 
     public void setLinearVelocity(Vector2 linearVelocity) {
         this.linearVelocity = linearVelocity;
+    }
+
+    public ActorSubtype.ObstacleType getObstacleType() {
+        return obstacleType;
     }
 
     @Override

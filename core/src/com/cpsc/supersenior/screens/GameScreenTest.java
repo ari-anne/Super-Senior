@@ -17,6 +17,15 @@ public class GameScreenTest implements Screen {
     Skin skin;
     Label scoreTxt;
 
+    public static GameState state;
+
+    public enum GameState{
+        RUNNING,
+        PAUSE,
+        RESUME,
+        GAME_OVER
+    }
+
     public GameScreenTest(SuperSenior game) {
         this.game = game;
         stage = new GameStage();
@@ -26,6 +35,8 @@ public class GameScreenTest implements Screen {
     public void show() {
         skin = new Skin(Gdx.files.internal("buttons/button.json"));
         scoreTxt = new Label("0", skin);
+
+        state = GameState.RUNNING;
 
         scoreTxt.setBounds(Gdx.graphics.getWidth()/2 - scoreTxt.getWidth()/2, Gdx.graphics.getHeight() - scoreTxt.getHeight() - 50, scoreTxt.getWidth(), scoreTxt.getHeight());
 
@@ -38,8 +49,19 @@ public class GameScreenTest implements Screen {
 
         scoreTxt.setText(Integer.toString(Score.getScore()));
 
+        switch(state) {
+            case RUNNING:
+                stage.act(delta);
+                break;
+            case PAUSE:
+                break;
+            case RESUME:
+                break;
+            case GAME_OVER:
+                break;
+        }
+
         stage.draw();
-        stage.act(delta);
     }
 
     @Override

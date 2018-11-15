@@ -3,6 +3,7 @@ package com.cpsc.supersenior.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.cpsc.supersenior.tools.GameStage;
 import com.cpsc.supersenior.tools.Randomize;
 import com.cpsc.supersenior.entitydata.ActorSubtype;
 import com.cpsc.supersenior.entitydata.CoinUserData;
@@ -11,17 +12,34 @@ public class Coin extends Actor {
 
     // fixtures http://box2d.org/manual.pdf
 
-    ActorSubtype.CoinType coinType;
-    Body body;
-    Vector2 linearVelocity;
+    private ActorSubtype.CoinType coinType;
+    private Body body;
+    private Vector2 linearVelocity;
 
     public Coin(World world) {
+        float y_offset = 0f;
+        makeBody(world, y_offset);
+    }
+
+    public Coin(World world, ActorSubtype.ObstacleType obstacleType) {
+        float y_offset = 0f;
+        switch (obstacleType) {
+            case LONG_SPIKE:
+                y_offset = 1f;
+                break;
+            case SHORT_SPIKE:
+                y_offset = 0.5f;
+        }
+        makeBody(world, y_offset);
+    }
+
+    private void makeBody(World world, float y_offset) {
         coinType = Randomize.coinType();
 
         // create body
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.KinematicBody;
-        bodyDef.position.set(coinType.x, coinType.y);
+        bodyDef.position.set(coinType.x, coinType.y + y_offset);
         body = world.createBody(bodyDef);
         body.setUserData(new CoinUserData(coinType, coinType.width, coinType.height));
 

@@ -8,17 +8,13 @@ import com.cpsc.supersenior.entitydata.GroundUserData;
 
 public class Ground extends Actor {
 
-    // TODO: change into kinematic body
-
-    ActorSubtype.GroundType groundType;
-    Body body;
-//    Vector2 linearVelocity;
+    private ActorSubtype.GroundType groundType;
+    private Body body;
 
     public Ground(World world) {
         groundType = Randomize.groundType();
 
         BodyDef bodyDef = new BodyDef();
-//        bodyDef.type = BodyDef.BodyType.KinematicBody;
         bodyDef.position.set(groundType.x, groundType.y);
 
         PolygonShape shape = new PolygonShape();
@@ -32,13 +28,4 @@ public class Ground extends Actor {
         shape.dispose();
     }
 
-//    public void setLinearVelocity(Vector2 linearVelocity) {
-//        this.linearVelocity = linearVelocity;
-//    }
-//
-//    @Override
-//    public void act(float delta) {
-//        super.act(delta);
-//        body.setLinearVelocity(linearVelocity);
-//    }
 }

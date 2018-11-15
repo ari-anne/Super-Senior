@@ -12,9 +12,4 @@ public class GroundUserData extends UserData {
         this.width = width;
         this.height = height;
     }
-
-    public ActorSubtype.GroundType getGroundType() {
-        return groundType;
-    }
-
 }

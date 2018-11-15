@@ -1,6 +1,5 @@
 package com.cpsc.supersenior.tools;
 
-
 import com.cpsc.supersenior.entitydata.ActorSubtype;
 
 import java.util.Random;
@@ -8,10 +7,8 @@ import java.util.Random;
 public class Randomize {
 
     private static Random random = new Random();    // random number generator
-    private static float maxFloat;
-    private static float minFloat;
-    private static int maxInt;
-    private static int minInt;
+    private static float max;
+    private static float min;
 
     public static ActorSubtype.ObstacleType obstacleType() {
         ActorSubtype.ObstacleType[] type = ActorSubtype.ObstacleType.values();
@@ -30,30 +27,15 @@ public class Randomize {
 
     public static float obstacleSpawnTime() {
         // range: 1 - 3 seconds
-        maxFloat = 3f;
-        minFloat = 1f;
-        return random.nextFloat() * (maxFloat - minFloat) + minFloat;
+        max = 3f;
+        min = 1f;
+        return random.nextFloat() * (max - min) + min;
     }
 
     public static float groundWidth() {
         // range: 20 - 150
-        maxFloat = 150f;
-        minFloat = 20f;
-        return random.nextFloat() * (maxFloat - minFloat) + minFloat;
+        max = 150f;
+        min = 20f;
+        return random.nextFloat() * (max - min) + min;
     }
-
-    public int numberOfSpikes() {
-        // range: 1 - 4
-        maxInt = 4;
-        minInt = 1;
-        return random.nextInt((maxInt - minInt) + 1) + minInt;
-    }
-
-    public int numberOFCoins() {
-        // range: 3 - 5
-        maxInt = 5;
-        minInt = 3;
-        return random.nextInt((maxInt - minInt) + 1) + minInt;
-    }
-
 }
