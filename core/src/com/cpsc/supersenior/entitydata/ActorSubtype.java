@@ -5,27 +5,27 @@ import com.cpsc.supersenior.tools.Randomize;
 
 public class ActorSubtype {
 
-    public static final float SPAWN_X = 25f;     // spawns off screen
+    private static final float SPAWN_X = 25f;     // spawns off screen
 
-    public static final float GROUND_Y = 0;
-    public static final float GROUND_WIDTH = Randomize.groundWidth();
+    private static final float GROUND_Y = 0;
+    private static final float GROUND_WIDTH = Randomize.groundWidth();
     public static final float GROUND_HEIGHT = 3f;
-    public static final float GROUND_DENSITY = 0f;
+    private static final float GROUND_DENSITY = 0f;
 
     public static final float ABOVE_GROUND = GROUND_Y + GROUND_HEIGHT;  // keeps obstacles and coins above ground
 
-    public static final float COIN_Y = ABOVE_GROUND + 1f;   // TODO: randomize y spawn point, within jumping distance
-    public static final float COIN_WIDTH = 0.3f;
-    public static final float COIN_HEIGHT = 0.3f;
-    public static final float COIN_DENSITY = 0f;
+    private static final float COIN_Y = ABOVE_GROUND + 1f;
+    private static final float COIN_WIDTH = 0.3f;
+    private static final float COIN_HEIGHT = 0.3f;
+    private static final float COIN_DENSITY = 0f;
 
-    public static final float OBSTACLE_SAW_Y = ABOVE_GROUND + 2f;
-    public static final float OBSTACLE_SAW_WIDTH = 0.5f;
-    public static final float OBSTACLE_SAW_HEIGHT = 0.5f;
-    public static final float OBSTACLE_SPIKE_WIDTH = 0.3f;
-    public static final float OBSTACLE_SPIKE_SHORT_HEIGHT = 0.5f;
-    public static final float OBSTACLE_SPIKE_LONG_HEIGHT = 0.7f;
-    public static final float OBSTACLE_DENSITY = Runner.DENSITY;
+    private static final float OBSTACLE_SAW_Y = ABOVE_GROUND + 2f;
+    private static final float OBSTACLE_SAW_WIDTH = 0.5f;
+    private static final float OBSTACLE_SAW_HEIGHT = 0.5f;
+    private static final float OBSTACLE_SPIKE_WIDTH = 0.3f;
+    private static final float OBSTACLE_SPIKE_SHORT_HEIGHT = 0.5f;
+    private static final float OBSTACLE_SPIKE_LONG_HEIGHT = 0.7f;
+    private static final float OBSTACLE_DENSITY = Runner.DENSITY;
 
     public enum CoinType {
         COIN (SPAWN_X, COIN_Y, COIN_WIDTH, COIN_HEIGHT, COIN_DENSITY);

@@ -97,9 +97,4 @@ public class Runner extends Actor {
         return hit;
     }
 
-//    @Override
-//    public void act(float delta) {
-//        super.act(delta);
-//        body.setLinearVelocity(linearVelocity);
-//    }
 }

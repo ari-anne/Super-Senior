@@ -9,21 +9,21 @@ public class CheckBodyType {
 
     public static boolean isRunner(Body body) {
         userData = (UserData) body.getUserData();
-        return userData.getActorType() == GameStage.ActorType.RUNNER;
+        return userData.getActorType() == GameStage.ActorType.RUNNER && userData != null;
     }
 
     public static boolean isGround(Body body) {
         userData = (UserData) body.getUserData();
-        return userData.getActorType() == GameStage.ActorType.GROUND;
+        return userData.getActorType() == GameStage.ActorType.GROUND && userData != null;
     }
 
     public static boolean isObstacle(Body body) {
         userData = (UserData) body.getUserData();
-        return userData.getActorType() == GameStage.ActorType.OBSTACLE;
+        return userData.getActorType() == GameStage.ActorType.OBSTACLE && userData != null;
     }
 
     public static boolean isCoin(Body body) {
         userData = (UserData) body.getUserData();
-        return userData.getActorType() == GameStage.ActorType.COIN;
+        return userData.getActorType() == GameStage.ActorType.COIN && userData != null;
     }
 }

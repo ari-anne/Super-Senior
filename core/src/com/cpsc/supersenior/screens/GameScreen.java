@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion ;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.cpsc.supersenior.SuperSenior;
@@ -38,10 +37,10 @@ public class GameScreen implements Screen {
     private Button main_menu;
     private Button restart;
     private Texture overlay;
-    private TextureAtlas character;
-    private Animation<TextureRegion> animation;
+//    private TextureAtlas character;
+//    private Animation<TextureRegion> animation;
 
-    public static float elapsedTime = 0f;
+    private float elapsedTime = 0f;
 
     public enum GameState{
         RUNNING,
@@ -52,12 +51,13 @@ public class GameScreen implements Screen {
 
     public GameScreen(SuperSenior game){
         this.game = game;
+        stage = new GameStage();
     }
 
     @Override
     public void show() {
-        stage = new GameStage();
-        Gdx.input.setInputProcessor(stage);
+//        stage = new GameStage();
+//        Gdx.input.setInputProcessor(stage);
 
         table = new Table();
         skin = new Skin(Gdx.files.internal("buttons/button.json"));
@@ -68,8 +68,8 @@ public class GameScreen implements Screen {
         main_menu = new Button(skin, "home");
         restart = new Button(skin, "restart");
         overlay = new Texture("overlay.png");
-        character = new TextureAtlas("runner/run/run.atlas");
-        animation = new Animation<TextureRegion>(1f/5f, character.getRegions());
+//        character = new TextureAtlas("runner/run/run.atlas");
+//        animation = new Animation<TextureRegion>(1f/5f, character.getRegions());
         state = GameState.RUNNING;
 
         SuperSenior.background.setFixedSpeed(false);
@@ -109,14 +109,13 @@ public class GameScreen implements Screen {
         main_menu.setBounds(MIDDLE_X - BUTTON_WIDTH/2, MIDDLE_Y - pauseTxt.getHeight()/2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
         restart.setBounds(MIDDLE_X + BUTTON_WIDTH * 2, MIDDLE_Y - pauseTxt.getHeight()/2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
 
+//        stage.addActor(SuperSenior.background);
         stage.addActor(scoreTxt);
         stage.addActor(pause);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         elapsedTime += delta;
         game.batch.begin();
@@ -148,8 +147,8 @@ public class GameScreen implements Screen {
         stage.act(delta);
         scoreTxt.setText(Integer.toString(Score.getScore()));
 
-        TextureRegion currentFrame = animation.getKeyFrame(elapsedTime, true);
-        game.batch.draw(currentFrame,50,50, 512, 512);
+//        TextureRegion currentFrame = animation.getKeyFrame(elapsedTime, true);
+//        game.batch.draw(currentFrame,50,50, 512, 512);
     }
 
     @Override
@@ -178,8 +177,6 @@ public class GameScreen implements Screen {
 
     private void gameOver() {
         pause.remove();
-
-
     }
 
     @Override
@@ -189,6 +186,6 @@ public class GameScreen implements Screen {
     public void dispose() {
         game.batch.dispose();
         Gdx.input.setInputProcessor(null);
-        character.dispose();
+//        character.dispose();
     }
 }

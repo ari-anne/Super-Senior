@@ -15,7 +15,7 @@ import com.cpsc.supersenior.screens.GameScreen;
 
 public class GameStage extends Stage implements ContactListener {
 
-    // following a tutorial http://williammora.com/a-running-game-with-libgdx-part-1
+    // http://williammora.com/a-running-game-with-libgdx-part-1
 
     private static final int VIEWPORT_WIDTH = 20;
     private static final int VIEWPORT_HEIGHT = 13;
@@ -41,6 +41,7 @@ public class GameStage extends Stage implements ContactListener {
     private float obstacleTimer;
     private float gameOverTimer;
     private float coinTimer;
+    private float accumulator;
 
     Vector3 touchPoint;
     Rectangle rightSide;
@@ -68,7 +69,7 @@ public class GameStage extends Stage implements ContactListener {
         gameOverTimer = GAME_OVER_TIMER;
         coinTimer = COIN_TIMER;
 
-        addActor(SuperSenior.background);
+//        addActor(SuperSenior.background);
         makeGround();
         makeRunner();
         makeObstacle();
@@ -167,10 +168,11 @@ public class GameStage extends Stage implements ContactListener {
         }
 
         coinTimer -= delta;
+        accumulator += delta;
 
-        while (GameScreen.elapsedTime >= delta) {
+        while (accumulator >= delta) {
             world.step(TIME_STEP, 6, 2);
-            GameScreen.elapsedTime -= TIME_STEP;
+            accumulator -= TIME_STEP;
         }
     }
 

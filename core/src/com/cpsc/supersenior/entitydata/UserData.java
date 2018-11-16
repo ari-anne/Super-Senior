@@ -1,6 +1,5 @@
 package com.cpsc.supersenior.entitydata;
 
-import com.badlogic.gdx.math.Vector2;
 import com.cpsc.supersenior.tools.GameStage;
 
 public class UserData {
