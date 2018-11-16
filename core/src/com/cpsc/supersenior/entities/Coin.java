@@ -3,7 +3,6 @@ package com.cpsc.supersenior.entities;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.cpsc.supersenior.tools.GameStage;
 import com.cpsc.supersenior.tools.Randomize;
 import com.cpsc.supersenior.entitydata.ActorSubtype;
 import com.cpsc.supersenior.entitydata.CoinUserData;
@@ -15,6 +14,7 @@ public class Coin extends Actor {
     private ActorSubtype.CoinType coinType;
     private Body body;
     private Vector2 linearVelocity;
+    public boolean toDelete;
 
     public Coin(World world) {
         float y_offset = 0f;
@@ -34,6 +34,7 @@ public class Coin extends Actor {
     }
 
     private void makeBody(World world, float y_offset) {
+        toDelete = false;
         coinType = Randomize.coinType();
 
         // create body
@@ -59,6 +60,10 @@ public class Coin extends Actor {
 
     public void setLinearVelocity(Vector2 linearVelocity) {
         this.linearVelocity = linearVelocity;
+    }
+
+    public boolean toDelete() {
+        return toDelete;
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import com.cpsc.supersenior.SuperSenior;
 import com.cpsc.supersenior.entities.*;
+import com.cpsc.supersenior.entitydata.CoinUserData;
 import com.cpsc.supersenior.entitydata.UserData;
 import com.cpsc.supersenior.screens.GameScreen;
 
@@ -25,6 +26,7 @@ public class GameStage extends Stage implements ContactListener {
     private static final float GAME_OVER_TIMER = 1f;
     private static final float COIN_TIMER = 0.5f;
 
+    private float accumulator;
     private final float TIME_STEP = 1/300f;
 
     private World world;
@@ -39,9 +41,8 @@ public class GameStage extends Stage implements ContactListener {
     private float linearVelocityX;
     private float velocityTimer;
     private float obstacleTimer;
-    private float gameOverTimer;
     private float coinTimer;
-    private float accumulator;
+    private float gameOverTimer;
 
     Vector3 touchPoint;
     Rectangle rightSide;
@@ -63,11 +64,12 @@ public class GameStage extends Stage implements ContactListener {
         camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0f);
         camera.update();
 
+        accumulator = 0f;
         linearVelocityX = 4f;
         velocityTimer = VELOCITY_TIMER;
         obstacleTimer = Randomize.obstacleSpawnTime();
-        gameOverTimer = GAME_OVER_TIMER;
         coinTimer = COIN_TIMER;
+        gameOverTimer = GAME_OVER_TIMER;
 
 //        addActor(SuperSenior.background);
         makeGround();
@@ -122,6 +124,11 @@ public class GameStage extends Stage implements ContactListener {
         for (Body body : bodies) {
             if (!onScreen(body)) {
                 world.destroyBody(body);
+            } else if (CheckBodyType.isCoin(body)) {
+                CoinUserData coinData = (CoinUserData) body.getUserData();
+                if (coinData.toDelete) {
+                    world.destroyBody(body);
+                }
             }
         }
 
@@ -156,6 +163,7 @@ public class GameStage extends Stage implements ContactListener {
         // wait for screen to clear of obstacles before increasing velocity
         if (velocityTimer > 0) {
             obstacleTimer -= delta;
+            coinTimer -= delta;
         }
 
         // increase velocity if it hasn't reached max
@@ -167,7 +175,6 @@ public class GameStage extends Stage implements ContactListener {
             velocityTimer -= delta;
         }
 
-        coinTimer -= delta;
         accumulator += delta;
 
         while (accumulator >= delta) {
@@ -216,18 +223,18 @@ public class GameStage extends Stage implements ContactListener {
         if ((CheckBodyType.isGround(a) && CheckBodyType.isRunner(b)) ||
                 (CheckBodyType.isRunner(a) && CheckBodyType.isGround(b))) {
             runner.landed();
-        }
-        else if ((CheckBodyType.isObstacle(a) && CheckBodyType.isRunner(b)) ||
+        } else if ((CheckBodyType.isObstacle(a) && CheckBodyType.isRunner(b)) ||
                 (CheckBodyType.isRunner(a) && CheckBodyType.isObstacle(b))) {
             runner.hit();
-        }
-        else if (CheckBodyType.isCoin(a)&& CheckBodyType.isRunner(b)) {
+        } else if (CheckBodyType.isCoin(a) && CheckBodyType.isRunner(b)) {
+            CoinUserData coinData = (CoinUserData) a.getUserData();
+            coinData.toDelete = true;
             Score.addScore(a);
-            world.destroyBody(a);
-        }
-        else if (CheckBodyType.isRunner(a) && CheckBodyType.isCoin(b)) {
+
+        } else if (CheckBodyType.isRunner(a) && CheckBodyType.isCoin(b)) {
+            CoinUserData coinData = (CoinUserData) b.getUserData();
+            coinData.toDelete = true;
             Score.addScore(b);
-            world.destroyBody(b);
         }
     }
 

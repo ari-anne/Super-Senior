@@ -25,7 +25,6 @@ public class Runner extends Actor {
     public static final float HIT_ANGULAR_IMPULSE = 3f;
 
     Body body;
-//    Vector2 linearVelocity;
     boolean jumping;
     boolean dodging;
     boolean hit;
@@ -50,10 +49,6 @@ public class Runner extends Actor {
         body.resetMassData();
         shape.dispose();
     }
-
-//    public void setLinearVelocity(Vector2 linearVelocity) {
-//        this.linearVelocity = linearVelocity;
-//    }
 
     public void jump() {
         if (!jumping && !dodging && !hit) {

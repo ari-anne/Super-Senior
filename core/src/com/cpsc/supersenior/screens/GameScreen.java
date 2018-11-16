@@ -56,8 +56,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-//        stage = new GameStage();
-//        Gdx.input.setInputProcessor(stage);
+        stage = new GameStage();
+        Gdx.input.setInputProcessor(stage);
 
         table = new Table();
         skin = new Skin(Gdx.files.internal("buttons/button.json"));
@@ -109,15 +109,14 @@ public class GameScreen implements Screen {
         main_menu.setBounds(MIDDLE_X - BUTTON_WIDTH/2, MIDDLE_Y - pauseTxt.getHeight()/2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
         restart.setBounds(MIDDLE_X + BUTTON_WIDTH * 2, MIDDLE_Y - pauseTxt.getHeight()/2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
 
-//        stage.addActor(SuperSenior.background);
         stage.addActor(scoreTxt);
         stage.addActor(pause);
     }
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        elapsedTime += delta;
         game.batch.begin();
 
         switch(state){
@@ -145,6 +144,7 @@ public class GameScreen implements Screen {
 
     private void running(float delta) {
         stage.act(delta);
+        elapsedTime += delta;
         scoreTxt.setText(Integer.toString(Score.getScore()));
 
 //        TextureRegion currentFrame = animation.getKeyFrame(elapsedTime, true);
