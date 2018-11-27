@@ -34,7 +34,7 @@ public class HighScores implements Screen {
     public HighScores (SuperSenior game){
         this.game = game;
         DataBaseApi DBApi = new DataBaseApi();
-        user_scores = DBApi.get_highscore();
+        user_scores = DBApi.get_HighScore();
     }
 
     @Override

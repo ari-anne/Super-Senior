@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.cpsc.supersenior.entities.Background;
+import com.cpsc.supersenior.screens.EndGame;
 import com.cpsc.supersenior.screens.GameScreen;
 
 public class SuperSenior extends Game {
@@ -29,7 +30,7 @@ public class SuperSenior extends Game {
 		cam.update();
 
 		background = new Background();
-		this.setScreen(new GameScreen(this));
+		this.setScreen(new EndGame(this));
 	}
 
 	@Override

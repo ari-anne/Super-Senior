@@ -1,6 +1,6 @@
 android {
     buildToolsVersion '28.0.3'
-    compileSdkVersion 23
+    compileSdkVersion 28
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -18,7 +18,7 @@ android {
     }
     defaultConfig {
         applicationId "com.cpsc.supersenior"
-        minSdkVersion 9
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
