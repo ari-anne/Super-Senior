@@ -4,16 +4,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion ;
+import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.cpsc.supersenior.SuperSenior;
 
-public class GameScreen implements Screen {
+public class GameScreen implements Screen, GestureDetector.GestureListener {
 
     // Pausing      https://stackoverflow.com/questions/21576181/pause-resume-a-simple-libgdx-game-for-android
 
@@ -28,10 +31,11 @@ public class GameScreen implements Screen {
     Button main_menu;
     Button restart;
     Texture overlay;
-    TextureAtlas character;
+    TextureAtlas characterTexture;
     TextureAtlas coin;
     Animation<TextureRegion> characterAnimation;
     Animation<TextureRegion> coinAnimation;
+    Sprite sprite = new Sprite();
     float elapseTime = 0f;
 
     float middleX, middleY;     // middle of screen
@@ -49,13 +53,13 @@ public class GameScreen implements Screen {
 
     public GameScreen(SuperSenior game){
         this.game = game;
+        Gdx.input.setInputProcessor(new GestureDetector(this));
     }
 
     @Override
     public void show() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-
         table = new Table();
         skin = new Skin(Gdx.files.internal("buttons/button.json"));
         scoreTxt = new Label("0", skin);
@@ -65,10 +69,11 @@ public class GameScreen implements Screen {
         main_menu = new Button(skin, "home");
         restart = new Button(skin, "restart");
         overlay = new Texture("overlay.png");
-        character = new TextureAtlas("character/run/run.atlas");
         coin = new TextureAtlas("coin/1/coin.atlas");
-        characterAnimation = new Animation<TextureRegion>(1f/10f, character.getRegions());
+        characterTexture = new TextureAtlas("character/run/run.atlas");
+        characterAnimation = new Animation<TextureRegion>(1f/10f, characterTexture.getRegions());
         coinAnimation = new Animation<TextureRegion>(1f/10f, coin.getRegions());
+        sprite.setPosition(50,50);
         state = GameState.Running;
 
         middleX = Gdx.graphics.getWidth()/2;
@@ -79,6 +84,8 @@ public class GameScreen implements Screen {
         score = 0;
 
         game.scrollingBackground.setFixedSpeed(false);
+
+        Gdx.input.setInputProcessor(new GestureDetector(this));
 
         pause.addListener(new ChangeListener() {
             @Override
@@ -130,7 +137,7 @@ public class GameScreen implements Screen {
                 running(delta);
                 TextureRegion characterFrame = characterAnimation.getKeyFrame(elapseTime, true);
                 TextureRegion coinFrame = coinAnimation.getKeyFrame(elapseTime, true);
-                game.batch.draw(characterFrame,50,50, 256, 256);
+                game.batch.draw(characterFrame,sprite.getX(),sprite.getY(), 256, 256);
                 game.batch.draw(coinFrame,500,50, 141,141);
                 break;
             case Pause:
@@ -196,6 +203,55 @@ public class GameScreen implements Screen {
     public void dispose() {
         game.batch.dispose();
         Gdx.input.setInputProcessor(null);
-        character.dispose();
+        characterTexture.dispose();
+    }
+    @Override
+    public boolean touchDown(float x, float y, int pointer, int button) {
+
+        return false;
+    }
+
+    @Override
+    public boolean tap(float x, float y, int count, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean longPress(float x, float y) {
+
+        return false;
+    }
+
+    @Override
+    public boolean fling(float velocityX, float velocityY, int button) {
+        sprite.setPosition(sprite.getX() + 5, sprite.getY()+5);
+        return true;
+    }
+
+    @Override
+    public boolean pan(float x, float y, float deltaX, float deltaY) {
+
+        return false;
+    }
+
+    @Override
+    public boolean panStop(float x, float y, int pointer, int button) {
+
+        return false;
+    }
+
+    @Override
+    public boolean zoom (float originalDistance, float currentDistance){
+
+        return false;
+    }
+
+    @Override
+    public boolean pinch (Vector2 initialFirstPointer, Vector2 initialSecondPointer, Vector2 firstPointer, Vector2 secondPointer){
+
+        return false;
+    }
+    @Override
+    public void pinchStop () {
     }
 }
