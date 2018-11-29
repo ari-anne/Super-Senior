@@ -1,10 +1,10 @@
 ### Arianne
-- [ ] acceleration & deceleration
-- [ ] randomize environment
-- [ ] game over screen
+- [x] acceleration
+- [x] randomize environment
+- [x] game over screen
 - [x] generate obstacles
 - [x] generate coins
-- [ ] generate ground/platforms
+- [x] generate ground
 - [x] score
 - [x] game screen
 - [x] background scrolling
@@ -16,6 +16,7 @@
 - [x] background art assets
 - [x] tile art assets
 - [x] obstacle art assets
+- [x] camera/viewport
 
 ### Amin
 - [x] runner animation
@@ -32,11 +33,3 @@
 - [x] music
 - [ ] sounds
 - [ ] instructions screen
-
----
-# Unassigned
-### Screens
-- [ ] create user ID screen
-### Tools
-- [ ] camera/viewport
-- [ ] timer

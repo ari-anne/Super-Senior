@@ -9,23 +9,17 @@ public class Background extends Actor {
 
     // Scrolling Background https://www.youtube.com/watch?v=UyNm3n1WNAA&list=PLrnO5Pu2zAHKAIjRtTLAXtZKMSA6JWnmf&index=15
 
-    // TODO: sync background speed with obstacle velocity
-
-    private static final float DEFAULT_SPEED = 80;
-    private static final float ACCELERATION = 50;
-    private static final float MAX_SPEED = 150;
+    private static final float DEFAULT_SPEED = 100;
     private static final float SCREEN_WIDTH = Gdx.graphics.getWidth( );
     private static final float SCREEN_HEIGHT = Gdx.graphics.getHeight();
 
     private Texture image;
     private float x1, x2;
     private float speed;
-    private boolean fixedSpeed;
 
     public Background() {
         image = new Texture("game_background_1.png");
         reset();
-        fixedSpeed = true;
     }
 
     public void reset() {
@@ -38,20 +32,12 @@ public class Background extends Actor {
         speed = DEFAULT_SPEED;
     }
 
-    public void setFixedSpeed(boolean fixedSpeed) {
-        this.fixedSpeed = fixedSpeed;
+    public void speedUp() {
+        speed += 50f;
     }
 
     @Override
     public void act(float delta) {
-        if (!fixedSpeed) {
-            speed += ACCELERATION * delta;
-        }
-
-        if (speed > MAX_SPEED) {
-            speed = MAX_SPEED;
-        }
-
         x1 -= speed * delta;
         x2 -= speed * delta;
 

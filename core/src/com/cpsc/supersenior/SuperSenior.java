@@ -30,7 +30,7 @@ public class SuperSenior extends Game {
 		cam.update();
 
 		background = new Background();
-		this.setScreen(new EndGame(this));
+		this.setScreen(new GameScreen(this));
 	}
 
 	@Override
