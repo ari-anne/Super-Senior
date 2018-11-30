@@ -26,7 +26,8 @@ public class SuperSenior extends Game {
 
 
 	//Variables for sound and music
-	public static float VOLUME = 0.075f;
+	public static float MUSICVOLUME = 0.075f;
+	public static float SOUNDVOLUME = 0.075f;
 	public static Music tune;
 
 	//Five different sounds
@@ -35,6 +36,9 @@ public class SuperSenior extends Game {
 	public static Sound coinSound;
 	public static Sound endGameSound;
 	public static Sound jumpSound;
+
+	//Variable for turning sounds off
+	private static boolean allSoundOn = true;
 
 	@Override
 	public void create() {
@@ -49,10 +53,8 @@ public class SuperSenior extends Game {
 		endGameSound = Gdx.audio.newSound(Gdx.files.internal("end_game_sound.mp3"));
 		jumpSound = Gdx.audio.newSound(Gdx.files.internal("jump_sound.mp3"));
 
-		//play music
-		tune.setLooping(true);
-		tune.setVolume(VOLUME);
-		tune.play();
+        //call to play background music
+        this.playMusic();
 
 
 		batch = new SpriteBatch();
@@ -81,36 +83,70 @@ public class SuperSenior extends Game {
 		super.resize(width, height);
 	}
 
+
+
+	//Sound Methods
+    public static void playMusic(){
+
+	    //play music
+        tune.setLooping(true);
+        tune.setVolume(MUSICVOLUME);
+
+        if(allSoundOn) {
+            tune.play();
+        }
+        else
+        {
+            tune.pause();
+        }
+    }
+
 	public static void muteMusic() {
-		VOLUME = 0.0f;
-		tune.setVolume(VOLUME);
+		tune.pause();
 
 	}
 
 	public static void normalizeMusic() {
-		VOLUME = 0.05f;
-		tune.setVolume(VOLUME);
-
+		if(allSoundOn) {
+		    playMusic();
+		}
 	}
 
 	public static void getBuzzSound(){
-		buzzSound.play(1.0f);
+		if(allSoundOn) {
+			buzzSound.play(SOUNDVOLUME);
+		}
 	}
 
 	public static void getClickSound(){
-		clickSound.play(1.0f);
+		if(allSoundOn) {
+			clickSound.play(SOUNDVOLUME);
+		}
 	}
 
-	public static void getCoinSound(){
-		coinSound.play(1.0f);
+	public static void getCoinSound() {
+		if (allSoundOn) {
+			coinSound.play(SOUNDVOLUME);
+		}
+	}
+	public static void getEndGameSound() {
+		if (allSoundOn) {
+			endGameSound.play(SOUNDVOLUME);
+		}
+	}
+	public static void getJumpSound() {
+		if (allSoundOn) {
+			jumpSound.play(SOUNDVOLUME);
+		}
+	}
+	public static void turnSoundOff()
+	{
+		allSoundOn = false;
 	}
 
-	public static void getEndGameSound(){
-		endGameSound.play(1.0f);
-	}
-
-	public static void getJumpSound(){
-		jumpSound.play(1.0f);
+	public static void turnSoundOn()
+	{
+		allSoundOn = true;
 	}
 
 

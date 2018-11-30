@@ -9,8 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.cpsc.supersenior.SuperSenior;
 
-import static com.cpsc.supersenior.SuperSenior.muteMusic;
-import static com.cpsc.supersenior.SuperSenior.normalizeMusic;
 
 public class Settings implements Screen {
 
@@ -92,12 +90,24 @@ public class Settings implements Screen {
                     //test game sounds
                     SuperSenior.getClickSound();
 
+                    //turn off sounds
+                    SuperSenior.turnSoundOff();
+
+                    //mute music - pauses music
+                    SuperSenior.muteMusic();
+
                 }
                 else {
                     soundTxt.setText("Sound: ON ");
 
+                    SuperSenior.turnSoundOn();
+
                     //test game sounds
                     SuperSenior.getCoinSound();
+
+
+                    //Tries to play background music
+                    SuperSenior.playMusic();
 
                 }
             }
