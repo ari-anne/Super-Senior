@@ -9,6 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.cpsc.supersenior.SuperSenior;
 
+import static com.cpsc.supersenior.SuperSenior.muteMusic;
+import static com.cpsc.supersenior.SuperSenior.normalizeMusic;
+
 public class Settings implements Screen {
 
     final SuperSenior game;
@@ -40,9 +43,10 @@ public class Settings implements Screen {
         back = new Button(skin, "arrow-left");
         music = new Button(skin, "music");
         sound = new Button(skin, "sound");
-        musicTxt = new Label ("Music: ON ",skin);
-        soundTxt = new Label ("Sound: ON ", skin);
+        musicTxt = new Label("Music: On/Off", skin);
+        soundTxt = new Label("Sound: On/Off", skin);
         settings = new TextButton("  Settings  ", skin, "header");
+
 
         btnWidth = 150;
         btnHeight = 150;
@@ -57,12 +61,24 @@ public class Settings implements Screen {
         music.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+
                 // toggle music
                 if (music.isChecked()) {
                     musicTxt.setText("Music: OFF");
+
+                    SuperSenior.muteMusic();
+
+                    //test game sounds
+                    SuperSenior.getJumpSound();
+
                 }
                 else {
-                    musicTxt.setText("Music: ON ");
+                    musicTxt.setText("Music: ON");
+                    SuperSenior.normalizeMusic();
+
+                    //test game sounds
+                    SuperSenior.getBuzzSound();
+
                 }
             }
         });
@@ -72,9 +88,17 @@ public class Settings implements Screen {
                 // toggle sound
                 if (sound.isChecked()) {
                     soundTxt.setText("Sound: OFF");
+
+                    //test game sounds
+                    SuperSenior.getClickSound();
+
                 }
                 else {
                     soundTxt.setText("Sound: ON ");
+
+                    //test game sounds
+                    SuperSenior.getCoinSound();
+
                 }
             }
         });
@@ -128,4 +152,6 @@ public class Settings implements Screen {
     public void dispose() {
         Gdx.input.setInputProcessor(null);
     }
+
+
 }
