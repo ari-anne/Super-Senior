@@ -6,16 +6,16 @@ import com.badlogic.gdx.audio.Music;
 
 public class GameMusic {
 
-    public static float MUSICVOLUME = 0.5f;
-    public static float SOUNDVOLUME = 0.5f;
+    private static float MUSIC_VOLUME = 0.5f;
+    private static float SOUND_VOLUME = 0.5f;
 
-    public static Music tune;
+    private static Music tune;
 
-    public static Sound buzzSound;
-    public static Sound clickSound;
-    public static Sound coinSound;
-    public static Sound endGameSound;
-    public static Sound jumpSound;
+    private static Sound buzzSound;
+    private static Sound clickSound;
+    private static Sound coinSound;
+    private static Sound endGameSound;
+    private static Sound jumpSound;
 
     public boolean soundOn;
     public boolean musicOn;
@@ -30,17 +30,14 @@ public class GameMusic {
 
         soundOn = true;
         musicOn = true;
+
+        tune.setLooping(true);
+        tune.setVolume(MUSIC_VOLUME);
     }
 
-    public void playMusic(){
-        tune.setLooping(true);
-        tune.setVolume(MUSICVOLUME);
-
-        if(soundOn) {
+    public void playMusic() {
+        if(musicOn) {
             tune.play();
-        }
-        else {
-            tune.pause();
         }
     }
 
@@ -48,49 +45,34 @@ public class GameMusic {
         tune.pause();
     }
 
-    public void normalizeMusic() {
+    public void playBuzzSound(){
         if(soundOn) {
-            playMusic();
+            buzzSound.play(SOUND_VOLUME);
         }
     }
 
-    public void getBuzzSound(){
+    public void playClickSound(){
         if(soundOn) {
-            buzzSound.play(SOUNDVOLUME);
+            clickSound.play(SOUND_VOLUME);
         }
     }
 
-    public void getClickSound(){
-        if(soundOn) {
-            clickSound.play(SOUNDVOLUME);
-        }
-    }
-
-    public void getCoinSound() {
+    public void playCoinSound() {
         if (soundOn) {
-            coinSound.play(SOUNDVOLUME);
+            coinSound.play(SOUND_VOLUME);
         }
     }
 
-    public void getEndGameSound() {
+    public void playEndGameSound() {
         if (soundOn) {
-            endGameSound.play(SOUNDVOLUME);
+            endGameSound.play(SOUND_VOLUME);
         }
     }
 
-    public void getJumpSound() {
+    public void playJumpSound() {
         if (soundOn) {
-            jumpSound.play(SOUNDVOLUME);
+            jumpSound.play(SOUND_VOLUME);
         }
-    }
-
-    public void turnSoundOff()
-    {
-        soundOn = false;
-    }
-
-    public void turnSoundOn() {
-        soundOn = true;
     }
 
 }

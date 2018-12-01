@@ -70,14 +70,14 @@ public class Settings implements Screen {
                 if (SuperSenior.gameMusic.musicOn) {
                     musicTxt.setText("Music: Off");
                     music.setChecked(true);
-                    SuperSenior.gameMusic.muteMusic();
                     SuperSenior.gameMusic.musicOn = false;
+                    SuperSenior.gameMusic.muteMusic();
                 }
                 else {
                     musicTxt.setText("Music: On");
                     music.setChecked(false);
-                    SuperSenior.gameMusic.normalizeMusic();
                     SuperSenior.gameMusic.musicOn = true;
+                    SuperSenior.gameMusic.playMusic();
                 }
             }
         });
