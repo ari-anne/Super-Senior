@@ -22,7 +22,7 @@
 - [x] runner animation
 - [ ] add textures to bodies
 - [ ] swipe controls
-- [ ] end game screen
+- [x] end game screen
 - [x] high scores screen
 - [x] high scores database
 - [x] coin asset

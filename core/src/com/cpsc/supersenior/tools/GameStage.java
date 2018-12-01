@@ -2,11 +2,14 @@ package com.cpsc.supersenior.tools;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Array;
 import com.cpsc.supersenior.SuperSenior;
 import com.cpsc.supersenior.entities.*;
@@ -14,7 +17,7 @@ import com.cpsc.supersenior.entitydata.CoinUserData;
 import com.cpsc.supersenior.entitydata.UserData;
 import com.cpsc.supersenior.screens.GameScreen;
 
-public class GameStage extends Stage implements ContactListener {
+public class GameStage extends Stage implements ContactListener, GestureDetector.GestureListener {
 
     // http://williammora.com/a-running-game-with-libgdx-part-1
 
@@ -201,28 +204,86 @@ public class GameStage extends Stage implements ContactListener {
     // TODO: implement swipe input
     // temporary controls to test gravity
     @Override
-    public boolean touchDown(int x, int y, int pointer, int button) {
-        getCamera().unproject(touchPoint.set(x, y, 0));
+    public boolean touchDown(float x, float y, int pointer, int button) {
 
-        // if right side of screen is touched, jump
-        // else if left side of screen is touched, crouch
-        if(rightSide.contains(touchPoint.x, touchPoint.y)) {
-            runner.jump();
-        }
-        else if (leftSide.contains(touchPoint.x, touchPoint.y)) {
-            runner.crouch();
-        }
-
-        return super.touchDown(x, y, pointer, button);
+        return false;
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (runner.isCrouching()) {
-            runner.stand();
+    public boolean tap(float x, float y, int count, int button) {
+        // firing pause button manually
+        Actor pause = this.getRoot().findActor("Pause");
+        float Ylocation = this.getHeight() - y;
+        if( x > pause.getX() && x < pause.getX() + pause.getWidth()){
+            if( Ylocation > pause.getY() && Ylocation < pause.getY() + pause.getHeight()){
+                pause.fire(new ChangeListener.ChangeEvent());
+
+            }
         }
-        return super.touchUp(screenX, screenY, pointer, button);
+        System.out.println(x);
+        System.out.println(y);
+        System.out.println(pause.getX());
+        System.out.println(pause.getY());
+        System.out.println(pause.getY() + pause.getHeight());
+        return true;
     }
+
+    @Override
+    public boolean longPress(float x, float y) {
+
+        return false;
+    }
+
+    @Override
+    public boolean fling(float velocityX, float velocityY, int button) {
+
+        System.out.println("-----------------");
+        System.out.println(velocityX);
+        System.out.println(velocityY);
+        System.out.println("-----------------");
+        if(velocityY < 0) {
+            if (runner.is_standing()) {
+                runner.jump();
+            }
+            else if(runner.is_crouching()){
+                runner.stand();
+            }
+        }
+        else if (velocityY > 0) {
+            if (runner.is_standing()) {
+                runner.crouch();
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean pan(float x, float y, float deltaX, float deltaY) {
+
+        return false;
+    }
+
+    @Override
+    public boolean panStop(float x, float y, int pointer, int button) {
+
+        return false;
+    }
+
+    @Override
+    public boolean zoom (float originalDistance, float currentDistance){
+
+        return false;
+    }
+
+    @Override
+    public boolean pinch (Vector2 initialFirstPointer, Vector2 initialSecondPointer, Vector2 firstPointer, Vector2 secondPointer){
+
+        return false;
+    }
+    @Override
+    public void pinchStop () {
+    }
+
 
     @Override
     public void beginContact(Contact contact) {

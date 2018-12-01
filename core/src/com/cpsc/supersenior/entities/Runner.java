@@ -63,9 +63,21 @@ public class Runner extends Actor {
 
     public void crouch() {
         if (!jumping && !hit) {
-           body.setTransform(new Vector2(CROUCH_X, CROUCH_Y), getCrouchAngle());
-           dodging = true;
+            body.setTransform(new Vector2(CROUCH_X, CROUCH_Y), getCrouchAngle());
+            dodging = true;
         }
+    }
+
+    public boolean is_crouching() {
+        return dodging;
+    }
+
+    public boolean is_jumping() {
+        return jumping;
+    }
+
+    public boolean is_standing() {
+            return !(jumping || dodging);
     }
 
     public void stand() {

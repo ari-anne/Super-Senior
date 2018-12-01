@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion ;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -59,7 +60,7 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         stage = new GameStage();
-        Gdx.input.setInputProcessor(stage);
+        Gdx.input.setInputProcessor(new GestureDetector(stage));
 
         table = new Table();
         skin = new Skin(Gdx.files.internal("buttons/button.json"));
@@ -108,6 +109,7 @@ public class GameScreen implements Screen {
         clickAnywhere.setBounds(MIDDLE_X - clickAnywhere.getWidth()/2, 0, clickAnywhere.getWidth(), clickAnywhere.getHeight());
         pauseTxt.setBounds(MIDDLE_X - pauseTxt.getWidth()/2, MIDDLE_Y - pauseTxt.getHeight()/2, pauseTxt.getWidth(), pauseTxt.getHeight());
         pause.setBounds(Gdx.graphics.getWidth() - BUTTON_WIDTH - PADDING, PADDING, BUTTON_WIDTH, BUTTON_HEIGHT);
+        pause.setName("Pause");
         resume.setBounds(MIDDLE_X - BUTTON_WIDTH * 3, MIDDLE_Y - pauseTxt.getHeight()/2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
         main_menu.setBounds(MIDDLE_X - BUTTON_WIDTH/2, MIDDLE_Y - pauseTxt.getHeight()/2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
         restart.setBounds(MIDDLE_X + BUTTON_WIDTH * 2, MIDDLE_Y - pauseTxt.getHeight()/2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
@@ -169,6 +171,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
+        Gdx.input.setInputProcessor(stage);
         game.batch.draw(overlay, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         pause.setVisible(false);
@@ -181,8 +184,9 @@ public class GameScreen implements Screen {
 
     @Override
     public void resume() {
-        pause.setVisible(true);
+        Gdx.input.setInputProcessor(new GestureDetector(stage));
 
+        pause.setVisible(true);
         pauseTxt.setVisible(false);
         resume.setVisible(false);
         main_menu.setVisible(false);
