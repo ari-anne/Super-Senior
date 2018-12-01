@@ -41,10 +41,18 @@ public class Settings implements Screen {
         back = new Button(skin, "arrow-left");
         music = new Button(skin, "music");
         sound = new Button(skin, "sound");
-        musicTxt = new Label("Music: On/Off", skin);
-        soundTxt = new Label("Sound: On/Off", skin);
+        musicTxt = new Label("Music: On", skin);
+        soundTxt = new Label("Sound: On", skin);
         settings = new TextButton("  Settings  ", skin, "header");
 
+        if (!SuperSenior.gameMusic.musicOn) {
+            musicTxt.setText("Music: Off");
+            music.setChecked(true);
+        }
+        if (!SuperSenior.gameMusic.soundOn) {
+            soundTxt.setText("Sound: Off");
+            sound.setChecked(true);
+        }
 
         btnWidth = 150;
         btnHeight = 150;
@@ -59,56 +67,32 @@ public class Settings implements Screen {
         music.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
-                // toggle music
-                if (music.isChecked()) {
-                    musicTxt.setText("Music: OFF");
-
-                    SuperSenior.muteMusic();
-
-                    //test game sounds
-                    SuperSenior.getJumpSound();
-
+                if (SuperSenior.gameMusic.musicOn) {
+                    musicTxt.setText("Music: Off");
+                    music.setChecked(true);
+                    SuperSenior.gameMusic.muteMusic();
+                    SuperSenior.gameMusic.musicOn = false;
                 }
                 else {
-                    musicTxt.setText("Music: ON");
-                    SuperSenior.normalizeMusic();
-
-                    //test game sounds
-                    SuperSenior.getBuzzSound();
-
+                    musicTxt.setText("Music: On");
+                    music.setChecked(false);
+                    SuperSenior.gameMusic.normalizeMusic();
+                    SuperSenior.gameMusic.musicOn = true;
                 }
             }
         });
         sound.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                // toggle sound
-                if (sound.isChecked()) {
-                    soundTxt.setText("Sound: OFF");
-
-                    //test game sounds
-                    SuperSenior.getClickSound();
-
-                    //turn off sounds
-                    SuperSenior.turnSoundOff();
-
-                    //mute music - pauses music
-                    SuperSenior.muteMusic();
-
+                if (SuperSenior.gameMusic.soundOn) {
+                    soundTxt.setText("Sound: Off");
+                    sound.setChecked(true);
+                    SuperSenior.gameMusic.soundOn = false;
                 }
                 else {
-                    soundTxt.setText("Sound: ON ");
-
-                    SuperSenior.turnSoundOn();
-
-                    //test game sounds
-                    SuperSenior.getCoinSound();
-
-
-                    //Tries to play background music
-                    SuperSenior.playMusic();
-
+                    soundTxt.setText("Sound: On");
+                    sound.setChecked(false);
+                    SuperSenior.gameMusic.soundOn = true;
                 }
             }
         });
@@ -162,6 +146,5 @@ public class Settings implements Screen {
     public void dispose() {
         Gdx.input.setInputProcessor(null);
     }
-
 
 }
