@@ -61,6 +61,7 @@ public class Settings implements Screen {
         back.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                SuperSenior.gameMusic.playClickSound();
                 game.setScreen(new MainMenu(game));
             }
         });
@@ -72,12 +73,14 @@ public class Settings implements Screen {
                     music.setChecked(true);
                     SuperSenior.gameMusic.musicOn = false;
                     SuperSenior.gameMusic.muteMusic();
+                    SuperSenior.gameMusic.playClickSound();
                 }
                 else {
                     musicTxt.setText("Music: On");
                     music.setChecked(false);
                     SuperSenior.gameMusic.musicOn = true;
                     SuperSenior.gameMusic.playMusic();
+                    SuperSenior.gameMusic.playClickSound();
                 }
             }
         });
@@ -88,11 +91,13 @@ public class Settings implements Screen {
                     soundTxt.setText("Sound: Off");
                     sound.setChecked(true);
                     SuperSenior.gameMusic.soundOn = false;
+                    SuperSenior.gameMusic.playClickSound();
                 }
                 else {
                     soundTxt.setText("Sound: On");
                     sound.setChecked(false);
                     SuperSenior.gameMusic.soundOn = true;
+                    SuperSenior.gameMusic.playClickSound();
                 }
             }
         });

@@ -207,6 +207,7 @@ public class GameStage extends Stage implements ContactListener {
         // if right side of screen is touched, jump
         // else if left side of screen is touched, crouch
         if(rightSide.contains(touchPoint.x, touchPoint.y)) {
+            SuperSenior.gameMusic.playJumpSound();
             runner.jump();
         }
         else if (leftSide.contains(touchPoint.x, touchPoint.y)) {
@@ -234,15 +235,18 @@ public class GameStage extends Stage implements ContactListener {
             runner.landed();
         } else if ((CheckBodyType.isObstacle(a) && CheckBodyType.isRunner(b)) ||
                 (CheckBodyType.isRunner(a) && CheckBodyType.isObstacle(b))) {
+            SuperSenior.gameMusic.playBuzzSound();
             runner.hit();
         } else if (CheckBodyType.isCoin(a) && CheckBodyType.isRunner(b)) {
             CoinUserData coinData = (CoinUserData) a.getUserData();
             coinData.toDelete = true;
+            SuperSenior.gameMusic.playCoinSound();
             Score.addScore(a);
 
         } else if (CheckBodyType.isRunner(a) && CheckBodyType.isCoin(b)) {
             CoinUserData coinData = (CoinUserData) b.getUserData();
             coinData.toDelete = true;
+            SuperSenior.gameMusic.playCoinSound();
             Score.addScore(b);
         }
     }

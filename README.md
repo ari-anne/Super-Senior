@@ -1,6 +1,6 @@
 ### Arianne
 - [ ] instruction screen
-- [ ] add sound effects to events
+- [x] add sound effects to events
 - [x] music and sounds toggle
 - [x] acceleration
 - [x] randomize environment
@@ -8,6 +8,7 @@
 - [x] generate obstacles
 - [x] generate coins
 - [x] generate ground
+- [x] create runner
 - [x] score
 - [x] game screen
 - [x] background scrolling

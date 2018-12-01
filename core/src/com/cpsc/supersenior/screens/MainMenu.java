@@ -49,18 +49,21 @@ public class MainMenu implements Screen{
         play.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                SuperSenior.gameMusic.playClickSound();
                 game.setScreen(new GameScreen(game));
             }
         });
         high_scores.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                SuperSenior.gameMusic.playClickSound();
                 game.setScreen(new HighScores(game));
             }
         });
         settings.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                SuperSenior.gameMusic.playClickSound();
                 game.setScreen(new Settings(game));
             }
         });

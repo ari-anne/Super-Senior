@@ -61,6 +61,7 @@ public class HighScores implements Screen {
         back.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                SuperSenior.gameMusic.playClickSound();
                 game.setScreen(new MainMenu(game));
             }
         });
