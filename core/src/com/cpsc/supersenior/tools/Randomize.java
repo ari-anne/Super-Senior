@@ -7,35 +7,13 @@ import java.util.Random;
 public class Randomize {
 
     private static Random random = new Random();    // random number generator
-    private static float max;
-    private static float min;
 
     public static ActorSubtype.ObstacleType obstacleType() {
         ActorSubtype.ObstacleType[] type = ActorSubtype.ObstacleType.values();
         return type[random.nextInt(type.length)];
     }
 
-    public static ActorSubtype.GroundType groundType() {
-        ActorSubtype.GroundType[] type = ActorSubtype.GroundType.values();
-        return type[random.nextInt(type.length)];
-    }
-
-    public static ActorSubtype.CoinType coinType() {
-        ActorSubtype.CoinType[] type = ActorSubtype.CoinType.values();
-        return type[random.nextInt(type.length)];
-    }
-
-    public static float obstacleSpawnTime() {
-        // range: 2 - 4 seconds
-        max = 4f;
-        min = 2f;
-        return random.nextFloat() * (max - min) + min;
-    }
-
-    public static float groundWidth() {
-        // range: 20 - 150
-        max = 150f;
-        min = 20f;
+    public static float obstacleSpawnTime(float max, float min) {
         return random.nextFloat() * (max - min) + min;
     }
 }

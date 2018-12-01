@@ -8,7 +8,7 @@ public class ActorSubtype {
     private static final float SPAWN_X = 25f;     // spawns off screen
 
     private static final float GROUND_Y = 0;
-    private static final float GROUND_WIDTH = Randomize.groundWidth();
+    private static final float GROUND_WIDTH = 20f;
     public static final float GROUND_HEIGHT = 3f;
     private static final float GROUND_DENSITY = 0f;
 
@@ -29,10 +29,6 @@ public class ActorSubtype {
 
     public enum CoinType {
         COIN (SPAWN_X, COIN_Y, COIN_WIDTH, COIN_HEIGHT, COIN_DENSITY);
-//        GREEN_GEM,
-//        RED_GEM,
-//        GREEN_DIAMOND,
-//        RED_DIAMOND;
 
         public float x;
         public float y;
@@ -51,9 +47,6 @@ public class ActorSubtype {
 
     public enum GroundType {
         GRASS(0, 0, GROUND_WIDTH, GROUND_HEIGHT, GROUND_DENSITY);
-//        LAVA,
-//        WATER,
-//        HOLE;
 
         public float x;
         public float y;

@@ -21,10 +21,15 @@ public class GameStage extends Stage implements ContactListener {
     private static final int VIEWPORT_WIDTH = 20;
     private static final int VIEWPORT_HEIGHT = 13;
     private static final Vector2 GRAVITY = new Vector2(0,-10);
+
     private static final float VELOCITY_TIMER = 20f;
     private static final float MAX_VELOCITY = 10f;
+
     private static final float GAME_OVER_TIMER = 1f;
     private static final float COIN_TIMER = 0.5f;
+
+    private static final float OBSTACLE_SPAWN_MAX = 4f;
+    private static final float OBSTACLE_SPAWN_MIN = 2f;
 
     private float accumulator;
     private final float TIME_STEP = 1/300f;
@@ -39,6 +44,7 @@ public class GameStage extends Stage implements ContactListener {
     private OrthographicCamera camera;
 
     private float linearVelocityX;
+    private float speedUp;          // shortens obstacle spawn time when velocity increases
     private float velocityTimer;
     private float obstacleTimer;
     private float coinTimer;
@@ -65,13 +71,14 @@ public class GameStage extends Stage implements ContactListener {
         camera.update();
 
         accumulator = 0f;
-        linearVelocityX = 4f;
+        linearVelocityX = 5f;
+        speedUp = 0f;
         velocityTimer = VELOCITY_TIMER;
-        obstacleTimer = Randomize.obstacleSpawnTime();
+        obstacleTimer = Randomize.obstacleSpawnTime(OBSTACLE_SPAWN_MAX, OBSTACLE_SPAWN_MIN);
         coinTimer = COIN_TIMER;
         gameOverTimer = GAME_OVER_TIMER;
 
-//        addActor(SuperSenior.background);
+        addActor(SuperSenior.background);
         makeGround();
         makeRunner();
         makeObstacle();
@@ -143,7 +150,7 @@ public class GameStage extends Stage implements ContactListener {
         // if coin spawns with obstacle, move coin to accommodate obstacle
         if (obstacleTimer <= 0 && coinTimer <= 0 ) {
             coinTimer = COIN_TIMER;
-            obstacleTimer = Randomize.obstacleSpawnTime();
+            obstacleTimer = Randomize.obstacleSpawnTime(OBSTACLE_SPAWN_MAX + speedUp * 2, OBSTACLE_SPAWN_MIN + speedUp);
             withObstacle = true;
             makeObstacle();
             makeCoin(withObstacle);
@@ -156,7 +163,7 @@ public class GameStage extends Stage implements ContactListener {
         }
         // spawn obstacle
         else if (obstacleTimer <= 0 && coinTimer > 0) {
-            obstacleTimer = Randomize.obstacleSpawnTime();
+            obstacleTimer = Randomize.obstacleSpawnTime(OBSTACLE_SPAWN_MAX + speedUp * 2, OBSTACLE_SPAWN_MIN + speedUp);
             makeObstacle();
         }
 
@@ -169,6 +176,8 @@ public class GameStage extends Stage implements ContactListener {
         // increase velocity if it hasn't reached max
         if (linearVelocityX < MAX_VELOCITY) {
             if (bodies.size == 2 && velocityTimer <= 0) {
+                SuperSenior.background.speedUp();
+                speedUp -= 0.1f;
                 linearVelocityX += 0.5f;
                 velocityTimer = VELOCITY_TIMER;
             }

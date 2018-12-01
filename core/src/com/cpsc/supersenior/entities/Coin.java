@@ -35,7 +35,7 @@ public class Coin extends Actor {
 
     private void makeBody(World world, float y_offset) {
         toDelete = false;
-        coinType = Randomize.coinType();
+        coinType = ActorSubtype.CoinType.COIN;
 
         // create body
         BodyDef bodyDef = new BodyDef();

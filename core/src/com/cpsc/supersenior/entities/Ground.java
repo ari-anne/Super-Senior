@@ -12,7 +12,7 @@ public class Ground extends Actor {
     private Body body;
 
     public Ground(World world) {
-        groundType = Randomize.groundType();
+        groundType = ActorSubtype.GroundType.GRASS;
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.position.set(groundType.x, groundType.y);
