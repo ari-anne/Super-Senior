@@ -2,11 +2,13 @@ package com.cpsc.supersenior.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion ;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -39,8 +41,11 @@ public class GameScreen implements Screen {
     private Button main_menu;
     private Button restart;
     private Texture overlay;
-//    private TextureAtlas character;
-//    private Animation<TextureRegion> animation;
+    private TextureAtlas character;
+    public Animation<TextureRegion> animation;
+    public Animation<TextureRegion> runningAnimation;
+    public Sprite sprite = new Sprite();
+
 
     private float elapsedTime = 0f;
 
@@ -72,8 +77,9 @@ public class GameScreen implements Screen {
         main_menu = new Button(skin, "home");
         restart = new Button(skin, "restart");
         overlay = new Texture("overlay.png");
-//        character = new TextureAtlas("runner/run/run.atlas");
-//        animation = new Animation<TextureRegion>(1f/5f, character.getRegions());
+        character = new TextureAtlas("runner/run/run.atlas");
+        runningAnimation = new Animation<TextureRegion>(1f/5f, character.getRegions());
+        animation = runningAnimation;
         state = GameState.RUNNING;
 
         pause.addListener(new ChangeListener() {
@@ -162,9 +168,9 @@ public class GameScreen implements Screen {
         stage.act(delta);
         elapsedTime += delta;
         scoreTxt.setText(Integer.toString(Score.getScore()));
-
-//        TextureRegion currentFrame = animation.getKeyFrame(elapsedTime, true);
-//        game.batch.draw(currentFrame,50,50, 512, 512);
+        Vector2 bodyPos = stage.getBodyPosition();
+        TextureRegion currentFrame = animation.getKeyFrame(elapsedTime, true);
+        game.batch.draw(currentFrame,bodyPos.x,bodyPos.y, 512, 512);
     }
 
     @Override

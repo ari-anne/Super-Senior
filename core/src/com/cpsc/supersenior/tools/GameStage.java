@@ -216,6 +216,9 @@ public class GameStage extends Stage implements ContactListener {
         return super.touchDown(x, y, pointer, button);
     }
 
+    public Vector2 getBodyPosition(){
+        return runner.getBodyPosition();
+    }
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (runner.isCrouching()) {
