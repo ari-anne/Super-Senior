@@ -234,6 +234,9 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
         return false;
     }
 
+    public Vector2 getBodyPosition(){
+        return runner.getBodyPosition();
+    }
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
 

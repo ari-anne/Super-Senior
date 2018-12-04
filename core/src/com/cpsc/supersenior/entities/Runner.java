@@ -87,6 +87,10 @@ public class Runner extends Actor {
         }
     }
 
+    public Vector2 getBodyPosition(){
+        return body.getPosition();
+    }
+
     public float getCrouchAngle() {
         return (float) (-90f * (Math.PI / 180f));   // in radians
     }
