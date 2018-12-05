@@ -7,22 +7,24 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion ;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.cpsc.supersenior.SuperSenior;
 import com.cpsc.supersenior.tools.GameStage;
 import com.cpsc.supersenior.tools.Score;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class GameScreen implements Screen {
 
     // Pausing      https://stackoverflow.com/questions/21576181/pause-resume-a-simple-libgdx-game-for-android
 
-    private static final int MIDDLE_X = Gdx.graphics.getWidth()/2;
-    private static final int MIDDLE_Y = Gdx.graphics.getHeight()/2;
+    private static final int MIDDLE_X = Gdx.graphics.getWidth() / 2;
+    private static final int MIDDLE_Y = Gdx.graphics.getHeight() / 2;
     private static final int BUTTON_WIDTH = 150;
     private static final int BUTTON_HEIGHT = 150;
     private static final int PADDING = 50;
@@ -43,21 +45,24 @@ public class GameScreen implements Screen {
     private Button restart;
     private Texture overlay;
     private TextureAtlas character;
+    private TextureRegion currentFrame;
+    private Image runnerTexture;
     public Animation<TextureRegion> animation;
     public Animation<TextureRegion> runningAnimation;
+    public Animation<TextureRegion> slidingAnimation;
     public Sprite sprite = new Sprite();
 
 
     private float elapsedTime = 0f;
 
-    public enum GameState{
+    public enum GameState {
         RUNNING,
         PAUSE,
         RESUME,
         GAME_OVER
     }
 
-    public GameScreen(SuperSenior game){
+    public GameScreen(SuperSenior game) {
         this.game = game;
         stage = new GameStage();
     }
@@ -78,9 +83,13 @@ public class GameScreen implements Screen {
         main_menu = new Button(skin, "home");
         restart = new Button(skin, "restart");
         overlay = new Texture("overlay.png");
-        character = new TextureAtlas("runner/run/run.atlas");
-        runningAnimation = new Animation<TextureRegion>(1f/5f, character.getRegions());
+        TextureAtlas running = new TextureAtlas("runner/run/run.atlas");
+        TextureAtlas sliding = new TextureAtlas("runner/sliding/sliding.atlas");
+        runningAnimation = new Animation<TextureRegion>(1f / 5f, running.getRegions());
+        slidingAnimation = new Animation<TextureRegion>(1f / 10f, sliding.getRegions());
         animation = runningAnimation;
+        currentFrame = animation.getKeyFrame(elapsedTime, true);
+        runnerTexture = new Image(currentFrame);
         state = GameState.RUNNING;
 
         pause.addListener(new ChangeListener() {
@@ -110,15 +119,15 @@ public class GameScreen implements Screen {
             }
         });
 
-        scoreTxt.setBounds(MIDDLE_X - scoreTxt.getWidth()/2, Gdx.graphics.getHeight() - scoreTxt.getHeight() - PADDING, scoreTxt.getWidth(), scoreTxt.getHeight());
-        gameOverTxt.setBounds(MIDDLE_X - gameOverTxt.getWidth()/2, MIDDLE_Y - gameOverTxt.getHeight()/2, gameOverTxt.getWidth(), gameOverTxt.getHeight());
-        clickAnywhere.setBounds(MIDDLE_X - clickAnywhere.getWidth()/2, 0, clickAnywhere.getWidth(), clickAnywhere.getHeight());
-        pauseTxt.setBounds(MIDDLE_X - pauseTxt.getWidth()/2, MIDDLE_Y - pauseTxt.getHeight()/2, pauseTxt.getWidth(), pauseTxt.getHeight());
+        scoreTxt.setBounds(MIDDLE_X - scoreTxt.getWidth() / 2, Gdx.graphics.getHeight() - scoreTxt.getHeight() - PADDING, scoreTxt.getWidth(), scoreTxt.getHeight());
+        gameOverTxt.setBounds(MIDDLE_X - gameOverTxt.getWidth() / 2, MIDDLE_Y - gameOverTxt.getHeight() / 2, gameOverTxt.getWidth(), gameOverTxt.getHeight());
+        clickAnywhere.setBounds(MIDDLE_X - clickAnywhere.getWidth() / 2, 0, clickAnywhere.getWidth(), clickAnywhere.getHeight());
+        pauseTxt.setBounds(MIDDLE_X - pauseTxt.getWidth() / 2, MIDDLE_Y - pauseTxt.getHeight() / 2, pauseTxt.getWidth(), pauseTxt.getHeight());
         pause.setBounds(Gdx.graphics.getWidth() - BUTTON_WIDTH - PADDING, PADDING, BUTTON_WIDTH, BUTTON_HEIGHT);
         pause.setName("Pause");
-        resume.setBounds(MIDDLE_X - BUTTON_WIDTH * 3, MIDDLE_Y - pauseTxt.getHeight()/2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
-        main_menu.setBounds(MIDDLE_X - BUTTON_WIDTH/2, MIDDLE_Y - pauseTxt.getHeight()/2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
-        restart.setBounds(MIDDLE_X + BUTTON_WIDTH * 2, MIDDLE_Y - pauseTxt.getHeight()/2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
+        resume.setBounds(MIDDLE_X - BUTTON_WIDTH * 3, MIDDLE_Y - pauseTxt.getHeight() / 2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
+        main_menu.setBounds(MIDDLE_X - BUTTON_WIDTH / 2, MIDDLE_Y - pauseTxt.getHeight() / 2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
+        restart.setBounds(MIDDLE_X + BUTTON_WIDTH * 2, MIDDLE_Y - pauseTxt.getHeight() / 2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
 
         stage.addActor(scoreTxt);
         stage.addActor(gameOverTxt);
@@ -128,6 +137,7 @@ public class GameScreen implements Screen {
         stage.addActor(resume);
         stage.addActor(main_menu);
         stage.addActor(restart);
+        stage.addActor(runnerTexture);
 
         gameOverTxt.setVisible(false);
         clickAnywhere.setVisible(false);
@@ -143,8 +153,22 @@ public class GameScreen implements Screen {
 
         game.batch.begin();
 
-        switch(state){
+
+        switch (state) {
             case RUNNING:
+
+                Vector2 bodyPos = stage.getBodyPosition();
+                if (bodyPos.y > 3.6){
+                    animation = runningAnimation;
+                }
+                else{
+                    animation = slidingAnimation;
+                }
+                currentFrame = animation.getKeyFrame(elapsedTime, true);
+                System.out.println(bodyPos.x);
+                System.out.println(bodyPos.y);
+                runnerTexture.setBounds(bodyPos.x-20, bodyPos.y*100-225, 370, 370);
+                runnerTexture.setDrawable(new TextureRegionDrawable(currentFrame));
                 running(delta);
                 break;
             case PAUSE:
@@ -170,16 +194,12 @@ public class GameScreen implements Screen {
         stage.act(delta);
         elapsedTime += delta;
         scoreTxt.setText(Integer.toString(Score.getScore()));
-        Vector2 bodyPos = stage.getBodyPosition();
-        TextureRegion currentFrame = animation.getKeyFrame(elapsedTime, true);
-        game.batch.draw(currentFrame,bodyPos.x,bodyPos.y, 512, 512);
     }
 
     @Override
     public void pause() {
         Gdx.input.setInputProcessor(stage);
-        game.batch.draw(overlay, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
+        game.batch.draw(overlay, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         pause.setVisible(false);
 
         pauseTxt.setVisible(true);
@@ -202,19 +222,20 @@ public class GameScreen implements Screen {
     }
 
     private void gameOver() {
-        game.batch.draw(overlay, 0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        game.batch.draw(overlay, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         pause.setVisible(false);
         gameOverTxt.setVisible(true);
         clickAnywhere.setVisible(true);
 
-        if(Gdx.input.isTouched()){
+        if (Gdx.input.isTouched()) {
             game.setScreen(new EndGame(game));
         }
     }
 
     @Override
-    public void hide() { }
+    public void hide() {
+    }
 
     @Override
     public void dispose() {

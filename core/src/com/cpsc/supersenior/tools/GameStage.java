@@ -239,11 +239,6 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     }
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
-
-        System.out.println("-----------------");
-        System.out.println(velocityX);
-        System.out.println(velocityY);
-        System.out.println("-----------------");
         if(velocityY < 0) {
             if (runner.is_standing()) {
                 runner.jump();
