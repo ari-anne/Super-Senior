@@ -85,26 +85,32 @@ public class GameScreen implements Screen {
         pause.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                SuperSenior.gameMusic.playClickSound();
                 state = GameState.PAUSE;
             }
         });
         resume.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                SuperSenior.gameMusic.playClickSound();
                 state = GameState.RESUME;
             }
         });
         main_menu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                SuperSenior.gameMusic.playClickSound();
                 SuperSenior.background.resetSpeed();
+                Score.resetScore();
                 game.setScreen(new MainMenu(game));
             }
         });
         restart.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                SuperSenior.gameMusic.playClickSound();
                 SuperSenior.background.reset();
+                Score.resetScore();
                 game.setScreen(new GameScreen(game));
             }
         });
@@ -205,6 +211,7 @@ public class GameScreen implements Screen {
         clickAnywhere.setVisible(true);
 
         if(Gdx.input.isTouched()){
+            Score.resetScore();
             game.setScreen(new EndGame(game));
         }
     }
