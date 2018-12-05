@@ -2,6 +2,9 @@ package com.cpsc.supersenior.tools;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -10,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.cpsc.supersenior.SuperSenior;
 import com.cpsc.supersenior.entities.*;
@@ -34,12 +38,21 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     private static final float OBSTACLE_SPAWN_MAX = 4f;
     private static final float OBSTACLE_SPAWN_MIN = 2f;
 
+    public Animation animation;
+
+//    private TextureAtlas running = new TextureAtlas("runner/run/run.atlas");
+//    private TextureAtlas sliding = new TextureAtlas("runner/sliding/sliding.atlas");
+
+//    public Animation<TextureRegion> runningAnimation;
+//    public Animation<TextureRegion> slidingAnimation;
+
     private float accumulator;
     private final float TIME_STEP = 1/300f;
 
     private World world;
     private Ground ground;
     private Runner runner;
+   // private AnimatedImage runnerTexture;
     private Obstacle obstacle;
     private Coin coin;
 
@@ -68,6 +81,9 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
         world = new World(GRAVITY, true);
         renderer = new Box2DDebugRenderer();
         world.setContactListener(this);
+//        runningAnimation = new Animation<TextureRegion>(1f / 5f, running.getRegions());
+//        slidingAnimation = new Animation<TextureRegion>(1f / 10f, sliding.getRegions());
+//        animation = runningAnimation;
 
         camera = new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
         camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0f);
@@ -103,7 +119,9 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
 
     private void makeRunner() {
         runner = new Runner(world);
+        //runnerTexture = new AnimatedImage(animation, runner);
         addActor(runner);
+        //addActor(runnerTexture);
     }
 
     private void makeObstacle() {

@@ -47,9 +47,6 @@ public class GameScreen implements Screen {
     private TextureAtlas character;
     private TextureRegion currentFrame;
     private Image runnerTexture;
-    public Animation<TextureRegion> animation;
-    public Animation<TextureRegion> runningAnimation;
-    public Animation<TextureRegion> slidingAnimation;
     public Sprite sprite = new Sprite();
 
 
@@ -83,12 +80,6 @@ public class GameScreen implements Screen {
         main_menu = new Button(skin, "home");
         restart = new Button(skin, "restart");
         overlay = new Texture("overlay.png");
-        TextureAtlas running = new TextureAtlas("runner/run/run.atlas");
-        TextureAtlas sliding = new TextureAtlas("runner/sliding/sliding.atlas");
-        runningAnimation = new Animation<TextureRegion>(1f / 5f, running.getRegions());
-        slidingAnimation = new Animation<TextureRegion>(1f / 10f, sliding.getRegions());
-        animation = runningAnimation;
-        currentFrame = animation.getKeyFrame(elapsedTime, true);
         runnerTexture = new Image(currentFrame);
         state = GameState.RUNNING;
 
@@ -156,19 +147,6 @@ public class GameScreen implements Screen {
 
         switch (state) {
             case RUNNING:
-
-                Vector2 bodyPos = stage.getBodyPosition();
-                if (bodyPos.y > 3.6){
-                    animation = runningAnimation;
-                }
-                else{
-                    animation = slidingAnimation;
-                }
-                currentFrame = animation.getKeyFrame(elapsedTime, true);
-                System.out.println(bodyPos.x);
-                System.out.println(bodyPos.y);
-                runnerTexture.setBounds(bodyPos.x-20, bodyPos.y*100-225, 370, 370);
-                runnerTexture.setDrawable(new TextureRegionDrawable(currentFrame));
                 running(delta);
                 break;
             case PAUSE:
