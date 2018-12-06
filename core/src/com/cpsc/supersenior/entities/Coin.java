@@ -72,4 +72,19 @@ public class Coin extends Actor {
         body.setLinearVelocity(linearVelocity);
     }
 
+    public boolean should_delete(){
+        CoinUserData userdata = (CoinUserData)body.getUserData();
+        return userdata.toDelete;
+    }
+
+    public Vector2 getBodyPosition(){
+        return body.getPosition();
+    }
+
+    @Override
+    public boolean remove(){
+        body.getWorld().destroyBody(body);
+        return super.remove();
+    }
+
 }

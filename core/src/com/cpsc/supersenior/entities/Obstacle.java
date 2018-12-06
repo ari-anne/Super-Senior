@@ -48,4 +48,14 @@ public class Obstacle extends Actor {
         body.setLinearVelocity(linearVelocity);
     }
 
+    public Vector2 getBodyPosition(){
+        return body.getPosition();
+    }
+
+    @Override
+    public boolean remove(){
+        body.getWorld().destroyBody(body);
+        return super.remove();
+    }
+
 }
