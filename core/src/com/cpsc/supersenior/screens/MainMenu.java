@@ -39,6 +39,8 @@ public class MainMenu implements Screen{
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
+        SuperSenior.gameMusic.playMusic();
+
         table = new Table();
         skin = new Skin(Gdx.files.internal("buttons/button.json"));
         title = new TextButton("  Super Senior  ", skin, "title");

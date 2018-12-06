@@ -6,13 +6,13 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.cpsc.supersenior.entitydata.ActorSubtype;
+import com.cpsc.supersenior.entitydata.ObstacleType;
 import com.cpsc.supersenior.tools.Randomize;
 import com.cpsc.supersenior.entitydata.ObstacleUserData;
 
 public class Obstacle extends Actor {
 
-    private ActorSubtype.ObstacleType obstacleType;
+    private ObstacleType obstacleType;
     private Body body;
     private Vector2 linearVelocity;
 
@@ -38,7 +38,7 @@ public class Obstacle extends Actor {
         this.linearVelocity = linearVelocity;
     }
 
-    public ActorSubtype.ObstacleType getObstacleType() {
+    public ObstacleType getObstacleType() {
         return obstacleType;
     }
 

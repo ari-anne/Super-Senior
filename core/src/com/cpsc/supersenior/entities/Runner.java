@@ -1,43 +1,36 @@
 package com.cpsc.supersenior.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.cpsc.supersenior.SuperSenior;
-import com.cpsc.supersenior.entitydata.ActorSubtype;
 import com.cpsc.supersenior.entitydata.RunnerUserData;
-import com.cpsc.supersenior.tools.GameStage;
-
 
 public class Runner extends Actor {
 
-    public static final float X = 2f;
-    public static final float Y = ActorSubtype.ABOVE_GROUND;
-    public static final float WIDTH = 0.5f;
-    public static final float HEIGHT = 1f;
+    private static final float X = 2f;
+    private static final float Y = Ground.ABOVE_GROUND;
+    private static final float WIDTH = 0.5f;
+    private static final float HEIGHT = 1f;
     public static final float DENSITY = 0.5f;
-    public static final float GRAVITY_SCALE = 2f;
-    public static final float CROUCH_X = X;
-    public static final float CROUCH_Y = ActorSubtype.GROUND_HEIGHT + WIDTH;
+    private static final float GRAVITY_SCALE = 2f;
+    private static final float CROUCH_X = X;
+    private static final float CROUCH_Y = Ground.ABOVE_GROUND + WIDTH;
 
-    public static final Vector2 JUMPING_LINEAR_IMPULSE = new Vector2(0, 10f);
-    public static final float HIT_ANGULAR_IMPULSE = 3f;
+    private static final Vector2 JUMPING_LINEAR_IMPULSE = new Vector2(0, 10f);
+    private static final float HIT_ANGULAR_IMPULSE = 3f;
 
-    Body body;
-    boolean jumping;
-    boolean dodging;
-    boolean hit;
-
+    private Body body;
+    private boolean jumping;
+    private boolean dodging;
+    private boolean hit;
 
     public Runner(World world) {
         jumping = false;
         dodging = false;
         hit = false;
-
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -60,8 +53,6 @@ public class Runner extends Actor {
             body.applyLinearImpulse(JUMPING_LINEAR_IMPULSE, body.getWorldCenter(), true);
             jumping = true;
         }
-
-
     }
 
     public void landed() {
@@ -114,6 +105,5 @@ public class Runner extends Actor {
     public boolean isHit() {
         return hit;
     }
-
 
 }

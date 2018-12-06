@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.cpsc.supersenior.entities.Background;
 import com.cpsc.supersenior.screens.EndGame;
+import com.cpsc.supersenior.screens.MainMenu;
 import com.cpsc.supersenior.tools.GameMusic;
 
 
@@ -25,9 +26,6 @@ public class SuperSenior extends Game {
 
 	@Override
 	public void create() {
-		gameMusic = new GameMusic();
-		gameMusic.playMusic();
-
 		batch = new SpriteBatch();
 		cam = new OrthographicCamera();
 		viewport = new StretchViewport(WIDTH, HEIGHT, cam);
@@ -36,8 +34,9 @@ public class SuperSenior extends Game {
 		cam.position.set(WIDTH / 2, HEIGHT / 2, 0);
 		cam.update();
 
+		gameMusic = new GameMusic();
 		background = new Background();
-		this.setScreen(new EndGame(this));
+		this.setScreen(new MainMenu(this));
 	}
 
 	@Override
