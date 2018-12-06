@@ -27,7 +27,7 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
 
     private static final int VIEWPORT_WIDTH = 20;
     private static final int VIEWPORT_HEIGHT = 13;
-    private static final Vector2 GRAVITY = new Vector2(0,-10);
+    private static final Vector2 GRAVITY = new Vector2(0, -10);
 
     private static final float VELOCITY_TIMER = 20f;
     private static final float MAX_VELOCITY = 10f;
@@ -47,7 +47,7 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     public Animation<TextureRegion> slidingAnimation;
 
     private float accumulator;
-    private final float TIME_STEP = 1/300f;
+    private final float TIME_STEP = 1 / 300f;
 
     private World world;
     private Ground ground;
@@ -86,7 +86,7 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
         animation = runningAnimation;
 
         camera = new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT);
-        camera.position.set(camera.viewportWidth/2, camera.viewportHeight/2, 0f);
+        camera.position.set(camera.viewportWidth / 2, camera.viewportHeight / 2, 0f);
         camera.update();
 
         accumulator = 0f;
@@ -107,8 +107,8 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
         // temporary controls to test gravity
         // divide screen in half, tapping right side jumps, tapping left side crouches
         touchPoint = new Vector3();
-        rightSide = new Rectangle(getCamera().viewportWidth/2,0,getCamera().viewportWidth/2, getCamera().viewportHeight);
-        leftSide = new Rectangle(0, 0, getCamera().viewportWidth/2, getCamera().viewportHeight);
+        rightSide = new Rectangle(getCamera().viewportWidth / 2, 0, getCamera().viewportWidth / 2, getCamera().viewportHeight);
+        leftSide = new Rectangle(0, 0, getCamera().viewportWidth / 2, getCamera().viewportHeight);
         Gdx.input.setInputProcessor(this);
     }
 
@@ -133,8 +133,7 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     private void makeCoin(boolean withObstacle) {
         if (!withObstacle) {
             coin = new Coin(world);
-        }
-        else {
+        } else {
             coin = new Coin(world, obstacle.getObstacleType());
         }
         coin.setLinearVelocity(new Vector2(-linearVelocityX, 0));
@@ -149,13 +148,15 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
         Array<Body> bodies = new Array<Body>(world.getBodyCount());
         world.getBodies(bodies);
 
-        for (Body body : bodies) {
-            if (!onScreen(body)) {
-                world.destroyBody(body);
-            } else if (CheckBodyType.isCoin(body)) {
-                CoinUserData coinData = (CoinUserData) body.getUserData();
-                if (coinData.toDelete) {
-                    world.destroyBody(body);
+        for (Actor actor : getActors()) {
+            if (actor.getClass() == Coin.class || actor.getClass() == Obstacle.class) {
+                if (!onScreen(actor)) {
+                    actor.remove();
+                } else if (actor.getClass() == Coin.class) {
+                    Coin coin = (Coin) actor;
+                    if (coin.should_delete()) {
+                        actor.remove();
+                    }
                 }
             }
         }
@@ -169,7 +170,7 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
         }
 
         // if coin spawns with obstacle, move coin to accommodate obstacle
-        if (obstacleTimer <= 0 && coinTimer <= 0 ) {
+        if (obstacleTimer <= 0 && coinTimer <= 0) {
             coinTimer = COIN_TIMER;
             obstacleTimer = Randomize.obstacleSpawnTime(OBSTACLE_SPAWN_MAX + speedUp * 2, OBSTACLE_SPAWN_MIN + speedUp);
             withObstacle = true;
@@ -232,8 +233,8 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
         // firing pause button manually
         Actor pause = this.getRoot().findActor("Pause");
         float Ylocation = this.getHeight() - y;
-        if( x > pause.getX() && x < pause.getX() + pause.getWidth()){
-            if( Ylocation > pause.getY() && Ylocation < pause.getY() + pause.getHeight()){
+        if (x > pause.getX() && x < pause.getX() + pause.getWidth()) {
+            if (Ylocation > pause.getY() && Ylocation < pause.getY() + pause.getHeight()) {
                 pause.fire(new ChangeListener.ChangeEvent());
 
             }
@@ -252,21 +253,21 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
         return false;
     }
 
-    public Vector2 getBodyPosition(){
+    public Vector2 getBodyPosition() {
         return runner.getBodyPosition();
     }
+
     @Override
     public boolean fling(float velocityX, float velocityY, int button) {
-        if(velocityY < 0) {
+        runner.remove();
+        if (velocityY < 0) {
             if (runner.is_standing()) {
                 SuperSenior.gameMusic.playJumpSound();
                 runner.jump();
-            }
-            else if(runner.is_crouching()){
+            } else if (runner.is_crouching()) {
                 runner.stand();
             }
-        }
-        else if (velocityY > 0) {
+        } else if (velocityY > 0) {
             if (runner.is_standing()) {
                 runner.crouch();
             }
@@ -287,18 +288,19 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     }
 
     @Override
-    public boolean zoom (float originalDistance, float currentDistance){
+    public boolean zoom(float originalDistance, float currentDistance) {
 
         return false;
     }
 
     @Override
-    public boolean pinch (Vector2 initialFirstPointer, Vector2 initialSecondPointer, Vector2 firstPointer, Vector2 secondPointer){
+    public boolean pinch(Vector2 initialFirstPointer, Vector2 initialSecondPointer, Vector2 firstPointer, Vector2 secondPointer) {
 
         return false;
     }
+
     @Override
-    public void pinchStop () {
+    public void pinchStop() {
     }
 
 
@@ -346,5 +348,22 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     private static boolean onScreen(Body body) {
         UserData userData = (UserData) body.getUserData();
         return body.getPosition().x + userData.getWidth() > 0;
+    }
+
+    private static boolean onScreen(Actor actor) {
+        float x;
+        if(actor.getClass() == Coin.class){
+             Coin tmp = (Coin)actor;
+             x = tmp.getBodyPosition().x;
+        }
+        else if(actor.getClass() == Obstacle.class){
+            Obstacle tmp = (Obstacle)actor;
+            x = tmp.getBodyPosition().x;
+        }
+        else{
+            x = actor.getX();
+        }
+        System.out.println(actor.getX());
+        return x > 0;
     }
 }
