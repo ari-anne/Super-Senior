@@ -22,9 +22,17 @@ public class AnimatedImage extends Image
     @Override
     public void act(float delta)
     {
-        Vector2 runneryPos = runner.getBodyPosition();
+        Vector2 pos = runner.getBodyPosition();
+        System.out.println(pos.y);
+        if(pos.y < 4.0){
+            setHeight(250);
+            setPosition(pos.x *50+50, pos.y*90-120, 4);
+        }
+        else{
+            setHeight(512);
+            setPosition(pos.x *50+50, pos.y*90-220, 4);
+        }
         ((TextureRegionDrawable)getDrawable()).setRegion(animation.getKeyFrame(stateTime+=delta, true));
-        //super.setBounds(runneryPos.x, runneryPos.y, runner.getWidth(), runner.getHeight());
         super.act(delta);
     }
 

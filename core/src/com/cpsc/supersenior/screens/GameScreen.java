@@ -17,7 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.cpsc.supersenior.SuperSenior;
 import com.cpsc.supersenior.tools.GameStage;
 import com.cpsc.supersenior.tools.Score;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+//import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class GameScreen implements Screen {
 
@@ -128,7 +128,6 @@ public class GameScreen implements Screen {
         stage.addActor(resume);
         stage.addActor(main_menu);
         stage.addActor(restart);
-        stage.addActor(runnerTexture);
 
         gameOverTxt.setVisible(false);
         clickAnywhere.setVisible(false);
