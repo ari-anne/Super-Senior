@@ -1,14 +1,17 @@
 package com.cpsc.supersenior.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.cpsc.supersenior.SuperSenior;
 import com.cpsc.supersenior.entitydata.ActorSubtype;
 import com.cpsc.supersenior.entitydata.RunnerUserData;
 import com.cpsc.supersenior.tools.GameStage;
+
 
 public class Runner extends Actor {
 
@@ -29,10 +32,12 @@ public class Runner extends Actor {
     boolean dodging;
     boolean hit;
 
+
     public Runner(World world) {
         jumping = false;
         dodging = false;
         hit = false;
+
 
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -55,6 +60,8 @@ public class Runner extends Actor {
             body.applyLinearImpulse(JUMPING_LINEAR_IMPULSE, body.getWorldCenter(), true);
             jumping = true;
         }
+
+
     }
 
     public void landed() {
@@ -107,5 +114,6 @@ public class Runner extends Actor {
     public boolean isHit() {
         return hit;
     }
+
 
 }

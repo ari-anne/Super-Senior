@@ -259,6 +259,7 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     public boolean fling(float velocityX, float velocityY, int button) {
         if(velocityY < 0) {
             if (runner.is_standing()) {
+                SuperSenior.gameMusic.playJumpSound();
                 runner.jump();
             }
             else if(runner.is_crouching()){
@@ -311,15 +312,18 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
             runner.landed();
         } else if ((CheckBodyType.isObstacle(a) && CheckBodyType.isRunner(b)) ||
                 (CheckBodyType.isRunner(a) && CheckBodyType.isObstacle(b))) {
+            SuperSenior.gameMusic.playBuzzSound();
             runner.hit();
         } else if (CheckBodyType.isCoin(a) && CheckBodyType.isRunner(b)) {
             CoinUserData coinData = (CoinUserData) a.getUserData();
             coinData.toDelete = true;
+            SuperSenior.gameMusic.playCoinSound();
             Score.addScore(a);
 
         } else if (CheckBodyType.isRunner(a) && CheckBodyType.isCoin(b)) {
             CoinUserData coinData = (CoinUserData) b.getUserData();
             coinData.toDelete = true;
+            SuperSenior.gameMusic.playCoinSound();
             Score.addScore(b);
         }
     }

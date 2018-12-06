@@ -1,10 +1,14 @@
 ### Arianne
+- [ ] instruction screen
+- [x] add sound effects to events
+- [x] music and sounds toggle
 - [x] acceleration
 - [x] randomize environment
 - [x] game over screen
 - [x] generate obstacles
 - [x] generate coins
 - [x] generate ground
+- [x] create runner
 - [x] score
 - [x] game screen
 - [x] background scrolling
@@ -30,6 +34,6 @@
 - [x] buttons
 
 ### Jonathan
-- [x] music
-- [ ] sounds
-- [ ] instructions screen
+- [x] music asset
+- [x] sound assets
+- [x] play/pause music and sounds
