@@ -51,6 +51,17 @@
             up: rectangle
         }
     }
+    com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle:{
+        default: {
+            font: large
+            fontColor: white
+
+        }
+        med: {
+            font: medium,
+            fontColor: white
+        }
+    }
     com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
         default: {
             up: circle

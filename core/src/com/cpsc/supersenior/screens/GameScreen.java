@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.cpsc.supersenior.SuperSenior;
 import com.cpsc.supersenior.tools.GameStage;
 import com.cpsc.supersenior.tools.Score;
+import com.cpsc.supersenior.tools.TextListener;
 //import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
 public class GameScreen implements Screen {
@@ -44,10 +45,8 @@ public class GameScreen implements Screen {
     private Button main_menu;
     private Button restart;
     private Texture overlay;
-    private TextureAtlas character;
-    private TextureRegion currentFrame;
-    private Image runnerTexture;
-    public Sprite sprite = new Sprite();
+    private TextListener userRecord;
+    private Boolean userRecord_poped = false;
 
 
     private float elapsedTime = 0f;
@@ -80,7 +79,7 @@ public class GameScreen implements Screen {
         main_menu = new Button(skin, "home");
         restart = new Button(skin, "restart");
         overlay = new Texture("overlay.png");
-        runnerTexture = new Image(currentFrame);
+        userRecord = new TextListener();
         state = GameState.RUNNING;
 
         pause.addListener(new ChangeListener() {
@@ -134,6 +133,7 @@ public class GameScreen implements Screen {
         stage.addActor(resume);
         stage.addActor(main_menu);
         stage.addActor(restart);
+
 
         gameOverTxt.setVisible(false);
         clickAnywhere.setVisible(false);
@@ -210,10 +210,13 @@ public class GameScreen implements Screen {
         pause.setVisible(false);
         gameOverTxt.setVisible(true);
         clickAnywhere.setVisible(true);
-
+        if (!userRecord_poped) {
+            userRecord.set_UserScore(Score.getScore());
+            Gdx.input.getTextInput(userRecord, "Enter Your Name", "", "ex. Super Crusher");
+            userRecord_poped = true;
+        }
         if(Gdx.input.isTouched()){
-            Score.resetScore();
-            game.setScreen(new EndGame(game));
+            game.setScreen(new HighScores(game));
         }
     }
 
