@@ -182,7 +182,7 @@ public class GameScreen implements Screen {
     @Override
     public void pause() {
         Gdx.input.setInputProcessor(stage);
-        game.batch.draw(overlay, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
         pause.setVisible(false);
 
         pauseTxt.setVisible(true);
@@ -205,7 +205,7 @@ public class GameScreen implements Screen {
     }
 
     private void gameOver() {
-        game.batch.draw(overlay, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        Gdx.input.setInputProcessor(new GestureDetector(stage));
 
         pause.setVisible(false);
         gameOverTxt.setVisible(true);
