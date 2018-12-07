@@ -12,6 +12,7 @@ public class Background extends Actor {
     private static final float DEFAULT_SPEED = 100;
     private static final float SCREEN_WIDTH = Gdx.graphics.getWidth( );
     private static final float SCREEN_HEIGHT = Gdx.graphics.getHeight();
+    private static final float INCREASE_SPEED = 50f;
 
     private Texture image;
     private float x1, x2;
@@ -33,7 +34,7 @@ public class Background extends Actor {
     }
 
     public void speedUp() {
-        speed += 50f;
+        speed += INCREASE_SPEED;
     }
 
     @Override

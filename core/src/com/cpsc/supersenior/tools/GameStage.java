@@ -6,15 +6,11 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.input.GestureDetector;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
 import com.cpsc.supersenior.SuperSenior;
 import com.cpsc.supersenior.entities.*;
 import com.cpsc.supersenior.entitydata.CoinUserData;
@@ -23,10 +19,12 @@ import com.cpsc.supersenior.screens.GameScreen;
 
 public class GameStage extends Stage implements ContactListener, GestureDetector.GestureListener {
 
-    // http://williammora.com/a-running-game-with-libgdx-part-1
+    // http://williammora.com/a-running-game-with-libgdx-part-4
 
     private static final int VIEWPORT_WIDTH = 20;
     private static final int VIEWPORT_HEIGHT = 13;
+    public static final float WORLD_X = Gdx.graphics.getWidth() / VIEWPORT_WIDTH;
+    public static final float WORLD_Y = Gdx.graphics.getHeight() / VIEWPORT_HEIGHT;
     private static final Vector2 GRAVITY = new Vector2(0, -10);
 
     private static final float VELOCITY_TIMER = 20f;
@@ -56,7 +54,7 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     private Obstacle obstacle;
     private Coin coin;
 
-    private Box2DDebugRenderer renderer;
+//    private Box2DDebugRenderer renderer;
     private OrthographicCamera camera;
 
     private float linearVelocityX;
@@ -65,10 +63,6 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     private float obstacleTimer;
     private float coinTimer;
     private float gameOverTimer;
-
-    Vector3 touchPoint;
-    Rectangle rightSide;
-    Rectangle leftSide;
 
     public enum ActorType {
         GROUND,
@@ -79,9 +73,9 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
 
     public GameStage() {
         world = new World(GRAVITY, true);
-        renderer = new Box2DDebugRenderer();
+//        renderer = new Box2DDebugRenderer();
         world.setContactListener(this);
-        runningAnimation = new Animation<TextureRegion>(1f / 5f, running.getRegions());
+        runningAnimation = new Animation<TextureRegion>(1f / 10f, running.getRegions());
         slidingAnimation = new Animation<TextureRegion>(1f / 10f, sliding.getRegions());
         animation = runningAnimation;
 
@@ -102,14 +96,6 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
         makeRunner();
         makeObstacle();
         makeCoin(true);
-
-        // TODO: implement swipe input
-        // temporary controls to test gravity
-        // divide screen in half, tapping right side jumps, tapping left side crouches
-        touchPoint = new Vector3();
-        rightSide = new Rectangle(getCamera().viewportWidth / 2, 0, getCamera().viewportWidth / 2, getCamera().viewportHeight);
-        leftSide = new Rectangle(0, 0, getCamera().viewportWidth / 2, getCamera().viewportHeight);
-        Gdx.input.setInputProcessor(this);
     }
 
     private void makeGround() {
@@ -143,11 +129,9 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     @Override
     public void act(float delta) {
         super.act(delta);
-        boolean withObstacle;
 
-        Array<Body> bodies = new Array<Body>(world.getBodyCount());
-        world.getBodies(bodies);
-
+        // delete obstacles and coins after scrolling off screen
+        // delete coins that runner collides with
         for (Actor actor : getActors()) {
             if (actor.getClass() == Coin.class || actor.getClass() == Obstacle.class) {
                 if (!onScreen(actor)) {
@@ -173,15 +157,13 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
         if (obstacleTimer <= 0 && coinTimer <= 0) {
             coinTimer = COIN_TIMER;
             obstacleTimer = Randomize.obstacleSpawnTime(OBSTACLE_SPAWN_MAX + speedUp * 2, OBSTACLE_SPAWN_MIN + speedUp);
-            withObstacle = true;
             makeObstacle();
-            makeCoin(withObstacle);
+            makeCoin(true);
         }
         // spawn coin
         else if (obstacleTimer > 0 && coinTimer <= 0) {
             coinTimer = COIN_TIMER;
-            withObstacle = false;
-            makeCoin(withObstacle);
+            makeCoin(false);
         }
         // spawn obstacle
         else if (obstacleTimer <= 0 && coinTimer > 0) {
@@ -197,10 +179,11 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
 
         // increase velocity if it hasn't reached max
         if (linearVelocityX < MAX_VELOCITY) {
-            if (bodies.size == 2 && velocityTimer <= 0) {
+            if (world.getBodyCount() == 2 && velocityTimer <= 0) {
                 SuperSenior.background.speedUp();
-                speedUp -= 0.1f;
-                linearVelocityX += 0.5f;
+                ground.speedUp();
+                speedUp -= 0.1f;    // obstacle spawn time
+                linearVelocityX += 0.5f;    // object speed
                 velocityTimer = VELOCITY_TIMER;
             }
             velocityTimer -= delta;
@@ -217,14 +200,11 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     @Override
     public void draw() {
         super.draw();
-        renderer.render(world, camera.combined);
+//        renderer.render(world, camera.combined);
     }
 
-    // TODO: implement swipe input
-    // temporary controls to test gravity
     @Override
     public boolean touchDown(float x, float y, int pointer, int button) {
-
         return false;
     }
 
@@ -236,25 +216,14 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
         if (x > pause.getX() && x < pause.getX() + pause.getWidth()) {
             if (Ylocation > pause.getY() && Ylocation < pause.getY() + pause.getHeight()) {
                 pause.fire(new ChangeListener.ChangeEvent());
-
             }
         }
-        System.out.println(x);
-        System.out.println(y);
-        System.out.println(pause.getX());
-        System.out.println(pause.getY());
-        System.out.println(pause.getY() + pause.getHeight());
         return true;
     }
 
     @Override
     public boolean longPress(float x, float y) {
-
         return false;
-    }
-
-    public Vector2 getBodyPosition() {
-        return runner.getBodyPosition();
     }
 
     @Override
@@ -277,25 +246,21 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
 
     @Override
     public boolean pan(float x, float y, float deltaX, float deltaY) {
-
         return false;
     }
 
     @Override
     public boolean panStop(float x, float y, int pointer, int button) {
-
         return false;
     }
 
     @Override
     public boolean zoom(float originalDistance, float currentDistance) {
-
         return false;
     }
 
     @Override
     public boolean pinch(Vector2 initialFirstPointer, Vector2 initialSecondPointer, Vector2 firstPointer, Vector2 secondPointer) {
-
         return false;
     }
 
@@ -320,13 +285,13 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
             CoinUserData coinData = (CoinUserData) a.getUserData();
             coinData.toDelete = true;
             SuperSenior.gameMusic.playCoinSound();
-            Score.addScore(a);
+            Score.addScore();
 
         } else if (CheckBodyType.isRunner(a) && CheckBodyType.isCoin(b)) {
             CoinUserData coinData = (CoinUserData) b.getUserData();
             coinData.toDelete = true;
             SuperSenior.gameMusic.playCoinSound();
-            Score.addScore(b);
+            Score.addScore();
         }
     }
 
@@ -343,11 +308,6 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
-    }
-
-    private static boolean onScreen(Body body) {
-        UserData userData = (UserData) body.getUserData();
-        return body.getPosition().x + userData.getWidth() > 0;
     }
 
     private static boolean onScreen(Actor actor) {

@@ -6,8 +6,8 @@ import com.badlogic.gdx.audio.Music;
 
 public class GameMusic {
 
-    private static float MUSIC_VOLUME = 0.5f;
-    private static float SOUND_VOLUME = 0.5f;
+    private static float MUSIC_VOLUME = 0.1f;
+    private static float SOUND_VOLUME = 0.1f;
 
     private static Music tune;
 

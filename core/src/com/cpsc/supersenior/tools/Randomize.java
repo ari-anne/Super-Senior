@@ -1,6 +1,6 @@
 package com.cpsc.supersenior.tools;
 
-import com.cpsc.supersenior.entitydata.ActorSubtype;
+import com.cpsc.supersenior.entitydata.ObstacleType;
 
 import java.util.Random;
 
@@ -8,8 +8,8 @@ public class Randomize {
 
     private static Random random = new Random();    // random number generator
 
-    public static ActorSubtype.ObstacleType obstacleType() {
-        ActorSubtype.ObstacleType[] type = ActorSubtype.ObstacleType.values();
+    public static ObstacleType obstacleType() {
+        ObstacleType[] type = ObstacleType.values();
         return type[random.nextInt(type.length)];
     }
 
