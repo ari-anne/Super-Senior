@@ -47,24 +47,6 @@ public class EndGame implements Screen {
         high_scores = new TextButton("  High Scores  ", skin, "header");
 
         Gdx.input.getTextInput(username, "Enter Your Name", "", "ex. Super Crusher");
-        try {
-            for(int i=0; i < user_scores.length(); i++){
-                System.out.println(">>>>>>>"+i+"<<<<<<<<<");
-                String text = String.format ("%d. %-5s      %4d",i+1, user_scores.getJSONObject(i).getString("username"), Integer.parseInt((user_scores.getJSONObject(i).getString("score"))));
-                System.out.println(text);
-                top[i] = new TextButton(text, skin, "header");
-            }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        back.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenu(game));
-            }
-        });
 
         stage.addActor(SuperSenior.background);
         stage.addActor(table);
