@@ -48,9 +48,6 @@ public class GameScreen implements Screen {
     private TextListener userRecord;
     private Boolean userRecord_poped = false;
 
-
-    private float elapsedTime = 0f;
-
     public enum GameState {
         RUNNING,
         PAUSE,
@@ -126,21 +123,7 @@ public class GameScreen implements Screen {
         restart.setBounds(MIDDLE_X + BUTTON_WIDTH * 2, MIDDLE_Y - pauseTxt.getHeight() / 2 - BUTTON_HEIGHT * 2, BUTTON_WIDTH, BUTTON_HEIGHT);
 
         stage.addActor(scoreTxt);
-        stage.addActor(gameOverTxt);
-        stage.addActor(clickAnywhere);
         stage.addActor(pause);
-        stage.addActor(pauseTxt);
-        stage.addActor(resume);
-        stage.addActor(main_menu);
-        stage.addActor(restart);
-
-
-        gameOverTxt.setVisible(false);
-        clickAnywhere.setVisible(false);
-        pauseTxt.setVisible(false);
-        resume.setVisible(false);
-        main_menu.setVisible(false);
-        restart.setVisible(false);
     }
 
     @Override
@@ -175,7 +158,6 @@ public class GameScreen implements Screen {
 
     private void running(float delta) {
         stage.act(delta);
-        elapsedTime += delta;
         scoreTxt.setText(Integer.toString(Score.getScore()));
     }
 
@@ -183,23 +165,24 @@ public class GameScreen implements Screen {
     public void pause() {
         Gdx.input.setInputProcessor(stage);
 
-        pause.setVisible(false);
+        pause.remove();
 
-        pauseTxt.setVisible(true);
-        resume.setVisible(true);
-        main_menu.setVisible(true);
-        restart.setVisible(true);
+        stage.addActor(pauseTxt);
+        stage.addActor(resume);
+        stage.addActor(main_menu);
+        stage.addActor(restart);
     }
 
     @Override
     public void resume() {
         Gdx.input.setInputProcessor(new GestureDetector(stage));
 
-        pause.setVisible(true);
-        pauseTxt.setVisible(false);
-        resume.setVisible(false);
-        main_menu.setVisible(false);
-        restart.setVisible(false);
+        stage.addActor(pause);
+
+        pauseTxt.remove();
+        resume.remove();
+        main_menu.remove();
+        restart.remove();
 
         state = GameState.RUNNING;
     }
@@ -207,9 +190,10 @@ public class GameScreen implements Screen {
     private void gameOver() {
         Gdx.input.setInputProcessor(new GestureDetector(stage));
 
-        pause.setVisible(false);
-        gameOverTxt.setVisible(true);
-        clickAnywhere.setVisible(true);
+        pause.remove();
+        stage.addActor(gameOverTxt);
+        stage.addActor(clickAnywhere);
+
         if (!userRecord_poped) {
             userRecord.set_UserScore(Score.getScore());
             Gdx.input.getTextInput(userRecord, "Enter Your Name", "", "ex. Super Crusher");

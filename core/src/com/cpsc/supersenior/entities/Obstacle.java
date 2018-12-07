@@ -67,7 +67,6 @@ public class Obstacle extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-//        batch.draw(obstacle, body.getPosition().x * GameStage.WORLD_X, body.getPosition().y * GameStage.WORLD_Y, obstacleType.width * GameStage.WORLD_TO_SCREEN * 4, obstacleType.height * GameStage.WORLD_TO_SCREEN * 4);
         batch.draw(obstacle, body.getPosition().x * GameStage.WORLD_X - (obstacleType.width * GameStage.WORLD_X), body.getPosition().y * GameStage.WORLD_Y - (obstacleType.height * GameStage.WORLD_Y), obstacleType.width * GameStage.WORLD_X * 2, obstacleType.height * GameStage.WORLD_Y * 2);
     }
 
