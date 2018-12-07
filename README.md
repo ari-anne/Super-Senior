@@ -1,5 +1,5 @@
 ### Arianne
-- [ ] instruction screen
+- [x] add textures to bodies
 - [x] add sound effects to events
 - [x] music and sounds toggle
 - [x] acceleration
@@ -24,8 +24,7 @@
 
 ### Amin
 - [x] runner animation
-- [ ] add textures to bodies
-- [ ] swipe controls
+- [x] swipe controls
 - [x] end game screen
 - [x] high scores screen
 - [x] high scores database
