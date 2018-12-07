@@ -18,13 +18,13 @@ public enum ObstacleType {
         private static final float SPAWN_X = 21f;     // spawns off screen
         private static final float OBSTACLE_DENSITY = Runner.DENSITY;
 
-        private static final float OBSTACLE_SAW_Y = Ground.ABOVE_GROUND + 2f;
-        private static final float OBSTACLE_SAW_WIDTH = 0.5f;
-        private static final float OBSTACLE_SAW_HEIGHT = 0.5f;
+        private static final float OBSTACLE_SAW_Y = Ground.ABOVE_GROUND + 2.5f;
+        private static final float OBSTACLE_SAW_WIDTH = 1f;
+        private static final float OBSTACLE_SAW_HEIGHT = 1f;
 
-        private static final float OBSTACLE_SPIKE_WIDTH = 0.3f;
-        private static final float OBSTACLE_SPIKE_SHORT_HEIGHT = 0.5f;
-        private static final float OBSTACLE_SPIKE_LONG_HEIGHT = 0.7f;
+        private static final float OBSTACLE_SPIKE_WIDTH = 0.6f;
+        private static final float OBSTACLE_SPIKE_SHORT_HEIGHT = 1f;
+        private static final float OBSTACLE_SPIKE_LONG_HEIGHT = 1.4f;
     }
 
     ObstacleType(float x, float y, float width, float height, float density) {

@@ -1,5 +1,6 @@
 package com.cpsc.supersenior.tools;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -22,7 +23,9 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
 
     private static final int VIEWPORT_WIDTH = 20;
     private static final int VIEWPORT_HEIGHT = 13;
-    public static final int WORLD_TO_SCREEN = 40;
+    public static final int WORLD_TO_SCREEN = 90;
+    public static final float WORLD_X = Gdx.graphics.getWidth() / VIEWPORT_WIDTH;
+    public static final float WORLD_Y = Gdx.graphics.getHeight() / VIEWPORT_HEIGHT;
     private static final Vector2 GRAVITY = new Vector2(0, -10);
 
     private static final float VELOCITY_TIMER = 20f;
@@ -305,11 +308,6 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
-    }
-
-    private static boolean onScreen(Body body) {
-        UserData userData = (UserData) body.getUserData();
-        return body.getPosition().x + userData.getWidth() > 0;
     }
 
     private static boolean onScreen(Actor actor) {
