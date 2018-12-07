@@ -216,6 +216,7 @@ public class GameScreen implements Screen {
             userRecord_poped = true;
         }
         if(Gdx.input.isTouched()){
+            Score.resetScore();
             game.setScreen(new HighScores(game));
         }
     }
