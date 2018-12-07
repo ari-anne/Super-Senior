@@ -75,7 +75,7 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
         world = new World(GRAVITY, true);
 //        renderer = new Box2DDebugRenderer();
         world.setContactListener(this);
-        runningAnimation = new Animation<TextureRegion>(1f / 5f, running.getRegions());
+        runningAnimation = new Animation<TextureRegion>(1f / 10f, running.getRegions());
         slidingAnimation = new Animation<TextureRegion>(1f / 10f, sliding.getRegions());
         animation = runningAnimation;
 
