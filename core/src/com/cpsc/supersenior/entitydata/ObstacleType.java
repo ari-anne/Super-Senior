@@ -6,7 +6,7 @@ import com.cpsc.supersenior.entities.Runner;
 public enum ObstacleType {
     SAW (Constants.SPAWN_X, Constants.OBSTACLE_SAW_Y, Constants.OBSTACLE_SAW_WIDTH, Constants.OBSTACLE_SAW_HEIGHT, Constants.OBSTACLE_DENSITY),
     SHORT_SPIKE (Constants.SPAWN_X, Ground.ABOVE_GROUND, Constants.OBSTACLE_SPIKE_WIDTH, Constants.OBSTACLE_SPIKE_SHORT_HEIGHT, Constants.OBSTACLE_DENSITY),
-    LONG_SPIKE(Constants.SPAWN_X, Ground.ABOVE_GROUND, Constants.OBSTACLE_SPIKE_WIDTH, Constants.OBSTACLE_SPIKE_LONG_HEIGHT, Constants.OBSTACLE_DENSITY);
+    LONG_SPIKE(Constants.SPAWN_X, Ground.ABOVE_GROUND + 0.5f, Constants.OBSTACLE_SPIKE_WIDTH, Constants.OBSTACLE_SPIKE_LONG_HEIGHT, Constants.OBSTACLE_DENSITY);
 
     public float x;
     public float y;

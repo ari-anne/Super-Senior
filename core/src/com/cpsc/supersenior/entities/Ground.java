@@ -17,8 +17,10 @@ public class Ground extends Actor {
     private static final float WIDTH = 20f;
     private static final float HEIGHT = 3f;
     private static final float DENSITY = 0f;
-    private static final float DEFAULT_SPEED = 100;
     public static final float ABOVE_GROUND = HEIGHT + Y;
+
+    private static final float DEFAULT_SPEED = 400;
+    private static final float INCREASE_SPEED = 100;
 
     Texture grass;
     float x1, x2;       // image x pos
@@ -44,6 +46,10 @@ public class Ground extends Actor {
 
         body.resetMassData();
         shape.dispose();
+    }
+
+    public void speedUp() {
+        speed += INCREASE_SPEED;
     }
 
     @Override

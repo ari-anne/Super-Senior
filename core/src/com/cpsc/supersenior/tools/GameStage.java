@@ -23,7 +23,6 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
 
     private static final int VIEWPORT_WIDTH = 20;
     private static final int VIEWPORT_HEIGHT = 13;
-    public static final int WORLD_TO_SCREEN = 90;
     public static final float WORLD_X = Gdx.graphics.getWidth() / VIEWPORT_WIDTH;
     public static final float WORLD_Y = Gdx.graphics.getHeight() / VIEWPORT_HEIGHT;
     private static final Vector2 GRAVITY = new Vector2(0, -10);
@@ -55,7 +54,7 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     private Obstacle obstacle;
     private Coin coin;
 
-    private Box2DDebugRenderer renderer;
+//    private Box2DDebugRenderer renderer;
     private OrthographicCamera camera;
 
     private float linearVelocityX;
@@ -74,7 +73,7 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
 
     public GameStage() {
         world = new World(GRAVITY, true);
-        renderer = new Box2DDebugRenderer();
+//        renderer = new Box2DDebugRenderer();
         world.setContactListener(this);
         runningAnimation = new Animation<TextureRegion>(1f / 5f, running.getRegions());
         slidingAnimation = new Animation<TextureRegion>(1f / 10f, sliding.getRegions());
@@ -182,8 +181,9 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
         if (linearVelocityX < MAX_VELOCITY) {
             if (world.getBodyCount() == 2 && velocityTimer <= 0) {
                 SuperSenior.background.speedUp();
-                speedUp -= 0.1f;
-                linearVelocityX += 0.5f;
+                ground.speedUp();
+                speedUp -= 0.1f;    // obstacle spawn time
+                linearVelocityX += 0.5f;    // object speed
                 velocityTimer = VELOCITY_TIMER;
             }
             velocityTimer -= delta;
@@ -200,7 +200,7 @@ public class GameStage extends Stage implements ContactListener, GestureDetector
     @Override
     public void draw() {
         super.draw();
-        renderer.render(world, camera.combined);
+//        renderer.render(world, camera.combined);
     }
 
     @Override
