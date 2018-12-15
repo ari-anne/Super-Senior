@@ -12,8 +12,8 @@ import com.cpsc.supersenior.tools.GameMusic;
 
 public class SuperSenior extends Game {
 
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 600;
+	public static final int WIDTH = 1920;
+	public static final int HEIGHT = 1080;
 
 	public SpriteBatch batch;
 	public static Background background;
