@@ -1,3 +1,16 @@
+## Installation
+### Desktop
+1. Download the jar file from desktop/build/libs/SuperSenior.jar
+2. [Windows] Navigate to the download location and double click SuperSenior.jar
+3. [Linux] Navigate to the download location and enter `java -jar SuperSenior.jar` in the terminal
+
+### Android
+1. Download the apk file from android/build/outputs/apk/debug/android-debug.apk
+2. Install the apk on the designated phone
+3. Run the game
+
+
+## TO DO
 ### Arianne
 - [x] add textures to bodies
 - [x] add sound effects to events
