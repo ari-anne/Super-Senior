@@ -8,7 +8,7 @@
 ### Desktop
 1. Download the apk file from `android/build/outputs/apk/debug/android-debug.apk`
 2. Launch an android emulator
-  * An emulator can be created using [Android Studio](https://developer.android.com/studio/)
+    1. An emulator can be created using [Android Studio](https://developer.android.com/studio/)
 3. Drag the apk file onto the emulator and proceed with installation
 4. Run the game from the emulator
 
@@ -51,3 +51,15 @@
 - [x] music asset
 - [x] sound assets
 - [x] play/pause music and sounds
+
+## References
+
+* [Pausing](https://stackoverflow.com/questions/21576181/pause-resume-a-simple-libgdx-game-for-android)
+* [Labels](https://libgdx.info/basic-label/)
+* [Skins](https://github.com/libgdx/libgdx/wiki/Skin#skin-json)
+* [Tables](https://github.com/EsotericSoftware/tablelayout)
+* [Button Skin](https://stackoverflow.com/questions/21488311/how-to-create-a-button-in-libgdx)
+* [Background Scrolling](https://www.youtube.com/watch?v=UyNm3n1WNAA&list=PLrnO5Pu2zAHKAIjRtTLAXtZKMSA6JWnmf&index=15)
+* [Bodies](http://www.iforce2d.net/b2dtut/bodies)
+* [Fixtures, sensors](http://box2d.org/manual.pdf)
+* [Runner jump, hit, dodge](http://williammora.com/a-running-game-with-libgdx-part-3)
