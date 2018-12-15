@@ -1,13 +1,16 @@
 ## Installation
-### Desktop
-1. Download the jar file from `desktop/build/libs/SuperSenior.jar`
-2. [Windows] Navigate to the download location and double click SuperSenior.jar
-3. [Linux] Navigate to the download location and enter `java -jar SuperSenior.jar` in the terminal
 
-### Android
+### Mobile
 1. Download the apk file from `android/build/outputs/apk/debug/android-debug.apk`
 2. Install the apk on the designated phone
 3. Run the game
+
+### Desktop
+1. Download the apk file from `android/build/outputs/apk/debug/android-debug.apk`
+2. Launch an android emulator
+  * An emulator can be created using [Android Studio](https://developer.android.com/studio/)
+3. Drag the apk file onto the emulator and proceed with installation
+4. Run the game from the emulator
 
 ## TO DO
 ### Arianne
